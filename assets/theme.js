@@ -413,6 +413,19 @@
       return refreshCart(openAfter);
     }
 
+    function setButtonLoading(btn, loading) {
+      if (!btn) return;
+      if (loading) {
+        btn.classList.add("is-loading");
+        btn.setAttribute("aria-busy", "true");
+        btn.disabled = true;
+      } else {
+        btn.classList.remove("is-loading");
+        btn.removeAttribute("aria-busy");
+        btn.disabled = false;
+      }
+    }
+
     function addFromForm(form) {
       if (busy || !form) return Promise.resolve();
       var idInput = form.querySelector('[name="id"]');
@@ -420,7 +433,7 @@
 
       busy = true;
       var submitBtn = form.querySelector('[type="submit"], [name="add"]');
-      if (submitBtn) submitBtn.setAttribute("aria-busy", "true");
+      setButtonLoading(submitBtn, true);
 
       var formData = new FormData(form);
 
@@ -451,7 +464,10 @@
         })
         .finally(function () {
           busy = false;
-          if (submitBtn) submitBtn.removeAttribute("aria-busy");
+          /* Button may have been replaced if it lived inside the cart drawer */
+          if (submitBtn && document.body.contains(submitBtn)) {
+            setButtonLoading(submitBtn, false);
+          }
         });
     }
 

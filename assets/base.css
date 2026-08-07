@@ -2441,14 +2441,19 @@ body.modal-open {
   text-align: left;
 }
 
+.efficacy-swiper .swiper-wrapper {
+  align-items: stretch;
+}
+
 .efficacy-swiper .swiper-slide {
   height: auto;
-  width: 286px;
+  width: min(286px, calc(100vw - 48px));
+  flex-shrink: 0;
 }
 
 .ba-card {
   background: var(--white);
-  width: 286px;
+  width: 100%;
   max-width: 100%;
   padding: 8px 8px 12px;
   height: auto;
@@ -2507,6 +2512,11 @@ svg.ba-card__pack,
 
 .section-testimonials-ba {
   overflow: visible;
+  background: var(--cream);
+}
+
+.section-testimonials-ba .efficacy {
+  background: transparent;
 }
 
 .section-testimonials-ba .efficacy-swiper {
@@ -2527,6 +2537,8 @@ svg.ba-card__pack,
 }
 
 .ba-card__meta .rating {
+  display: inline-flex;
+  align-items: center;
   font-size: 13px;
   font-weight: 600;
   gap: 4px;
@@ -3692,6 +3704,60 @@ body.page-inner .hero { margin-top: 0; }
   text-transform: uppercase;
   cursor: pointer;
   transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.product-card__cart.is-loading,
+.main-product__add.is-loading,
+.cart-mini__add.is-loading,
+.btn.is-loading {
+  position: relative;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: none;
+  cursor: wait;
+  color: transparent !important;
+}
+
+.product-card__cart.is-loading > *,
+.main-product__add.is-loading > *,
+.cart-mini__add.is-loading > *,
+.btn.is-loading > * {
+  visibility: hidden;
+}
+
+.product-card__cart.is-loading::after,
+.main-product__add.is-loading::after,
+.cart-mini__add.is-loading::after,
+.btn.is-loading::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 1.5px solid var(--ink);
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: cart-btn-spin 0.6s linear infinite;
+}
+
+.main-product__add.is-loading::after,
+.btn.btn--dark.is-loading::after {
+  border-color: var(--white);
+  border-right-color: transparent;
+}
+
+.cart-mini__add.is-loading::after {
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+  border-color: var(--ink);
+  border-right-color: transparent;
+}
+
+@keyframes cart-btn-spin {
+  to { transform: rotate(360deg); }
 }
 
 /* Collection mosaic with promo tiles */

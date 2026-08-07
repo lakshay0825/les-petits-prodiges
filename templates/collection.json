@@ -35,8 +35,8 @@
         "ba_2": {
           "type": "ba_card",
           "settings": {
-            "name": "Louise",
-            "quote": "J’adore ce produit hyper efficace ! Elle s’inscrit dans ma routine",
+            "name": "Camille",
+            "quote": "Texture légère, résultats visibles — je recommande sans hésiter",
             "rating": "4,5/5",
             "cta_label": "Découvrir"
           }
@@ -44,26 +44,17 @@
         "ba_3": {
           "type": "ba_card",
           "settings": {
-            "name": "Louise",
-            "quote": "J’adore ce produit hyper efficace ! Elle s’inscrit dans ma routine",
-            "rating": "4,5/5",
-            "cta_label": "Découvrir"
-          }
-        },
-        "ba_4": {
-          "type": "ba_card",
-          "settings": {
-            "name": "Louise",
-            "quote": "J’adore ce produit hyper efficace ! Elle s’inscrit dans ma routine",
+            "name": "Inès",
+            "quote": "Enfin une routine simple qui respecte ma peau sensible",
             "rating": "4,5/5",
             "cta_label": "Découvrir"
           }
         }
       },
-      "block_order": ["ba_1", "ba_2", "ba_3", "ba_4"],
+      "block_order": ["ba_1", "ba_2", "ba_3"],
       "settings": {
         "heading": "UNE EFFICACITÉ PROUVÉE",
-        "proof_text": "+10 000 avis clients"
+        "proof_text": "+10 000 <u>avis</u> clients"
       }
     },
     "banner": {

@@ -227,18 +227,233 @@
     });
   }
 
-  /* ---------- Search ---------- */
+  /* ---------- Search (AJAX predictive + results page) ---------- */
   function initSearch() {
     var modal = qs("[data-search]");
     if (!modal) return;
 
     var input = qs("[data-search-input]", modal);
     var clearBtn = qs("[data-search-clear]", modal);
+    var form = qs("[data-search-form]", modal) || qs("form", modal);
+    var idleBody = qs("[data-search-idle]", modal);
+    var liveBody = qs("[data-search-live]", modal);
+    var resultsList = qs("[data-search-results]", modal);
+    var statusEl = qs("[data-search-status]", modal);
+    var emptyEl = qs("[data-search-empty]", modal);
+    var viewAll = qs("[data-search-view-all]", modal);
     var openers = qsa("[data-search-open]");
+    var searchUrl = modal.getAttribute("data-search-url") || "/search";
+    var suggestUrl =
+      modal.getAttribute("data-suggest-url") || "/search/suggest.json";
+    var moneyFormat = modal.getAttribute("data-money-format") || "{{amount}}";
+    var resultsLimit = parseInt(modal.getAttribute("data-results-limit"), 10) || 6;
+    var i18nLoading = modal.getAttribute("data-i18n-loading") || "Searching…";
+    var i18nNoResults =
+      modal.getAttribute("data-i18n-no-results") || "No results found";
+    var abortController = null;
+    var debounceTimer = null;
+    var MIN_QUERY = 2;
+
+    function formatMoney(cents, format) {
+      if (cents == null || cents === "") return "";
+      var value = Number(cents);
+      if (isNaN(value)) return String(cents);
+      var amount = (value / 100).toFixed(2);
+      var amountNoDecimals = String(Math.round(value / 100));
+      var withComma = amount.replace(".", ",");
+      var withSpace = amount.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+      var tpl = String(format || "{{amount}}").replace(/<[^>]*>/g, "");
+      return tpl
+        .replace(/\{\{\s*amount_with_comma_separator\s*\}\}/g, withComma)
+        .replace(/\{\{\s*amount_no_decimals\s*\}\}/g, amountNoDecimals)
+        .replace(/\{\{\s*amount_with_space_separator\s*\}\}/g, withSpace)
+        .replace(/\{\{\s*amount\s*\}\}/g, amount);
+    }
+
+    function escapeHtml(str) {
+      return String(str || "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+    }
+
+    function productImage(product) {
+      if (product.featured_image && product.featured_image.url) {
+        return product.featured_image.url;
+      }
+      if (product.image) return product.image;
+      return "";
+    }
+
+    function productDesc(product) {
+      var raw = product.body || product.description || "";
+      raw = String(raw).replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      if (raw.length > 50) raw = raw.slice(0, 47) + "…";
+      return raw;
+    }
 
     function syncClear() {
       if (!clearBtn || !input) return;
       clearBtn.hidden = !input.value.trim();
+    }
+
+    function updateViewAll(query) {
+      if (!viewAll) return;
+      var q = (query || "").trim();
+      viewAll.href = q
+        ? searchUrl + "?q=" + encodeURIComponent(q) + "&options%5Bprefix%5D=last"
+        : searchUrl;
+      viewAll.hidden = !q;
+    }
+
+    function showIdle() {
+      if (idleBody) idleBody.hidden = false;
+      if (liveBody) liveBody.hidden = true;
+      if (resultsList) resultsList.innerHTML = "";
+      if (statusEl) {
+        statusEl.hidden = true;
+        statusEl.textContent = "";
+      }
+      if (emptyEl) {
+        emptyEl.hidden = true;
+        emptyEl.textContent = "";
+      }
+      updateViewAll("");
+    }
+
+    function showLive() {
+      if (idleBody) idleBody.hidden = true;
+      if (liveBody) liveBody.hidden = false;
+    }
+
+    function setLoading(on) {
+      showLive();
+      if (statusEl) {
+        statusEl.hidden = !on;
+        statusEl.textContent = on ? i18nLoading : "";
+      }
+      if (on) {
+        if (resultsList) resultsList.innerHTML = "";
+        if (emptyEl) emptyEl.hidden = true;
+        if (viewAll) viewAll.hidden = true;
+      }
+    }
+
+    function renderProducts(products, query) {
+      showLive();
+      if (statusEl) {
+        statusEl.hidden = true;
+        statusEl.textContent = "";
+      }
+
+      if (!products || !products.length) {
+        if (resultsList) resultsList.innerHTML = "";
+        if (emptyEl) {
+          emptyEl.hidden = false;
+          emptyEl.textContent = i18nNoResults;
+        }
+        updateViewAll(query);
+        return;
+      }
+
+      if (emptyEl) emptyEl.hidden = true;
+      if (!resultsList) return;
+
+      resultsList.innerHTML = products
+        .map(function (product) {
+          var img = productImage(product);
+          var desc = productDesc(product);
+          var price = formatMoney(
+            product.price_min != null ? product.price_min : product.price,
+            moneyFormat
+          );
+          return (
+            '<li><a class="search-product" href="' +
+            escapeHtml(product.url) +
+            '">' +
+            (img
+              ? '<img src="' +
+                escapeHtml(img) +
+                '" width="64" height="64" loading="lazy" alt="' +
+                escapeHtml(product.title) +
+                '">'
+              : "") +
+            '<span class="search-product__meta">' +
+            '<span class="search-product__name">' +
+            escapeHtml(product.title) +
+            "</span>" +
+            (desc
+              ? '<span class="search-product__desc">' +
+                escapeHtml(desc) +
+                "</span>"
+              : "") +
+            (price
+              ? '<span class="search-product__price">' +
+                escapeHtml(price) +
+                "</span>"
+              : "") +
+            "</span></a></li>"
+          );
+        })
+        .join("");
+
+      updateViewAll(query);
+    }
+
+    function fetchPredictive(query) {
+      if (abortController) abortController.abort();
+      abortController = typeof AbortController !== "undefined"
+        ? new AbortController()
+        : null;
+
+      var params = new URLSearchParams();
+      params.set("q", query);
+      params.set("resources[type]", "product");
+      params.set("resources[limit]", String(resultsLimit));
+      params.set("resources[options][unavailable_products]", "last");
+
+      setLoading(true);
+
+      fetch(suggestUrl + "?" + params.toString(), {
+        signal: abortController ? abortController.signal : undefined,
+        headers: { Accept: "application/json" },
+      })
+        .then(function (res) {
+          if (!res.ok) throw new Error("Search failed");
+          return res.json();
+        })
+        .then(function (data) {
+          var products =
+            (data &&
+              data.resources &&
+              data.resources.results &&
+              data.resources.results.products) ||
+            [];
+          renderProducts(products, query);
+        })
+        .catch(function (err) {
+          if (err && err.name === "AbortError") return;
+          renderProducts([], query);
+        });
+    }
+
+    function onQueryChange() {
+      syncClear();
+      var query = input ? input.value.trim() : "";
+
+      if (debounceTimer) clearTimeout(debounceTimer);
+
+      if (query.length < MIN_QUERY) {
+        if (abortController) abortController.abort();
+        showIdle();
+        return;
+      }
+
+      updateViewAll(query);
+      debounceTimer = setTimeout(function () {
+        fetchPredictive(query);
+      }, 280);
     }
 
     function openSearch(e) {
@@ -247,6 +462,11 @@
       modal.classList.add("is-open");
       document.body.classList.add("modal-open");
       syncClear();
+      if (input && input.value.trim().length >= MIN_QUERY) {
+        onQueryChange();
+      } else {
+        showIdle();
+      }
       if (input) setTimeout(function () { input.focus(); }, 40);
     }
 
@@ -268,22 +488,34 @@
     if (clearBtn && input) {
       clearBtn.addEventListener("click", function () {
         input.value = "";
+        if (abortController) abortController.abort();
+        if (debounceTimer) clearTimeout(debounceTimer);
         syncClear();
+        showIdle();
         input.focus();
       });
-      input.addEventListener("input", syncClear);
     }
 
-    var form = qs("form", modal);
+    if (input) {
+      input.addEventListener("input", onQueryChange);
+    }
+
     if (form) {
       form.addEventListener("submit", function (e) {
-        e.preventDefault();
-        closeSearch();
+        var q = input ? input.value.trim() : "";
+        if (!q) {
+          e.preventDefault();
+          return;
+        }
+        // Allow native navigation to the search results page
       });
     }
 
-    qsa(".search-modal__links a, .search-product", modal).forEach(function (link) {
-      link.addEventListener("click", closeSearch);
+    modal.addEventListener("click", function (e) {
+      var link = e.target.closest
+        ? e.target.closest(".search-modal__links a, .search-product, [data-search-view-all]")
+        : null;
+      if (link) closeSearch();
     });
 
     document.addEventListener("keydown", function (e) {

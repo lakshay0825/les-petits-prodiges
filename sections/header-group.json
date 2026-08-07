@@ -12,7 +12,19 @@
     },
     "header": {
       "type": "header",
-      "settings": {}
+      "settings": {
+        "show_notify": true,
+        "notify_badge": "3",
+        "mega_menu_label": "NOS PRODUITS",
+        "mega_col_1_title": "TYPE DE PRODUITS",
+        "mega_col_2_title": "PRÉOCCUPATIONS",
+        "mega_col_3_title": "NOS SÉLECTIONS",
+        "mega_see_all_label": "Tout voir",
+        "bestsellers_label": "BEST-SELLERS",
+        "about_label": "À PROPOS",
+        "enable_country_selector": true,
+        "enable_language_selector": true
+      }
     }
   },
   "order": ["announcement-bar", "header"]

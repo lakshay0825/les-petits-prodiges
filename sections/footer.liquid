@@ -1,16 +1,49 @@
 {% render 'section-spacing' %}
 
+{%- liquid
+  assign footer_logo = section.settings.logo
+  assign social_strip = section.settings.social_strip
+  assign root_url = routes.root_url
+  assign journal_url = root_url
+  if blogs.news != blank
+    assign journal_url = blogs.news.url
+  endif
+  assign about_url = '#founders'
+  if pages.about != blank
+    assign about_url = pages.about.url
+  endif
+  assign legal_cgv = '#'
+  if pages.cgv != blank
+    assign legal_cgv = pages.cgv.url
+  endif
+  assign legal_mentions = '#'
+  if pages['mentions-legales'] != blank
+    assign legal_mentions = pages['mentions-legales'].url
+  endif
+  assign legal_privacy = '#'
+  if pages['politique-de-confidentialite'] != blank
+    assign legal_privacy = pages['politique-de-confidentialite'].url
+  endif
+-%}
+
 <footer class="site-footer section-pad" data-section="footer" style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};">
   <div class="footer-inner">
     <div class="footer-brand">
-      {%- if section.settings.logo != blank -%}
+      {%- if footer_logo != blank -%}
         {{
-          section.settings.logo
+          footer_logo
           | image_url: width: 600
           | image_tag: class: 'footer-logo', widths: '300,450,600', alt: shop.name, loading: 'lazy'
         }}
       {%- else -%}
-        <p class="footer-logo footer-logo--text">{{ shop.name }}</p>
+        <img
+          class="footer-logo"
+          src="{{ 'logo-wide.png' | asset_url }}"
+          alt="{{ shop.name | escape }}"
+          width="336"
+          height="40"
+          loading="lazy"
+        >
       {%- endif -%}
 
       {%- if section.settings.tagline != blank -%}
@@ -50,95 +83,126 @@
       </div>
 
       <nav class="footer-social" aria-label="{{ 'general.social.links' | t }}">
-        {%- if section.settings.social_strip != blank -%}
+        {%- if social_strip != blank -%}
           {{
-            section.settings.social_strip
+            social_strip
             | image_url: width: 372
             | image_tag: class: 'footer-social__strip', width: 186, height: 55, loading: 'lazy', alt: ''
           }}
-          {%- for block in section.blocks -%}
-            {%- if block.type == 'social_hit' -%}
-              {%- liquid
-                assign hit_url = blank
-                assign hit_label = blank
-                case block.settings.network
-                  when 'instagram'
-                    assign hit_url = settings.social_instagram
-                    assign hit_label = 'Instagram'
-                  when 'facebook'
-                    assign hit_url = settings.social_facebook
-                    assign hit_label = 'Facebook'
-                  when 'youtube'
-                    assign hit_url = settings.social_youtube
-                    assign hit_label = 'YouTube'
-                  when 'tiktok'
-                    assign hit_url = settings.social_tiktok
-                    assign hit_label = 'TikTok'
-                endcase
-              -%}
-              {%- if hit_url != blank -%}
-                <a
-                  class="footer-social__hit"
-                  href="{{ hit_url }}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label="{{ hit_label | escape }}"
-                  style="left: {{ block.settings.left }}%; width: {{ block.settings.width }}%;"
-                  {{ block.shopify_attributes }}
-                ></a>
-              {%- endif -%}
-            {%- endif -%}
-          {%- endfor -%}
-        {%- elsif settings.social_instagram != blank or settings.social_facebook != blank or settings.social_youtube != blank or settings.social_tiktok != blank -%}
-          <ul class="footer-social__icons">
-            {%- if settings.social_instagram != blank -%}
-              <li>
-                <a href="{{ settings.social_instagram }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3.5A4.5 4.5 0 1 1 7.5 12 4.5 4.5 0 0 1 12 7.5zm0 2A2.5 2.5 0 1 0 14.5 12 2.5 2.5 0 0 0 12 9.5zm5.25-3.25a1.1 1.1 0 1 1-1.1 1.1 1.1 1.1 0 0 1 1.1-1.1z"/></svg>
-                </a>
-              </li>
-            {%- endif -%}
-            {%- if settings.social_facebook != blank -%}
-              <li>
-                <a href="{{ settings.social_facebook }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M14 8.2h2.4V5h-2.4C11.9 5 10 6.9 10 9.2V11H8v3.2h2V22h3.2v-7.8h2.5L16.4 11H13.2V9.2c0-.6.5-1 1-1z"/></svg>
-                </a>
-              </li>
-            {%- endif -%}
-            {%- if settings.social_youtube != blank -%}
-              <li>
-                <a href="{{ settings.social_youtube }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M23 12.2s0-3.4-.4-5c-.2-1.1-1.1-2-2.2-2.2C18.2 4.5 12 4.5 12 4.5s-6.2 0-8.4.5C2.5 5.2 1.6 6.1 1.4 7.2.9 8.8.9 12.2.9 12.2s0 3.4.5 5c.2 1.1 1.1 2 2.2 2.2 2.2.5 8.4.5 8.4.5s6.2 0 8.4-.5c1.1-.2 2-1.1 2.2-2.2.4-1.6.4-5 .4-5zM9.8 15.5v-6.6l5.7 3.3-5.7 3.3z"/></svg>
-                </a>
-              </li>
-            {%- endif -%}
-            {%- if settings.social_tiktok != blank -%}
-              <li>
-                <a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok">
-                  <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M14.5 3c.4 2.2 1.8 3.9 3.9 4.3v2.3c-1.4-.1-2.7-.6-3.8-1.4v6.3c0 3.2-2.6 5.8-5.8 5.8S3 17.7 3 14.5 5.6 8.7 8.8 8.7c.3 0 .6 0 .9.1v2.5a3.3 3.3 0 0 0-.9-.1 3.3 3.3 0 1 0 3.3 3.3V3h2.4z"/></svg>
-                </a>
-              </li>
-            {%- endif -%}
-          </ul>
+        {%- else -%}
+          <img
+            class="footer-social__strip"
+            src="{{ 'social-icons.png' | asset_url }}"
+            alt=""
+            width="186"
+            height="55"
+            loading="lazy"
+          >
         {%- endif -%}
+
+        {%- assign has_social_hits = false -%}
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'social_hit' -%}
+            {%- assign has_social_hits = true -%}
+            {%- liquid
+              assign hit_url = blank
+              assign hit_label = blank
+              case block.settings.network
+                when 'instagram'
+                  assign hit_url = settings.social_instagram | default: 'https://www.instagram.com/'
+                  assign hit_label = 'Instagram'
+                when 'facebook'
+                  assign hit_url = settings.social_facebook | default: 'https://www.facebook.com/'
+                  assign hit_label = 'Facebook'
+                when 'youtube'
+                  assign hit_url = settings.social_youtube | default: 'https://www.youtube.com/'
+                  assign hit_label = 'YouTube'
+                when 'tiktok'
+                  assign hit_url = settings.social_tiktok | default: 'https://www.tiktok.com/'
+                  assign hit_label = 'TikTok'
+              endcase
+            -%}
+            <a
+              class="footer-social__hit"
+              href="{{ hit_url }}"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="{{ hit_label | escape }}"
+              style="left: {{ block.settings.left }}%; width: {{ block.settings.width }}%;"
+              {{ block.shopify_attributes }}
+            ></a>
+          {%- endif -%}
+        {%- endfor -%}
+
+        {%- unless has_social_hits -%}
+          <a class="footer-social__hit" href="{{ settings.social_instagram | default: 'https://www.instagram.com/' }}" target="_blank" rel="noopener noreferrer" aria-label="Instagram" style="left: 8%"></a>
+          <a class="footer-social__hit" href="{{ settings.social_facebook | default: 'https://www.facebook.com/' }}" target="_blank" rel="noopener noreferrer" aria-label="Facebook" style="left: 32%"></a>
+          <a class="footer-social__hit" href="{{ settings.social_youtube | default: 'https://www.youtube.com/' }}" target="_blank" rel="noopener noreferrer" aria-label="YouTube" style="left: 56%"></a>
+          <a class="footer-social__hit" href="{{ settings.social_tiktok | default: 'https://www.tiktok.com/' }}" target="_blank" rel="noopener noreferrer" aria-label="TikTok" style="left: 78%"></a>
+        {%- endunless -%}
       </nav>
     </div>
 
     <div class="footer-cols">
-      {%- for block in section.blocks -%}
-        {%- if block.type == 'link_column' -%}
+      {%- assign link_columns = section.blocks | where: 'type', 'link_column' -%}
+      {%- if link_columns.size > 0 -%}
+        {%- for block in link_columns -%}
           <details class="footer-col" open {{ block.shopify_attributes }}>
             <summary>{{ block.settings.heading }}</summary>
-            {%- if block.settings.menu != blank -%}
+            {%- if block.settings.menu != blank and linklists[block.settings.menu].links.size > 0 -%}
               <ul>
                 {%- for link in linklists[block.settings.menu].links -%}
                   <li><a href="{{ link.url }}">{{ link.title | escape }}</a></li>
                 {%- endfor -%}
               </ul>
+            {%- else -%}
+              {%- case forloop.index -%}
+                {%- when 1 -%}
+                  <ul>
+                    <li><a href="#founders">Où nous trouver ?</a></li>
+                    <li><a href="#founders">Contact - SAV</a></li>
+                    <li><a href="#founders">Questions fréquentes</a></li>
+                    <li><a href="#founders">Parrainez vos amis</a></li>
+                  </ul>
+                {%- when 2 -%}
+                  <ul>
+                    <li><a href="{{ journal_url }}">Le Journal</a></li>
+                    <li><a href="{{ about_url }}">Notre histoire</a></li>
+                  </ul>
+                {%- when 3 -%}
+                  <ul>
+                    <li><a href="#founders">Vous êtes une pharmacie ?</a></li>
+                    <li><a href="#founders">Vous êtes un revendeur ?</a></li>
+                  </ul>
+              {%- endcase -%}
             {%- endif -%}
           </details>
-        {%- endif -%}
-      {%- endfor -%}
+        {%- endfor -%}
+      {%- else -%}
+        <details class="footer-col" open>
+          <summary>SERVICE CLIENT</summary>
+          <ul>
+            <li><a href="#founders">Où nous trouver ?</a></li>
+            <li><a href="#founders">Contact - SAV</a></li>
+            <li><a href="#founders">Questions fréquentes</a></li>
+            <li><a href="#founders">Parrainez vos amis</a></li>
+          </ul>
+        </details>
+        <details class="footer-col" open>
+          <summary>LES PETITS PRÖDIGES</summary>
+          <ul>
+            <li><a href="{{ journal_url }}">Le Journal</a></li>
+            <li><a href="{{ about_url }}">Notre histoire</a></li>
+          </ul>
+        </details>
+        <details class="footer-col" open>
+          <summary>REJOIGNEZ L’AVENTURE</summary>
+          <ul>
+            <li><a href="#founders">Vous êtes une pharmacie ?</a></li>
+            <li><a href="#founders">Vous êtes un revendeur ?</a></li>
+          </ul>
+        </details>
+      {%- endif -%}
 
       {% render 'localization-form',
         id: 'footer',
@@ -150,10 +214,14 @@
 
     <div class="footer-legal">
       <nav>
-        {%- if section.settings.legal_menu != blank -%}
+        {%- if section.settings.legal_menu != blank and linklists[section.settings.legal_menu].links.size > 0 -%}
           {%- for link in linklists[section.settings.legal_menu].links -%}
             <a href="{{ link.url }}">{{ link.title | escape }}</a>
           {%- endfor -%}
+        {%- else -%}
+          <a href="{{ legal_cgv }}">CGV / CGU</a>
+          <a href="{{ legal_mentions }}">MENTIONS LÉGALES</a>
+          <a href="{{ legal_privacy }}">POLITIQUE DE CONFIDENTIALITÉ</a>
         {%- endif -%}
       </nav>
       <p>
@@ -277,7 +345,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top padding (mobile)",
-      "default": 48
+      "default": 0
     },
     {
       "type": "range",
@@ -287,7 +355,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding (mobile)",
-      "default": 32
+      "default": 0
     },
     {
       "type": "range",
@@ -297,7 +365,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top padding (desktop)",
-      "default": 64
+      "default": 0
     },
     {
       "type": "range",
@@ -307,7 +375,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding (desktop)",
-      "default": 40
+      "default": 0
     }
   ],
   "blocks": [
@@ -381,7 +449,7 @@
           "step": 1,
           "unit": "%",
           "label": "t:sections.footer.blocks.social_hit.settings.width.label",
-          "default": 22
+          "default": 25
         }
       ]
     }
@@ -413,7 +481,7 @@
           "settings": {
             "network": "instagram",
             "left": 8,
-            "width": 22
+            "width": 25
           }
         },
         {
@@ -421,7 +489,7 @@
           "settings": {
             "network": "facebook",
             "left": 32,
-            "width": 22
+            "width": 25
           }
         },
         {
@@ -429,7 +497,7 @@
           "settings": {
             "network": "youtube",
             "left": 56,
-            "width": 22
+            "width": 25
           }
         },
         {
@@ -437,7 +505,7 @@
           "settings": {
             "network": "tiktok",
             "left": 78,
-            "width": 22
+            "width": 25
           }
         }
       ]

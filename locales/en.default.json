@@ -18,6 +18,10 @@
       },
       "suggestions": "Suggestions",
       "popular_products": "Popular products",
+      "results": "Results",
+      "loading": "Searching…",
+      "no_results_short": "No products found",
+      "view_all": "View all results",
       "esc_hint": "Press Esc to close"
     },
     "pagination": {

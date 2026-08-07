@@ -28,7 +28,7 @@
           "settings": {
             "network": "instagram",
             "left": 8,
-            "width": 22
+            "width": 25
           }
         },
         "social_facebook": {
@@ -36,7 +36,7 @@
           "settings": {
             "network": "facebook",
             "left": 32,
-            "width": 22
+            "width": 25
           }
         },
         "social_youtube": {
@@ -44,7 +44,7 @@
           "settings": {
             "network": "youtube",
             "left": 56,
-            "width": 22
+            "width": 25
           }
         },
         "social_tiktok": {
@@ -52,7 +52,7 @@
           "settings": {
             "network": "tiktok",
             "left": 78,
-            "width": 22
+            "width": 25
           }
         }
       },
@@ -70,16 +70,16 @@
         "newsletter_heading": "NEWSLETTER",
         "newsletter_text": "Inscrivez-vous à notre newsletter et recevez des offres exclusives !",
         "newsletter_placeholder": "E-MAIL",
-        "newsletter_button": "S'INSCRIRE",
+        "newsletter_button": "S’INSCRIRE",
         "enable_country_selector": true,
         "enable_language_selector": true,
         "copyright": "– Tous droits réservés",
         "bg_color": "#FFFFFF",
         "text_color": "#0D0D0D",
-        "padding_top_mobile": 48,
-        "padding_bottom_mobile": 32,
-        "padding_top_desktop": 64,
-        "padding_bottom_desktop": 40
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "padding_top_desktop": 0,
+        "padding_bottom_desktop": 0
       }
     }
   },

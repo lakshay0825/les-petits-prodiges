@@ -1,4 +1,15 @@
-<div class="search-modal" data-search hidden>
+<div
+  class="search-modal"
+  data-search
+  data-search-url="{{ routes.search_url }}"
+  data-suggest-url="{{ routes.predictive_search_url }}.json"
+  data-money-format="{{ shop.money_format | escape }}"
+  data-results-limit="{{ section.settings.results_limit }}"
+  data-i18n-loading="{{ 'general.search.loading' | t | escape }}"
+  data-i18n-no-results="{{ 'general.search.no_results_short' | t | escape }}"
+  data-i18n-view-all="{{ 'general.search.view_all' | t | escape }}"
+  hidden
+>
   <div class="search-modal__overlay" data-search-close></div>
   <div
     class="search-modal__panel"
@@ -7,7 +18,7 @@
     aria-labelledby="search-title-{{ section.id }}"
   >
     <div class="search-modal__top">
-      <form class="search-modal__form" action="{{ routes.search_url }}" method="get" role="search">
+      <form class="search-modal__form" action="{{ routes.search_url }}" method="get" role="search" data-search-form>
         <label class="visually-hidden" for="search-input-{{ section.id }}" id="search-title-{{ section.id }}">
           {{ 'general.search.search' | t }}
         </label>
@@ -23,6 +34,7 @@
           enterkeyhint="search"
           data-search-input
         >
+        <input type="hidden" name="options[prefix]" value="last">
         <button type="button" class="search-modal__clear" data-search-clear hidden aria-label="{{ 'general.search.clear' | t }}">
           {{ 'general.search.clear' | t }}
         </button>
@@ -39,7 +51,7 @@
       </button>
     </div>
 
-    <div class="search-modal__body">
+    <div class="search-modal__body" data-search-idle>
       <div class="search-modal__col">
         <p class="search-modal__label">
           {%- if section.settings.suggestions_label != blank -%}
@@ -91,6 +103,18 @@
           </div>
         {%- endif -%}
       {%- endif -%}
+    </div>
+
+    <div class="search-modal__body search-modal__body--live" data-search-live hidden>
+      <div class="search-modal__col search-modal__col--products">
+        <p class="search-modal__label">{{ 'general.search.results' | t }}</p>
+        <p class="search-modal__status" data-search-status hidden aria-live="polite"></p>
+        <ul class="search-modal__products" data-search-results></ul>
+        <p class="search-modal__empty" data-search-empty hidden></p>
+        <a class="search-modal__view-all" data-search-view-all href="{{ routes.search_url }}">
+          {{ 'general.search.view_all' | t }}
+        </a>
+      </div>
     </div>
 
     {%- if section.settings.show_esc_hint -%}
@@ -147,6 +171,15 @@
       "step": 1,
       "label": "t:sections.search-modal.settings.popular_limit.label",
       "default": 3
+    },
+    {
+      "type": "range",
+      "id": "results_limit",
+      "min": 3,
+      "max": 10,
+      "step": 1,
+      "label": "t:sections.search-modal.settings.results_limit.label",
+      "default": 6
     },
     {
       "type": "checkbox",

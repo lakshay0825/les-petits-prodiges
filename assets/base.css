@@ -1313,6 +1313,33 @@ body.modal-open {
   text-underline-offset: 3px;
 }
 
+.search-modal__body--live {
+  grid-template-columns: 1fr;
+}
+
+.search-modal__status,
+.search-modal__empty {
+  margin: 0 0 12px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.search-modal__view-all {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 18px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.search-modal__view-all:hover {
+  opacity: 0.7;
+}
+
 .search-modal__hint {
   display: none;
   margin: 22px 0 0;
@@ -2943,7 +2970,7 @@ button.link-underline {
   font-size: 14px;
   line-height: 1.35;
   margin-bottom: 12px;
-  color: currentColor;
+  color: var(--ink);
 }
 
 /* Mobile Figma: social, then newsletter */
@@ -2951,7 +2978,7 @@ button.link-underline {
   order: 3;
   position: relative;
   width: 186px;
-  min-height: 55px;
+  height: 55px;
   margin: 6px 0 0;
   padding: 0;
 }
@@ -2965,8 +2992,8 @@ button.link-underline {
   margin-top: 30px;
   padding-top: 22px;
   padding-bottom: 28px;
-  border-top: 1px solid color-mix(in srgb, currentColor 28%, transparent);
-  border-bottom: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+  border-top: 1px solid #c3c2c2;
+  border-bottom: 1px solid #c3c2c2;
 }
 
 .footer-social__strip {
@@ -2990,7 +3017,7 @@ button.link-underline {
 
 .footer-social__icons a {
   display: flex;
-  color: currentColor;
+  color: var(--ink);
   opacity: 0.9;
 }
 
@@ -3007,6 +3034,7 @@ button.link-underline {
 .footer-social__hit {
   position: absolute;
   top: 0;
+  width: 25%;
   height: 100%;
 }
 
@@ -3015,7 +3043,7 @@ button.link-underline {
   font-weight: 600;
   letter-spacing: 0.04em;
   margin-bottom: 10px;
-  color: currentColor;
+  color: var(--ink);
 }
 
 .footer-newsletter > p {
@@ -3023,27 +3051,25 @@ button.link-underline {
   line-height: 1.35;
   margin-bottom: 18px;
   max-width: 370px;
-  color: currentColor;
+  color: var(--ink);
   width: 100%;
-  opacity: 0.9;
 }
 
 .newsletter-form {
   display: flex;
-  flex-wrap: wrap;
   gap: 6px;
   max-width: 400px;
-  align-items: stretch;
 }
 
+.newsletter-form input,
 .newsletter-form input[type="email"] {
-  flex: 1 1 160px;
+  flex: 1;
   min-width: 0;
   height: 37px;
-  border: 0.6px solid currentColor;
+  border: 0.6px solid var(--ink);
   padding: 0 14px;
   background: transparent;
-  color: currentColor;
+  color: var(--ink);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.04em;
@@ -3051,23 +3077,17 @@ button.link-underline {
   box-sizing: border-box;
 }
 
+.newsletter-form input::placeholder,
 .newsletter-form input[type="email"]::placeholder {
-  color: currentColor;
-  opacity: 0.55;
-}
-
-.site-footer .newsletter-form .btn--dark {
-  background: color-mix(in srgb, currentColor 14%, transparent);
-  border: 1px solid currentColor;
-  color: currentColor;
-  flex: 0 0 auto;
+  color: var(--ink);
+  opacity: 1;
 }
 
 .newsletter-form__success {
   flex: 1 1 100%;
   margin: 8px 0 0;
   font-size: 13px;
-  color: currentColor;
+  color: var(--ink);
 }
 
 .footer-cols {
@@ -3091,7 +3111,7 @@ button.link-underline {
   font-weight: 600;
   letter-spacing: 0.04em;
   margin-bottom: 12px;
-  color: currentColor;
+  color: var(--ink);
 }
 
 .footer-col summary::-webkit-details-marker { display: none; }
@@ -3105,12 +3125,7 @@ button.link-underline {
 .footer-col a {
   font-size: 14px;
   font-weight: 400;
-  color: currentColor;
-  opacity: 0.88;
-}
-
-.footer-col a:hover {
-  opacity: 1;
+  color: var(--ink);
 }
 
 .footer-locale,
@@ -3122,6 +3137,7 @@ button.link-underline {
   flex-wrap: wrap;
 }
 
+.footer-locale button,
 .footer-locale .localization__trigger,
 .localization.footer-locale .localization__trigger {
   border: 0;
@@ -3134,10 +3150,11 @@ button.link-underline {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: currentColor;
+  color: var(--ink);
   text-transform: uppercase;
 }
 
+.footer-locale button::after,
 .footer-locale .localization__trigger::after,
 .localization.footer-locale .localization__trigger::after {
   content: "";
@@ -3224,15 +3241,12 @@ button.link-underline {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  border-top: 1px solid color-mix(in srgb, currentColor 28%, transparent);
-  padding-top: 22px;
 }
 
 .footer-legal p,
 .footer-legal a {
   font-size: 11px;
-  color: currentColor;
-  opacity: 0.65;
+  color: #9a9a9a;
 }
 
 .footer-legal nav {

@@ -453,6 +453,9 @@
         "popular_limit": {
           "label": "Limite produits populaires"
         },
+        "results_limit": {
+          "label": "Limite résultats Ajax"
+        },
         "show_esc_hint": {
           "label": "Afficher l’astuce Esc (desktop)"
         },

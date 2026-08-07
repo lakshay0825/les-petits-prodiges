@@ -115,20 +115,20 @@
       "type": "founders",
       "settings": {
         "heading": "LES FONDATRICES",
-        "body": "<p>Deux amies d’enfance, unies par la même conviction : réinventer les essentiels du quotidien avec des formules naturelles, responsables et ultra-efficaces.</p>",
-        "names": "Marion & Camille"
+        "body": "<p>Notre objectif ? Revisiter les essentiels de la routine beauté avec des soins naturels, responsables mais efficace… sans jamais oublier le plaisir.</p>",
+        "names": "Camille & Clémentine"
       }
     },
     "press": {
       "type": "press",
       "settings": {
-        "quote": "« La marque la plus innovante du moment en pharmacies françaises »"
+        "quote": "“La marque française skincare du moment à trouver en pharmacie”"
       }
     },
     "video_feature": {
       "type": "video-feature",
       "settings": {
-        "show_overlay_text": true,
+        "show_overlay_text": false,
         "overlay_text": "Prenez soin de votre peau"
       }
     },
@@ -157,21 +157,21 @@
           "type": "usp",
           "settings": {
             "title": "LIVRAISON OFFERTE",
-            "text": "Dès 45€ d’achat en point relais"
+            "text": "Livraison en 48 heures, offerte dès 60€ d’achats."
           }
         },
         "usp_2": {
           "type": "usp",
           "settings": {
-            "title": "ÉCHANTILLONS",
-            "text": "Des surprises dans chaque commande"
+            "title": "LIVRAISON OFFERTE",
+            "text": "Livraison en 48 heures, offerte dès 60€ d’achats."
           }
         },
         "usp_3": {
           "type": "usp",
           "settings": {
-            "title": "CONSEIL EXPERT",
-            "text": "Une équipe à votre écoute 6j/7"
+            "title": "LIVRAISON OFFERTE",
+            "text": "Livraison en 48 heures, offerte dès 60€ d’achats."
           }
         }
       },

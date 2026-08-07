@@ -31,7 +31,14 @@
             loading: 'eager'
         }}
       {%- else -%}
-        <span class="header-logo__light header-logo__text">{{ shop.name }}</span>
+        <img
+          class="header-logo__light"
+          src="{{ 'logo-header-white.png' | asset_url }}"
+          alt="{{ shop.name | escape }}"
+          width="235"
+          height="{{ section.settings.logo_height | default: 26 }}"
+          loading="eager"
+        >
       {%- endif -%}
       {%- if section.settings.logo_dark != blank -%}
         {{
@@ -45,7 +52,14 @@
             loading: 'eager'
         }}
       {%- else -%}
-        <span class="header-logo__dark header-logo__text">{{ shop.name }}</span>
+        <img
+          class="header-logo__dark"
+          src="{{ 'logo-header.png' | asset_url }}"
+          alt=""
+          width="235"
+          height="{{ section.settings.logo_height | default: 26 }}"
+          loading="eager"
+        >
       {%- endif -%}
     </a>
 
@@ -204,6 +218,123 @@
             <a class="nav-link" href="{{ link.url }}">{{ link.title | escape }}</a>
           {%- endif -%}
         {%- endfor -%}
+      {%- else -%}
+        {%- comment -%} Fallback nav matching html-prototype/index.html when no menu is assigned {%- endcomment -%}
+        <a class="nav-link" href="{{ routes.all_products_collection_url }}">NOUVEAUTÉS</a>
+
+        <div class="nav-item nav-item--mega" data-nav-item data-nav-type="mega">
+          <button
+            type="button"
+            class="nav-link nav-item__trigger"
+            aria-expanded="false"
+            aria-controls="mega-{{ section.id }}"
+            data-nav-trigger
+          >
+            {{ section.settings.mega_menu_label | default: 'NOS PRODUITS' }}
+          </button>
+          <div class="mega-menu" id="mega-{{ section.id }}" data-nav-panel hidden>
+            <div class="mega-menu__inner">
+              <div class="mega-menu__cols">
+                <div class="mega-col">
+                  <h3 class="mega-col__title">{{ section.settings.mega_col_1_title | default: 'TYPE DE PRODUITS' }}</h3>
+                  <ul class="mega-col__list">
+                    <li><a href="{{ routes.all_products_collection_url }}">Solaire SPF50</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Soins du visage</a></li>
+                    <li>
+                      <a href="{{ routes.all_products_collection_url }}">Compléments alimentaires <span class="mega-col__new">NEW</span></a>
+                    </li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Hygiène</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Accessoires</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Bébé</a></li>
+                  </ul>
+                  <a class="mega-col__see-all" href="{{ routes.all_products_collection_url }}">
+                    {{ section.settings.mega_see_all_label | default: 'Tout voir' }}
+                  </a>
+                </div>
+                <div class="mega-col">
+                  <h3 class="mega-col__title">{{ section.settings.mega_col_2_title | default: 'PRÉOCCUPATIONS' }}</h3>
+                  <ul class="mega-col__list">
+                    <li><a href="{{ routes.all_products_collection_url }}">Acné et imperfections</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Rides et perte de fermeté</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Éclat et anti-taches</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Sensibilité et rougeurs</a></li>
+                  </ul>
+                </div>
+                <div class="mega-col">
+                  <h3 class="mega-col__title">{{ section.settings.mega_col_3_title | default: 'NOS SÉLECTIONS' }}</h3>
+                  <ul class="mega-col__list">
+                    <li><a href="{{ routes.all_products_collection_url }}">Best-sellers</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Kits &amp; routines</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Nouveautés</a></li>
+                    <li><a href="{{ routes.all_products_collection_url }}">Les essentiels de l’été</a></li>
+                  </ul>
+                </div>
+              </div>
+              {%- assign promo_blocks = section.blocks | where: 'type', 'mega_promo' -%}
+              {%- if promo_blocks.size > 0 -%}
+                <div class="mega-menu__promos">
+                  {%- for block in promo_blocks -%}
+                    <a class="mega-promo" href="{{ block.settings.link | default: routes.all_products_collection_url }}" {{ block.shopify_attributes }}>
+                      {%- if block.settings.image != blank -%}
+                        {{
+                          block.settings.image
+                          | image_url: width: 600
+                          | image_tag: loading: 'lazy', widths: '300,450,600', alt: block.settings.title
+                        }}
+                      {%- endif -%}
+                      <span class="mega-promo__content">
+                        {%- if block.settings.title != blank -%}
+                          <span class="mega-promo__title">{{ block.settings.title }}</span>
+                        {%- endif -%}
+                        {%- if block.settings.cta != blank -%}
+                          <span class="mega-promo__cta">{{ block.settings.cta }}</span>
+                        {%- endif -%}
+                      </span>
+                    </a>
+                  {%- endfor -%}
+                </div>
+              {%- endif -%}
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item nav-item--simple" data-nav-item data-nav-type="simple">
+          <button
+            type="button"
+            class="nav-link nav-item__trigger"
+            aria-expanded="false"
+            aria-controls="submenu-{{ section.id }}-bs"
+            data-nav-trigger
+          >
+            {{ section.settings.bestsellers_label | default: 'BEST-SELLERS' }}
+          </button>
+          <ul class="simple-menu" id="submenu-{{ section.id }}-bs" data-nav-panel hidden>
+            <li><a href="{{ routes.all_products_collection_url }}">Tous les best-sellers</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">Solaires</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">Soins visage</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}">Kits &amp; routines</a></li>
+          </ul>
+        </div>
+
+        <a class="nav-link" href="#diagnostic">DIAGNOSTIC</a>
+
+        <div class="nav-item nav-item--simple" data-nav-item data-nav-type="simple">
+          <button
+            type="button"
+            class="nav-link nav-item__trigger"
+            aria-expanded="false"
+            aria-controls="submenu-{{ section.id }}-about"
+            data-nav-trigger
+          >
+            {{ section.settings.about_label | default: 'À PROPOS' }}
+          </button>
+          <ul class="simple-menu" id="submenu-{{ section.id }}-about" data-nav-panel hidden>
+            <li><a href="#founders">Notre histoire</a></li>
+            <li><a href="#founders">Les fondatrices</a></li>
+            <li><a href="{% if blogs.news != blank %}{{ blogs.news.url }}{% else %}{{ routes.root_url }}{% endif %}">Le Journal</a></li>
+            <li><a href="#founders">Engagements</a></li>
+          </ul>
+        </div>
       {%- endif -%}
     </nav>
 
@@ -299,6 +430,37 @@
               {%- endif -%}
             {%- endfor -%}
           </ul>
+        {%- else -%}
+          <ul class="mobile-nav__list">
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Nouveautés</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Solaire SPF50</a></li>
+            <li>
+              <button type="button" class="mobile-nav__drill" data-menu-goto="m-{{ section.id }}-soins">
+                Soins visage
+                <span class="mobile-nav__chev" aria-hidden="true"></span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="mobile-nav__drill" data-menu-goto="m-{{ section.id }}-hygiene">
+                Hygiène
+                <span class="mobile-nav__chev" aria-hidden="true"></span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="mobile-nav__drill" data-menu-goto="m-{{ section.id }}-preoccupations">
+                Préoccupations
+                <span class="mobile-nav__chev" aria-hidden="true"></span>
+              </button>
+            </li>
+            <li>
+              <button type="button" class="mobile-nav__drill" data-menu-goto="m-{{ section.id }}-ingredients">
+                Ingrédients
+                <span class="mobile-nav__chev" aria-hidden="true"></span>
+              </button>
+            </li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Coffrets &amp; kits</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Tous les produits</a></li>
+          </ul>
         {%- endif -%}
 
         {%- if section.settings.diagnostic_label != blank -%}
@@ -311,6 +473,8 @@
           <a class="mobile-nav__diagnostic" href="{{ nav_diagnostic_href }}" data-menu-link>
             {{ section.settings.diagnostic_label }}
           </a>
+        {%- else -%}
+          <a class="mobile-nav__diagnostic" href="#diagnostic" data-menu-link>Diagnostic de peau</a>
         {%- endif -%}
 
         <div class="mobile-nav__footer">
@@ -329,6 +493,19 @@
                 {%- endfor -%}
               </ul>
             </div>
+          {%- else -%}
+            <div class="mobile-nav__footer-cols">
+              <ul>
+                <li><a href="#founders" data-menu-link>Notre mission</a></li>
+                <li><a href="#usp" data-menu-link>Tous les avis</a></li>
+                <li><a href="#founders" data-menu-link>Parrainage</a></li>
+              </ul>
+              <ul>
+                <li><a href="{{ routes.root_url }}" data-menu-link>Le journal</a></li>
+                <li><a href="#founders" data-menu-link>FAQ &amp; contact</a></li>
+                <li><a href="#founders" data-menu-link>Où nous trouver&nbsp;?</a></li>
+              </ul>
+            </div>
           {%- endif -%}
           <div class="mobile-nav__footer-bottom">
             {%- if section.settings.mobile_social_image != blank -%}
@@ -337,6 +514,15 @@
                 | image_url: width: 274
                 | image_tag: class: 'mobile-nav__social', width: 137, height: 40, loading: 'lazy', alt: ''
               }}
+            {%- else -%}
+              <img
+                class="mobile-nav__social"
+                src="{{ 'social-icons.png' | asset_url }}"
+                alt=""
+                width="137"
+                height="40"
+                loading="lazy"
+              >
             {%- endif -%}
             {% render 'localization-form',
               id: 'mobile-nav',
@@ -367,6 +553,43 @@
             </nav>
           {%- endif -%}
         {%- endfor -%}
+      {%- else -%}
+        <nav class="mobile-nav__level" data-menu-level="m-{{ section.id }}-soins" data-menu-parent="root" data-menu-label="Soins visage" hidden>
+          <ul class="mobile-nav__list">
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Crèmes visage</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Sérums &amp; huiles</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Démaquillants &amp; nettoyants</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Soin lèvres</a></li>
+            <li><a class="mobile-nav__see-all" href="{{ routes.all_products_collection_url }}" data-menu-link>Tout voir</a></li>
+          </ul>
+        </nav>
+        <nav class="mobile-nav__level" data-menu-level="m-{{ section.id }}-hygiene" data-menu-parent="root" data-menu-label="Hygiène" hidden>
+          <ul class="mobile-nav__list">
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Déodorant</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Hydratant corps et main</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Dentifrice</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Savons &amp; exfoliants</a></li>
+            <li><a class="mobile-nav__see-all" href="{{ routes.all_products_collection_url }}" data-menu-link>Tout voir</a></li>
+          </ul>
+        </nav>
+        <nav class="mobile-nav__level" data-menu-level="m-{{ section.id }}-preoccupations" data-menu-parent="root" data-menu-label="Préoccupations" hidden>
+          <ul class="mobile-nav__list">
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Acné et imperfections</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Rides et perte de fermeté</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Éclat et anti-taches</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Sensibilité et rougeurs</a></li>
+            <li><a class="mobile-nav__see-all" href="{{ routes.all_products_collection_url }}" data-menu-link>Tout voir</a></li>
+          </ul>
+        </nav>
+        <nav class="mobile-nav__level" data-menu-level="m-{{ section.id }}-ingredients" data-menu-parent="root" data-menu-label="Ingrédients" hidden>
+          <ul class="mobile-nav__list">
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Vitamine C</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Rétinol-like</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Acide hyaluronique</a></li>
+            <li><a href="{{ routes.all_products_collection_url }}" data-menu-link>Niacinamide</a></li>
+            <li><a class="mobile-nav__see-all" href="{{ routes.all_products_collection_url }}" data-menu-link>Tout voir</a></li>
+          </ul>
+        </nav>
       {%- endif -%}
     </div>
   </aside>
@@ -573,12 +796,13 @@
       "type": "checkbox",
       "id": "show_notify",
       "label": "Show notifications icon",
-      "default": false
+      "default": true
     },
     {
       "type": "text",
       "id": "notify_badge",
-      "label": "Notification badge"
+      "label": "Notification badge",
+      "default": "3"
     }
   ],
   "blocks": [

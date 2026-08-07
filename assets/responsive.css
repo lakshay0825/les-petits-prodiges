@@ -783,7 +783,6 @@
     padding: 0;
     min-height: 450px;
     align-items: stretch;
-    background: var(--cream);
   }
 
   .founders__text {
@@ -1105,7 +1104,9 @@
     margin-top: 92px;
   }
 
-  .footer-cols .footer-locale button {
+  .footer-cols .footer-locale button,
+  .footer-cols .footer-locale .localization__trigger,
+  .footer-cols .localization.footer-locale .localization__trigger {
     font-size: 14px;
     font-weight: 400;
   }
@@ -1117,7 +1118,7 @@
     justify-content: center;
     gap: 18px;
     align-items: center;
-    border-top: 1px solid color-mix(in srgb, currentColor 28%, transparent);
+    border-top: 1px solid #c3c2c2;
     padding-top: 22px;
     margin-top: 8px;
   }
@@ -1131,8 +1132,7 @@
   .footer-legal p,
   .footer-legal a {
     margin: 0;
-    color: currentColor;
-    opacity: 0.65;
+    color: var(--ink-soft);
   }
 
   .footer-legal p {

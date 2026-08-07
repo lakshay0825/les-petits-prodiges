@@ -9,6 +9,10 @@
     "page_width": 1512,
     "cart_drawer_enabled": true,
     "cart_type": "drawer",
+    "social_instagram": "https://www.instagram.com/",
+    "social_facebook": "https://www.facebook.com/",
+    "social_youtube": "https://www.youtube.com/",
+    "social_tiktok": "https://www.tiktok.com/",
     "sections": {
       "announcement-bar": {
         "type": "announcement-bar",

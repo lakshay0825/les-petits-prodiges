@@ -147,9 +147,16 @@
         </ul>
       {%- endif -%}
 
-      {%- if section.settings.ship_note != blank -%}
+      {%- liquid
+        assign ship_note = section.settings.ship_note
+        if ship_note == blank and section.settings.show_free_shipping and free_ship > 0
+          assign ship_amount = free_ship | money
+          assign ship_note = 'cart.general.progress_locked' | t: amount: ship_amount
+        endif
+      -%}
+      {%- if ship_note != blank -%}
         <div class="cart-drawer__ship-note">
-          <p>{{ section.settings.ship_note }}</p>
+          <p>{{ ship_note }}</p>
           <span class="cart-drawer__dots" aria-hidden="true"><i></i><i></i><i></i></span>
         </div>
       {%- endif -%}
@@ -359,8 +366,8 @@
         {
           "type": "text",
           "id": "label",
-          "label": "Label",
-          "default": "Livraison OFFERTE"
+          "label": "t:sections.cart-drawer.blocks.tier.settings.label.label",
+          "default": "t:sections.cart-drawer.blocks.tier.settings.label.default"
         },
         {
           "type": "range",
@@ -369,7 +376,7 @@
           "max": 95,
           "step": 1,
           "unit": "%",
-          "label": "Position on bar",
+          "label": "t:sections.cart-drawer.blocks.tier.settings.position.label",
           "default": 19
         }
       ]
@@ -377,13 +384,12 @@
   ],
   "presets": [
     {
-      "name": "Cart drawer",
+      "name": "t:sections.cart-drawer.name",
       "blocks": [
         {
           "type": "tier",
           "settings": {
             "amount": 20,
-            "label": "Livraison OFFERTE",
             "position": 19
           }
         },
@@ -391,7 +397,6 @@
           "type": "tier",
           "settings": {
             "amount": 30,
-            "label": "Mini crème repulpante OFFERTE",
             "position": 35
           }
         },
@@ -399,7 +404,6 @@
           "type": "tier",
           "settings": {
             "amount": 70,
-            "label": "Mini crème repulpante OFFERTE",
             "position": 55
           }
         }

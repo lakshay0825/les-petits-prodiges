@@ -5,7 +5,7 @@
       "settings": {
         "text": {
           "label": "Texte",
-          "default": "LIVRAISON OFFERTE DÈS 45€"
+          "default": "LIVRAISON OFFERTE DISPONIBLE"
         }
       }
     },
@@ -343,7 +343,7 @@
             },
             "text": {
               "label": "Texte",
-              "default": "Livraison en 48 heures, offerte dès 60€ d’achats."
+              "default": "Livraison en 48h. Livraison offerte disponible."
             }
           }
         }
@@ -378,7 +378,7 @@
         },
         "progress_locked": {
           "label": "Message verrouillé",
-          "default": "Livraison offerte dès 45€ d'achats"
+          "default": "Livraison offerte disponible"
         },
         "bestsellers_heading": {
           "label": "Titre best-sellers",
@@ -399,6 +399,13 @@
             "amount": {
               "label": "Montant du seuil",
               "info": "Unités majeures dans la devise du panier (mêmes règles que le seuil livraison offerte)."
+            },
+            "label": {
+              "label": "Libellé",
+              "default": "Livraison OFFERTE"
+            },
+            "position": {
+              "label": "Position sur la barre"
             }
           }
         }
@@ -418,6 +425,53 @@
         "button_label": {
           "label": "Bouton",
           "default": "Retour à l’accueil"
+        }
+      }
+    },
+    "search-modal": {
+      "name": "Recherche",
+      "settings": {
+        "placeholder": {
+          "label": "Placeholder",
+          "default": "Rechercher un produit, une routine…"
+        },
+        "submit_label": {
+          "label": "Bouton",
+          "default": "Rechercher"
+        },
+        "suggestions_label": {
+          "label": "Titre suggestions",
+          "default": "Suggestions"
+        },
+        "popular_collection": {
+          "label": "Collection produits populaires"
+        },
+        "popular_label": {
+          "label": "Titre produits populaires",
+          "default": "Produits populaires"
+        },
+        "popular_limit": {
+          "label": "Limite produits populaires"
+        },
+        "show_esc_hint": {
+          "label": "Afficher l’astuce Esc (desktop)"
+        },
+        "esc_hint": {
+          "label": "Texte Esc",
+          "default": "Appuyez sur Esc pour fermer"
+        }
+      },
+      "blocks": {
+        "suggestion": {
+          "name": "Suggestion",
+          "settings": {
+            "label": {
+              "label": "Libellé"
+            },
+            "link": {
+              "label": "Lien"
+            }
+          }
         }
       }
     }

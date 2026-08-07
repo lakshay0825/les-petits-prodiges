@@ -10,21 +10,18 @@
         "tab_1": {
           "type": "filter_tab",
           "settings": {
-            "label": "Notre sélection",
             "filter_key": "all"
           }
         },
         "tab_2": {
           "type": "filter_tab",
           "settings": {
-            "label": "Acné & imperfections",
             "filter_key": "acne"
           }
         },
         "tab_3": {
           "type": "filter_tab",
           "settings": {
-            "label": "Rides & perte de fermeté",
             "filter_key": "rides"
           }
         }
@@ -34,9 +31,7 @@
         "tab_2",
         "tab_3"
       ],
-      "settings": {
-        "heading": "La dermocosmétique\nnaturelle et responsable"
-      }
+      "settings": {}
     },
     "banner_cta": {
       "type": "banner-cta",
@@ -47,23 +42,15 @@
       "blocks": {
         "ba_1": {
           "type": "ba_card",
-          "settings": {
-            "name": "Louise"
-          }
+          "settings": {}
         },
         "ba_2": {
           "type": "ba_card",
-          "settings": {
-            "name": "Camille",
-            "quote": "Texture légère, résultats visibles — je recommande sans hésiter"
-          }
+          "settings": {}
         },
         "ba_3": {
           "type": "ba_card",
-          "settings": {
-            "name": "Inès",
-            "quote": "Enfin une routine simple qui respecte ma peau sensible"
-          }
+          "settings": {}
         }
       },
       "block_order": [
@@ -94,9 +81,7 @@
         "img_2",
         "img_3"
       ],
-      "settings": {
-        "heading": "Écouter votre peau"
-      }
+      "settings": {}
     },
     "founders": {
       "type": "founders",

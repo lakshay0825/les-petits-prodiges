@@ -21,7 +21,7 @@
           {%- endif -%}
         </div>
       {%- endfor -%}
-    {%- else -%}
+    {%- elsif section.settings.logo_1 != blank or section.settings.logo_2 != blank -%}
       {%- if section.settings.logo_1 != blank -%}
         <div class="press__logo press__logo--elle">
           {{ section.settings.logo_1 | image_url: width: 346 | image_tag: width: 173, height: 131, loading: 'lazy', alt: section.settings.logo_1_alt }}
@@ -70,8 +70,7 @@
     {
       "type": "text",
       "id": "logo_1_alt",
-      "label": "Logo 1 alt",
-      "default": "ELLE"
+      "label": "Logo 1 alt"
     },
     {
       "type": "image_picker",
@@ -81,8 +80,7 @@
     {
       "type": "text",
       "id": "logo_2_alt",
-      "label": "Logo 2 alt",
-      "default": "madame FIGARO"
+      "label": "Logo 2 alt"
     },
     {
       "type": "image_picker",
@@ -92,8 +90,7 @@
     {
       "type": "text",
       "id": "logo_3_alt",
-      "label": "Logo 3 alt",
-      "default": "GRAZIA"
+      "label": "Logo 3 alt"
     },
     {
       "type": "image_picker",
@@ -103,8 +100,7 @@
     {
       "type": "text",
       "id": "logo_4_alt",
-      "label": "Logo 4 alt",
-      "default": "Le Monde"
+      "label": "Logo 4 alt"
     },
     {
       "type": "header",

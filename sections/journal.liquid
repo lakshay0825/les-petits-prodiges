@@ -9,7 +9,11 @@
     {%- endif -%}
     {%- if section.settings.show_see_all -%}
       <a class="link-underline" href="{{ section.settings.see_all_link | default: blog.url }}">
-        {{ section.settings.see_all_label | default: 'Voir tout' }}
+        {%- if section.settings.see_all_label != blank -%}
+          {{ section.settings.see_all_label }}
+        {%- else -%}
+          {{ 'general.pagination.see_all' | t }}
+        {%- endif -%}
       </a>
     {%- endif -%}
   </div>
@@ -42,10 +46,10 @@
         {%- else -%}
           {%- for i in (1..4) -%}
             <article class="journal-card swiper-slide">
-              <a href="#">
+              <div>
                 {{ 'image' | placeholder_svg_tag }}
                 <h3>{{ 'blogs.article.onboarding_title' | t }}</h3>
-              </a>
+              </div>
             </article>
           {%- endfor -%}
         {%- endif -%}

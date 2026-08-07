@@ -52,7 +52,8 @@
     "back": "Back",
     "main_navigation": "Main navigation",
     "notifications": "Notifications",
-    "loading": "Loading"
+    "loading": "Loading",
+    "usp_slide": "Benefit {{ index }}"
   },
   "newsletter": {
     "label": "Email",
@@ -259,7 +260,7 @@
       "settings": {
         "text": {
           "label": "Text",
-          "default": "FREE SHIPPING FROM €45"
+          "default": "FREE SHIPPING AVAILABLE"
         }
       }
     },
@@ -321,7 +322,8 @@
             }
           }
         }
-      }
+      },
+      "bestsellers": "Best-Sellers"
     },
     "footer": {
       "name": "Footer",
@@ -412,7 +414,8 @@
           "label": "Sticky diagnostic label",
           "default": "Skin diagnostic"
         }
-      }
+      },
+      "diagnostic": "Skin diagnostic"
     },
     "featured-collection": {
       "name": "Featured collection",
@@ -597,7 +600,7 @@
             },
             "text": {
               "label": "Text",
-              "default": "Delivery in 48 hours, free from €60."
+              "default": "Delivery in 48 hours, free from the threshold."
             }
           }
         }
@@ -632,7 +635,7 @@
         },
         "progress_locked": {
           "label": "Locked message",
-          "default": "Free shipping from €45"
+          "default": "Free shipping available"
         },
         "bestsellers_heading": {
           "label": "Bestsellers heading",
@@ -674,6 +677,11 @@
           "default": "Back to home"
         }
       }
+    },
+    "testimonials_ba": {
+      "before": "Before",
+      "after": "After",
+      "discover": "Discover"
     }
   },
   "settings_schema": {

@@ -1,10 +1,18 @@
-{% comment %} Shared section spacing — mobile + desktop {% endcomment %}
+{% comment %}
+  Optional spacing overrides. When all values are 0, emit nothing so
+  prototype CSS (.products, .journal, etc.) keeps its designed padding.
+{% endcomment %}
 {%- liquid
   assign pt_m = section.settings.padding_top_mobile | default: 0
   assign pb_m = section.settings.padding_bottom_mobile | default: 0
   assign pt_d = section.settings.padding_top_desktop | default: 0
   assign pb_d = section.settings.padding_bottom_desktop | default: 0
+  assign has_spacing = false
+  if pt_m != 0 or pb_m != 0 or pt_d != 0 or pb_d != 0
+    assign has_spacing = true
+  endif
 -%}
+{%- if has_spacing -%}
 <style>
   #shopify-section-{{ section.id }} .section-pad {
     padding-top: {{ pt_m }}px;
@@ -17,3 +25,4 @@
     }
   }
 </style>
+{%- endif -%}

@@ -130,9 +130,19 @@
 </section>
 
 {%- if section.settings.show_diagnostic_sticky -%}
-  <a class="diagnostic-sticky mobile-only" href="{{ section.settings.diagnostic_link | default: '#diagnostic' }}" data-diagnostic-sticky>
+  {%- liquid
+    assign diagnostic_href = section.settings.diagnostic_link
+    if diagnostic_href == blank
+      assign diagnostic_href = '#diagnostic'
+    endif
+    assign diagnostic_label = section.settings.diagnostic_label
+    if diagnostic_label == blank
+      assign diagnostic_label = 'sections.hero.diagnostic' | t
+    endif
+  -%}
+  <a class="diagnostic-sticky mobile-only" href="{{ diagnostic_href }}" data-diagnostic-sticky>
     {% render 'icon', name: 'diagnostic-arrow', width: 20, height: 20 %}
-    <span>{{ section.settings.diagnostic_label | default: 'Diagnostic de peau' }}</span>
+    <span>{{ diagnostic_label }}</span>
   </a>
 {%- endif -%}
 
@@ -221,7 +231,7 @@
       "type": "checkbox",
       "id": "show_product_card",
       "label": "Show product card",
-      "default": false
+      "default": true
     },
     {
       "type": "product",

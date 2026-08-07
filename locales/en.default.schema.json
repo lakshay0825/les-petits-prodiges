@@ -5,7 +5,7 @@
       "settings": {
         "text": {
           "label": "Text",
-          "default": "FREE SHIPPING FROM €45"
+          "default": "FREE SHIPPING AVAILABLE"
         }
       }
     },
@@ -343,7 +343,7 @@
             },
             "text": {
               "label": "Text",
-              "default": "Delivery in 48 hours, free from €60."
+              "default": "Delivery in 48 hours, free from the threshold."
             }
           }
         }
@@ -378,7 +378,7 @@
         },
         "progress_locked": {
           "label": "Locked message",
-          "default": "Free shipping from €45"
+          "default": "Free shipping available"
         },
         "bestsellers_heading": {
           "label": "Bestsellers heading",
@@ -399,6 +399,13 @@
             "amount": {
               "label": "Threshold amount",
               "info": "Major units in the cart currency (same rules as free shipping threshold)."
+            },
+            "label": {
+              "label": "Label",
+              "default": "FREE shipping"
+            },
+            "position": {
+              "label": "Position on bar"
             }
           }
         }
@@ -418,6 +425,53 @@
         "button_label": {
           "label": "Button label",
           "default": "Back to home"
+        }
+      }
+    },
+    "search-modal": {
+      "name": "Search modal",
+      "settings": {
+        "placeholder": {
+          "label": "Placeholder",
+          "default": "Search a product, a routine…"
+        },
+        "submit_label": {
+          "label": "Submit button",
+          "default": "Search"
+        },
+        "suggestions_label": {
+          "label": "Suggestions heading",
+          "default": "Suggestions"
+        },
+        "popular_collection": {
+          "label": "Popular products collection"
+        },
+        "popular_label": {
+          "label": "Popular products heading",
+          "default": "Popular products"
+        },
+        "popular_limit": {
+          "label": "Popular products limit"
+        },
+        "show_esc_hint": {
+          "label": "Show Esc hint (desktop)"
+        },
+        "esc_hint": {
+          "label": "Esc hint text",
+          "default": "Press Esc to close"
+        }
+      },
+      "blocks": {
+        "suggestion": {
+          "name": "Suggestion",
+          "settings": {
+            "label": {
+              "label": "Label"
+            },
+            "link": {
+              "label": "Link"
+            }
+          }
         }
       }
     }

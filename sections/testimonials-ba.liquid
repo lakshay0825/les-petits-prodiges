@@ -19,15 +19,49 @@
             <article class="ba-card swiper-slide" {{ block.shopify_attributes }}>
               <div class="ba-card__images">
                 <figure>
-                  <figcaption>{{ block.settings.before_label | default: 'Avant' }}</figcaption>
+                  <figcaption>
+                    {%- if block.settings.before_label != blank -%}
+                      {{ block.settings.before_label }}
+                    {%- else -%}
+                      {{ 'sections.testimonials_ba.before' | t }}
+                    {%- endif -%}
+                  </figcaption>
                   {%- if block.settings.before_image != blank -%}
-                    {{ block.settings.before_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.before_label | default: 'Avant' }}
+                    {%- liquid
+                      if block.settings.before_label != blank
+                        assign before_alt = block.settings.before_label
+                      else
+                        assign before_alt = 'sections.testimonials_ba.before' | t
+                      endif
+                    -%}
+                    {{
+                      block.settings.before_image
+                      | image_url: width: 600
+                      | image_tag: loading: 'lazy', alt: before_alt
+                    }}
                   {%- endif -%}
                 </figure>
                 <figure>
-                  <figcaption>{{ block.settings.after_label | default: 'Après' }}</figcaption>
+                  <figcaption>
+                    {%- if block.settings.after_label != blank -%}
+                      {{ block.settings.after_label }}
+                    {%- else -%}
+                      {{ 'sections.testimonials_ba.after' | t }}
+                    {%- endif -%}
+                  </figcaption>
                   {%- if block.settings.after_image != blank -%}
-                    {{ block.settings.after_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.after_label | default: 'Après' }}
+                    {%- liquid
+                      if block.settings.after_label != blank
+                        assign after_alt = block.settings.after_label
+                      else
+                        assign after_alt = 'sections.testimonials_ba.after' | t
+                      endif
+                    -%}
+                    {{
+                      block.settings.after_image
+                      | image_url: width: 600
+                      | image_tag: loading: 'lazy', alt: after_alt
+                    }}
                   {%- endif -%}
                 </figure>
               </div>
@@ -45,10 +79,16 @@
                         {{ block.settings.rating }}
                       </span>
                     {%- endif -%}
+                    {%- liquid
+                      assign ba_cta = block.settings.cta_label
+                      if ba_cta == blank
+                        assign ba_cta = 'sections.testimonials_ba.discover' | t
+                      endif
+                    -%}
                     {%- if block.settings.product != blank -%}
-                      <a href="{{ block.settings.product.url }}">{{ block.settings.cta_label | default: 'Découvrir' }}</a>
+                      <a href="{{ block.settings.product.url }}">{{ ba_cta }}</a>
                     {%- elsif block.settings.product_link != blank -%}
-                      <a href="{{ block.settings.product_link }}">{{ block.settings.cta_label | default: 'Découvrir' }}</a>
+                      <a href="{{ block.settings.product_link }}">{{ ba_cta }}</a>
                     {%- endif -%}
                   </div>
                   {%- if block.settings.name != blank -%}

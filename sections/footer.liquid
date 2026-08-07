@@ -31,13 +31,17 @@
             id="NewsletterForm--{{ section.id }}"
             type="email"
             name="contact[email]"
-            placeholder="{{ section.settings.newsletter_placeholder | default: 'E-MAIL' }}"
+            placeholder="{% if section.settings.newsletter_placeholder != blank %}{{ section.settings.newsletter_placeholder }}{% else %}{{ 'newsletter.placeholder' | t }}{% endif %}"
             required
             autocomplete="email"
             {% if form.errors %}aria-invalid="true"{% endif %}
           >
           <button class="btn btn--dark" type="submit">
-            {{ section.settings.newsletter_button | default: "S'INSCRIRE" }}
+            {%- if section.settings.newsletter_button != blank -%}
+              {{ section.settings.newsletter_button }}
+            {%- else -%}
+              {{ 'newsletter.button' | t }}
+            {%- endif -%}
           </button>
           {%- if form.posted_successfully? -%}
             <p class="newsletter-form__success" role="status">{{ 'newsletter.success' | t }}</p>
@@ -356,22 +360,13 @@
       "name": "Footer",
       "blocks": [
         {
-          "type": "link_column",
-          "settings": {
-            "heading": "SERVICE CLIENT"
-          }
+          "type": "link_column"
         },
         {
-          "type": "link_column",
-          "settings": {
-            "heading": "LES PETITS PRÖDIGES"
-          }
+          "type": "link_column"
         },
         {
-          "type": "link_column",
-          "settings": {
-            "heading": "REJOIGNEZ L'AVENTURE"
-          }
+          "type": "link_column"
         },
         {
           "type": "social_hit",

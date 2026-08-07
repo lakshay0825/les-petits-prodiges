@@ -44,6 +44,8 @@
             alt: '',
             loading: 'eager'
         }}
+      {%- else -%}
+        <span class="header-logo__dark header-logo__text">{{ shop.name }}</span>
       {%- endif -%}
     </a>
 
@@ -91,8 +93,8 @@
                             <li>
                               <a href="{{ child.url }}">
                                 {{ child.title | escape }}
-                                {%- if child.title contains 'NEW' or child.object.tags contains 'new' -%}
-                                  <span class="mega-col__new">NEW</span>
+                                {%- if child.title contains 'NEW' or child.object.tags contains 'new' or child.object.tags contains 'NEW' or child.object.tags contains 'nouveauté' -%}
+                                  <span class="mega-col__new">{{ 'products.product.new' | t }}</span>
                                 {%- endif -%}
                               </a>
                             </li>
@@ -148,7 +150,11 @@
                   {%- if promo_blocks.size > 0 -%}
                     <div class="mega-menu__promos">
                       {%- for block in promo_blocks -%}
-                        <a class="mega-promo" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+                        {%- if block.settings.link != blank -%}
+                          <a class="mega-promo" href="{{ block.settings.link }}" {{ block.shopify_attributes }}>
+                        {%- else -%}
+                          <div class="mega-promo" {{ block.shopify_attributes }}>
+                        {%- endif -%}
                           {%- if block.settings.image != blank -%}
                             {{
                               block.settings.image
@@ -164,7 +170,11 @@
                               <span class="mega-promo__cta">{{ block.settings.cta }}</span>
                             {%- endif -%}
                           </span>
-                        </a>
+                        {%- if block.settings.link != blank -%}
+                          </a>
+                        {%- else -%}
+                          </div>
+                        {%- endif -%}
                       {%- endfor -%}
                     </div>
                   {%- endif -%}
@@ -244,9 +254,19 @@
           {%- if bs_collection != blank and bs_collection.products_count > 0 -%}
             <div class="mobile-nav__bestsellers">
               <div class="mobile-nav__bestsellers-head">
-                <p class="mobile-nav__bestsellers-title">{{ section.settings.bestsellers_heading | default: 'Best-Sellers' }}</p>
+                <p class="mobile-nav__bestsellers-title">
+                  {%- if section.settings.bestsellers_heading != blank -%}
+                    {{ section.settings.bestsellers_heading }}
+                  {%- else -%}
+                    {{ 'sections.header.bestsellers' | t }}
+                  {%- endif -%}
+                </p>
                 <a class="mobile-nav__bestsellers-all" href="{{ bs_collection.url }}" data-menu-link>
-                  {{ section.settings.bestsellers_see_all | default: 'Voir tout' }}
+                  {%- if section.settings.bestsellers_see_all != blank -%}
+                    {{ section.settings.bestsellers_see_all }}
+                  {%- else -%}
+                    {{ 'general.pagination.see_all' | t }}
+                  {%- endif -%}
                 </a>
               </div>
               <div class="mobile-nav__bestsellers-track">
@@ -282,7 +302,13 @@
         {%- endif -%}
 
         {%- if section.settings.diagnostic_label != blank -%}
-          <a class="mobile-nav__diagnostic" href="{{ section.settings.diagnostic_link | default: '#diagnostic' }}" data-menu-link>
+          {%- liquid
+            assign nav_diagnostic_href = section.settings.diagnostic_link
+            if nav_diagnostic_href == blank
+              assign nav_diagnostic_href = '#diagnostic'
+            endif
+          -%}
+          <a class="mobile-nav__diagnostic" href="{{ nav_diagnostic_href }}" data-menu-link>
             {{ section.settings.diagnostic_label }}
           </a>
         {%- endif -%}

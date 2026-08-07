@@ -24,7 +24,7 @@
   </div>
   <div class="carousel-dots mobile-only" data-dots="usp">
     {%- for block in section.blocks -%}
-      <button class="{% if forloop.first %}is-active{% endif %}" type="button" aria-label="USP {{ forloop.index }}"></button>
+      <button class="{% if forloop.first %}is-active{% endif %}" type="button" aria-label="{{ 'accessibility.usp_slide' | t: index: forloop.index }}"></button>
     {%- endfor -%}
   </div>
 </section>

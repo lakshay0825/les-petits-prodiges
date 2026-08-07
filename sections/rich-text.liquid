@@ -14,7 +14,11 @@
   </div>
   {%- if section.settings.show_read_more -%}
     <button type="button" class="link-underline" data-read-more aria-expanded="false">
-      {{ section.settings.read_more_label | default: 'Lire plus' }}
+      {%- if section.settings.read_more_label != blank -%}
+        {{ section.settings.read_more_label }}
+      {%- else -%}
+        {{ 'blogs.article.read_more' | t }}
+      {%- endif -%}
     </button>
   {%- endif -%}
 </section>

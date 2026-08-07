@@ -7,8 +7,13 @@
   assign card_class = class | default: ''
   assign show_vendor = show_vendor | default: false
   assign current_variant = card_product.selected_or_first_available_variant
+  assign category_tokens = 'all'
+  for tag in card_product.tags
+    assign tag_handle = tag | handle
+    assign category_tokens = category_tokens | append: ' ' | append: tag_handle
+  endfor
 -%}
-<article class="product-card {{ card_class }}" {{ block.shopify_attributes }}>
+<article class="product-card {{ card_class }}" data-category="{{ category_tokens | strip }}" {{ block.shopify_attributes }}>
   <a href="{{ card_product.url }}" class="product-card__media">
     {%- if card_product.metafields.reviews.rating.value != blank -%}
       <span class="product-card__rating">
@@ -47,7 +52,7 @@
   </a>
 
   {%- if current_variant -%}
-    <product-form>
+    <product-form class="product-card__form-wrap">
       {% form 'product', card_product, class: 'product-card__form' %}
         <input type="hidden" name="id" value="{{ current_variant.id }}">
         <button
@@ -55,7 +60,6 @@
           name="add"
           class="product-card__cart"
           {% unless current_variant.available %}disabled{% endunless %}
-          data-cart-open
         >
           {%- if current_variant.available -%}
             {{ 'products.product.add_to_cart' | t }}

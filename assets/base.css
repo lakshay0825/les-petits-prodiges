@@ -305,7 +305,21 @@ ul { list-style: none; margin: 0; padding: 0; }
   width: 180px;
   height: auto;
 }
-
+.header-logo__text {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--white);
+  white-space: nowrap;
+}
+.header-logo__dark.header-logo__text,
+.site-header.is-scrolled .header-logo__text,
+.site-header.is-menu-open .header-logo__text,
+body.page-inner .header-logo__text {
+  color: var(--ink);
+}
 .header-logo__dark { display: none; }
 .header-logo__light { display: block; }
 
@@ -2126,6 +2140,11 @@ body.modal-open {
   grid-template-columns: minmax(0, 1fr);
   width: 100%;
   height: auto;
+}
+
+.product-card__form-wrap,
+.product-card__form {
+  display: contents;
 }
 
 .product-card__media {

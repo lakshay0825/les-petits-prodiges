@@ -49,7 +49,7 @@ Each section exposes text, images/videos, links, colors where relevant, and **mo
    ```
 2. In **Online Store → Navigation**, create menus and assign them in the Header / Footer section settings.
 3. Assign a collection to **Featured collection** and a blog to **Journal**.
-4. Upload logos and section images in the theme editor (images are **not** bundled in `assets/` — use each section’s image pickers).
+4. Upload logos and section images in the theme editor (use each section’s image pickers — no bundled content photos).
 5. Re-check installed apps (reviews, loyalty, etc.) and re-add any theme app embeds / snippets listed by each app.
 
 ### Theme size

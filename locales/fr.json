@@ -52,7 +52,8 @@
     "back": "Retour",
     "main_navigation": "Navigation principale",
     "notifications": "Notifications",
-    "loading": "Chargement"
+    "loading": "Chargement",
+    "usp_slide": "Avantage {{ index }}"
   },
   "newsletter": {
     "label": "E-mail",
@@ -259,7 +260,7 @@
       "settings": {
         "text": {
           "label": "Texte",
-          "default": "LIVRAISON OFFERTE DÈS 45€"
+          "default": "LIVRAISON OFFERTE DISPONIBLE"
         }
       }
     },
@@ -321,7 +322,8 @@
             }
           }
         }
-      }
+      },
+      "bestsellers": "Best-Sellers"
     },
     "footer": {
       "name": "Pied de page",
@@ -412,7 +414,8 @@
           "label": "Diagnostic sticky",
           "default": "Diagnostic de peau"
         }
-      }
+      },
+      "diagnostic": "Diagnostic de peau"
     },
     "featured-collection": {
       "name": "Collection en avant",
@@ -597,7 +600,7 @@
             },
             "text": {
               "label": "Texte",
-              "default": "Livraison en 48 heures, offerte dès 60€ d’achats."
+              "default": "Livraison en 48h. Livraison offerte disponible."
             }
           }
         }
@@ -632,7 +635,7 @@
         },
         "progress_locked": {
           "label": "Message verrouillé",
-          "default": "Livraison offerte dès 45€ d'achats"
+          "default": "Livraison offerte disponible"
         },
         "bestsellers_heading": {
           "label": "Titre best-sellers",
@@ -674,6 +677,11 @@
           "default": "Retour à l’accueil"
         }
       }
+    },
+    "testimonials_ba": {
+      "before": "Avant",
+      "after": "Après",
+      "discover": "Découvrir"
     }
   },
   "settings_schema": {

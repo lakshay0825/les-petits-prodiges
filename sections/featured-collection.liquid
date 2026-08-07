@@ -33,7 +33,7 @@
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..4) -%}
-          <article class="product-card swiper-slide">
+          <article class="product-card swiper-slide" data-category="all">
             <div class="product-card__media">{{ 'product-1' | placeholder_svg_tag }}</div>
             <h3>{{ 'onboarding.product_title' | t }}</h3>
             <p class="product-card__price">{{ 1990 | money }}</p>
@@ -48,7 +48,11 @@
   {%- if section.settings.show_see_all -%}
     <div class="products__cta desktop-only">
       <a class="btn btn--outline" href="{{ section.settings.see_all_link | default: collection.url }}">
-        {{ section.settings.see_all_label | default: 'TOUT VOIR' }}
+        {%- if section.settings.see_all_label != blank -%}
+          {{ section.settings.see_all_label }}
+        {%- else -%}
+          {{ 'general.pagination.see_all' | t }}
+        {%- endif -%}
       </a>
     </div>
   {%- endif -%}
@@ -176,21 +180,18 @@
         {
           "type": "filter_tab",
           "settings": {
-            "label": "Notre sélection",
             "filter_key": "all"
           }
         },
         {
           "type": "filter_tab",
           "settings": {
-            "label": "Acné & imperfections",
             "filter_key": "acne"
           }
         },
         {
           "type": "filter_tab",
           "settings": {
-            "label": "Rides & perte de fermeté",
             "filter_key": "rides"
           }
         }

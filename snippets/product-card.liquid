@@ -1,0 +1,84 @@
+{% comment %}
+  Product card — classes match html-prototype (.product-card)
+  Accepts: product, class (optional extra classes e.g. swiper-slide)
+{% endcomment %}
+{%- liquid
+  assign card_product = product
+  assign card_class = class | default: ''
+  assign show_vendor = show_vendor | default: false
+  assign current_variant = card_product.selected_or_first_available_variant
+-%}
+<article class="product-card {{ card_class }}" {{ block.shopify_attributes }}>
+  <a href="{{ card_product.url }}" class="product-card__media">
+    {%- if card_product.metafields.reviews.rating.value != blank -%}
+      <span class="product-card__rating">
+        {% render 'icon', name: 'star-sm', width: 16, height: 16 %}
+        {{ card_product.metafields.reviews.rating.value }}{% if card_product.metafields.reviews.rating_count %}/5{% endif %}
+      </span>
+    {%- endif -%}
+    {%- if card_product.tags contains 'new' or card_product.tags contains 'NEW' or card_product.tags contains 'nouveauté' -%}
+      <span class="product-card__badge">{{ 'products.product.new' | t }}</span>
+    {%- endif -%}
+    {%- if card_product.featured_media -%}
+      {{
+        card_product.featured_media
+        | image_url: width: 800
+        | image_tag:
+          loading: 'lazy',
+          widths: '200,300,400,600,800',
+          sizes: '(min-width: 990px) 280px, 45vw',
+          alt: card_product.featured_media.alt | default: card_product.title
+      }}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag }}
+    {%- endif -%}
+    {%- if card_product.media.size > 1 -%}
+      {{
+        card_product.media[1]
+        | image_url: width: 800
+        | image_tag:
+          class: 'product-card__hover',
+          loading: 'lazy',
+          widths: '200,300,400,600,800',
+          sizes: '(min-width: 990px) 280px, 45vw',
+          alt: ''
+      }}
+    {%- endif -%}
+  </a>
+
+  {%- if current_variant -%}
+    <product-form>
+      {% form 'product', card_product, class: 'product-card__form' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <button
+          type="submit"
+          name="add"
+          class="product-card__cart"
+          {% unless current_variant.available %}disabled{% endunless %}
+          data-cart-open
+        >
+          {%- if current_variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      {% endform %}
+    </product-form>
+  {%- endif -%}
+
+  <h3>
+    <a href="{{ card_product.url }}">{{ card_product.title }}</a>
+  </h3>
+  {%- if card_product.description != blank -%}
+    <p class="product-card__desc">{{ card_product.description | strip_html | truncate: 60 }}</p>
+  {%- elsif show_vendor and card_product.vendor != blank -%}
+    <p class="product-card__desc">{{ card_product.vendor }}</p>
+  {%- endif -%}
+  <p class="product-card__price">
+    {%- if current_variant.compare_at_price > current_variant.price -%}
+      <s>{{ current_variant.compare_at_price | money }}</s>
+    {%- endif -%}
+    {{ current_variant.price | money }}
+  </p>
+</article>

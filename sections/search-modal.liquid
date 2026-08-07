@@ -1,0 +1,196 @@
+<div class="search-modal" data-search hidden>
+  <div class="search-modal__overlay" data-search-close></div>
+  <div
+    class="search-modal__panel"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="search-title-{{ section.id }}"
+  >
+    <div class="search-modal__top">
+      <form class="search-modal__form" action="{{ routes.search_url }}" method="get" role="search">
+        <label class="visually-hidden" for="search-input-{{ section.id }}" id="search-title-{{ section.id }}">
+          {{ 'general.search.search' | t }}
+        </label>
+        <span class="search-modal__icon" aria-hidden="true">
+          {% render 'icon', name: 'search', width: 22, height: 22 %}
+        </span>
+        <input
+          id="search-input-{{ section.id }}"
+          type="search"
+          name="q"
+          placeholder="{% if section.settings.placeholder != blank %}{{ section.settings.placeholder }}{% else %}{{ 'general.search.placeholder' | t }}{% endif %}"
+          autocomplete="off"
+          enterkeyhint="search"
+          data-search-input
+        >
+        <button type="button" class="search-modal__clear" data-search-clear hidden aria-label="{{ 'general.search.clear' | t }}">
+          {{ 'general.search.clear' | t }}
+        </button>
+        <button class="btn btn--dark search-modal__submit" type="submit">
+          {%- if section.settings.submit_label != blank -%}
+            {{ section.settings.submit_label }}
+          {%- else -%}
+            {{ 'general.search.submit' | t }}
+          {%- endif -%}
+        </button>
+      </form>
+      <button type="button" class="search-modal__close" data-search-close aria-label="{{ 'accessibility.close' | t }}">
+        {% render 'icon', name: 'cart-close', width: 22, height: 22 %}
+      </button>
+    </div>
+
+    <div class="search-modal__body">
+      <div class="search-modal__col">
+        <p class="search-modal__label">
+          {%- if section.settings.suggestions_label != blank -%}
+            {{ section.settings.suggestions_label }}
+          {%- else -%}
+            {{ 'general.search.suggestions' | t }}
+          {%- endif -%}
+        </p>
+        <ul class="search-modal__links">
+          {%- for block in section.blocks -%}
+            {%- if block.type == 'suggestion' -%}
+              <li {{ block.shopify_attributes }}>
+                <a href="{{ block.settings.link }}">{{ block.settings.label }}</a>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+
+      {%- if section.settings.popular_collection != blank -%}
+        {%- assign popular = collections[section.settings.popular_collection] -%}
+        {%- if popular != blank and popular.products_count > 0 -%}
+          <div class="search-modal__col search-modal__col--products">
+            <p class="search-modal__label">
+              {%- if section.settings.popular_label != blank -%}
+                {{ section.settings.popular_label }}
+              {%- else -%}
+                {{ 'general.search.popular_products' | t }}
+              {%- endif -%}
+            </p>
+            <ul class="search-modal__products">
+              {%- for product in popular.products limit: section.settings.popular_limit -%}
+                <li>
+                  <a class="search-product" href="{{ product.url }}">
+                    {%- if product.featured_media -%}
+                      {{ product.featured_media | image_url: width: 128 | image_tag: width: 64, height: 64, loading: 'lazy', alt: product.title }}
+                    {%- endif -%}
+                    <span class="search-product__meta">
+                      <span class="search-product__name">{{ product.title }}</span>
+                      {%- if product.description != blank -%}
+                        <span class="search-product__desc">{{ product.description | strip_html | truncate: 50 }}</span>
+                      {%- endif -%}
+                      <span class="search-product__price">{{ product.price | money }}</span>
+                    </span>
+                  </a>
+                </li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.show_esc_hint -%}
+      <p class="search-modal__hint desktop-only">
+        {%- if section.settings.esc_hint != blank -%}
+          {{ section.settings.esc_hint }}
+        {%- else -%}
+          {{ 'general.search.esc_hint' | t }}
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Search modal",
+  "class": "section-search-modal",
+  "settings": [
+    {
+      "type": "text",
+      "id": "placeholder",
+      "label": "Placeholder",
+      "default": "Rechercher un produit, une routine…"
+    },
+    {
+      "type": "text",
+      "id": "submit_label",
+      "label": "Submit button",
+      "default": "Rechercher"
+    },
+    {
+      "type": "text",
+      "id": "suggestions_label",
+      "label": "Suggestions heading",
+      "default": "Suggestions"
+    },
+    {
+      "type": "collection",
+      "id": "popular_collection",
+      "label": "Popular products collection"
+    },
+    {
+      "type": "text",
+      "id": "popular_label",
+      "label": "Popular products heading",
+      "default": "Produits populaires"
+    },
+    {
+      "type": "range",
+      "id": "popular_limit",
+      "min": 1,
+      "max": 6,
+      "step": 1,
+      "label": "Popular products limit",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_esc_hint",
+      "label": "Show Esc hint (desktop)",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "esc_hint",
+      "label": "Esc hint text",
+      "default": "Appuyez sur Esc pour fermer"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "suggestion",
+      "name": "Suggestion",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Brume solaire"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search modal",
+      "blocks": [
+        { "type": "suggestion", "settings": { "label": "Brume solaire" } },
+        { "type": "suggestion", "settings": { "label": "Crème repulpante" } },
+        { "type": "suggestion", "settings": { "label": "Diagnostic visage" } },
+        { "type": "suggestion", "settings": { "label": "Acné & imperfections" } },
+        { "type": "suggestion", "settings": { "label": "Rides & fermeté" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

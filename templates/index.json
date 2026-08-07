@@ -1,0 +1,158 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "blocks": {
+        "tab_1": {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Notre sélection",
+            "filter_key": "all"
+          }
+        },
+        "tab_2": {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Acné & imperfections",
+            "filter_key": "acne"
+          }
+        },
+        "tab_3": {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Rides & perte de fermeté",
+            "filter_key": "rides"
+          }
+        }
+      },
+      "block_order": [
+        "tab_1",
+        "tab_2",
+        "tab_3"
+      ],
+      "settings": {
+        "heading": "La dermocosmétique\nnaturelle et responsable"
+      }
+    },
+    "banner_cta": {
+      "type": "banner-cta",
+      "settings": {}
+    },
+    "testimonials_ba": {
+      "type": "testimonials-ba",
+      "blocks": {
+        "ba_1": {
+          "type": "ba_card",
+          "settings": {
+            "name": "Louise"
+          }
+        },
+        "ba_2": {
+          "type": "ba_card",
+          "settings": {
+            "name": "Camille",
+            "quote": "Texture légère, résultats visibles — je recommande sans hésiter"
+          }
+        },
+        "ba_3": {
+          "type": "ba_card",
+          "settings": {
+            "name": "Inès",
+            "quote": "Enfin une routine simple qui respecte ma peau sensible"
+          }
+        }
+      },
+      "block_order": [
+        "ba_1",
+        "ba_2",
+        "ba_3"
+      ],
+      "settings": {}
+    },
+    "image_gallery": {
+      "type": "image-gallery",
+      "blocks": {
+        "img_1": {
+          "type": "image",
+          "settings": {}
+        },
+        "img_2": {
+          "type": "image",
+          "settings": {}
+        },
+        "img_3": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "img_1",
+        "img_2",
+        "img_3"
+      ],
+      "settings": {
+        "heading": "Écouter votre peau"
+      }
+    },
+    "founders": {
+      "type": "founders",
+      "settings": {}
+    },
+    "press": {
+      "type": "press",
+      "settings": {}
+    },
+    "video_feature": {
+      "type": "video-feature",
+      "settings": {}
+    },
+    "journal": {
+      "type": "journal",
+      "settings": {}
+    },
+    "rich_text": {
+      "type": "rich-text",
+      "settings": {}
+    },
+    "usp_bar": {
+      "type": "usp-bar",
+      "blocks": {
+        "usp_1": {
+          "type": "usp",
+          "settings": {}
+        },
+        "usp_2": {
+          "type": "usp",
+          "settings": {}
+        },
+        "usp_3": {
+          "type": "usp",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "usp_1",
+        "usp_2",
+        "usp_3"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "featured_collection",
+    "banner_cta",
+    "testimonials_ba",
+    "image_gallery",
+    "founders",
+    "press",
+    "video_feature",
+    "journal",
+    "rich_text",
+    "usp_bar"
+  ]
+}

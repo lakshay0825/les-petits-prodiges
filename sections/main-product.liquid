@@ -1,0 +1,176 @@
+{% render 'section-spacing' %}
+
+{%- assign current_variant = product.selected_or_first_available_variant -%}
+
+<section class="main-product section-pad" data-section="main-product" id="MainProduct-{{ section.id }}">
+  <div class="main-product__inner">
+    <div class="main-product__gallery">
+      {%- if product.media.size > 0 -%}
+        <div class="swiper product-gallery-swiper">
+          <div class="swiper-wrapper">
+            {%- for media in product.media -%}
+              <div class="swiper-slide" data-media-id="{{ media.id }}">
+                {%- case media.media_type -%}
+                  {%- when 'image' -%}
+                    {%- if forloop.first -%}
+                      {{
+                        media
+                        | image_url: width: 1400
+                        | image_tag:
+                          loading: 'eager',
+                          widths: '400,700,1000,1400',
+                          sizes: '(min-width: 990px) 50vw, 100vw',
+                          alt: media.alt | default: product.title
+                      }}
+                    {%- else -%}
+                      {{
+                        media
+                        | image_url: width: 1400
+                        | image_tag:
+                          loading: 'lazy',
+                          widths: '400,700,1000,1400',
+                          sizes: '(min-width: 990px) 50vw, 100vw',
+                          alt: media.alt | default: product.title
+                      }}
+                    {%- endif -%}
+                  {%- when 'video', 'external_video' -%}
+                    {{ media | media_tag: image_size: '1400x' }}
+                  {%- else -%}
+                    {{ media | media_tag }}
+                {%- endcase -%}
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag }}
+      {%- endif -%}
+    </div>
+
+    <div class="main-product__buybox">
+      {%- if section.settings.show_vendor and product.vendor != blank -%}
+        <p class="main-product__vendor">{{ product.vendor }}</p>
+      {%- endif -%}
+      <h1 class="main-product__title">{{ product.title }}</h1>
+      <p class="main-product__price" id="price-{{ section.id }}">
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <s>{{ current_variant.compare_at_price | money }}</s>
+        {%- endif -%}
+        <span data-product-price>{{ current_variant.price | money }}</span>
+      </p>
+
+      {%- if section.settings.show_description and product.description != blank -%}
+        <div class="main-product__description">{{ product.description }}</div>
+      {%- endif -%}
+
+      {% form 'product', product, id: 'product-form', class: 'main-product__form' %}
+        <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-variant-id>
+
+        {%- unless product.has_only_default_variant -%}
+          <div class="main-product__variants">
+            {%- for option in product.options_with_values -%}
+              <fieldset class="main-product__option">
+                <legend>{{ option.name }}</legend>
+                {%- for value in option.values -%}
+                  <label>
+                    <input
+                      type="radio"
+                      name="options[{{ option.name | escape }}]"
+                      value="{{ value | escape }}"
+                      {% if option.selected_value == value %}checked{% endif %}
+                    >
+                    <span>{{ value }}</span>
+                  </label>
+                {%- endfor -%}
+              </fieldset>
+            {%- endfor -%}
+          </div>
+        {%- endunless -%}
+
+        <div class="main-product__qty cart-qty" data-qty>
+          <button type="button" data-qty-minus aria-label="{{ 'products.product.quantity.decrease' | t }}">−</button>
+          <input type="number" name="quantity" value="1" min="1" data-qty-value aria-label="{{ 'products.product.quantity.label' | t }}">
+          <button type="button" data-qty-plus aria-label="{{ 'products.product.quantity.increase' | t }}">+</button>
+        </div>
+
+        <button
+          type="submit"
+          name="add"
+          class="btn btn--dark main-product__add"
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          {%- if current_variant.available -%}
+            {{ 'products.product.add_to_cart' | t }}
+          {%- else -%}
+            {{ 'products.product.sold_out' | t }}
+          {%- endif -%}
+        </button>
+      {% endform %}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Product information",
+  "class": "section-main-product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_description",
+      "label": "Show description",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

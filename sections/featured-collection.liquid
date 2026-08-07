@@ -1,0 +1,201 @@
+{% render 'section-spacing' %}
+
+{%- assign collection = collections[section.settings.collection] -%}
+
+<section class="products section-pad" id="{{ section.settings.anchor_id | default: 'products' }}" data-section="featured-collection">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="products__heading">{{ section.settings.heading | newline_to_br }}</h2>
+  {%- endif -%}
+
+  {%- assign filter_blocks = section.blocks | where: 'type', 'filter_tab' -%}
+  {%- if filter_blocks.size > 0 -%}
+    <div class="products__filters" role="tablist">
+      {%- for block in filter_blocks -%}
+        <button
+          class="{% if forloop.first %}is-active{% endif %}"
+          type="button"
+          role="tab"
+          aria-selected="{% if forloop.first %}true{% else %}false{% endif %}"
+          data-filter="{{ block.settings.filter_key | default: 'all' | handleize }}"
+          {{ block.shopify_attributes }}
+        >
+          {{ block.settings.label }}
+        </button>
+      {%- endfor -%}
+    </div>
+  {%- endif -%}
+
+  <div class="swiper products-swiper">
+    <div class="swiper-wrapper">
+      {%- if collection != blank -%}
+        {%- for product in collection.products limit: section.settings.products_to_show -%}
+          {% render 'product-card', product: product, class: 'swiper-slide' %}
+        {%- endfor -%}
+      {%- else -%}
+        {%- for i in (1..4) -%}
+          <article class="product-card swiper-slide">
+            <div class="product-card__media">{{ 'product-1' | placeholder_svg_tag }}</div>
+            <h3>{{ 'onboarding.product_title' | t }}</h3>
+            <p class="product-card__price">{{ 1990 | money }}</p>
+          </article>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </div>
+
+  <div class="carousel-dots products-pagination mobile-only"></div>
+
+  {%- if section.settings.show_see_all -%}
+    <div class="products__cta desktop-only">
+      <a class="btn btn--outline" href="{{ section.settings.see_all_link | default: collection.url }}">
+        {{ section.settings.see_all_label | default: 'TOUT VOIR' }}
+      </a>
+    </div>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.featured-collection.name",
+  "tag": "section",
+  "class": "section-featured-collection",
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Section ID",
+      "default": "products"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:sections.featured-collection.settings.heading.label",
+      "default": "t:sections.featured-collection.settings.heading.default"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 16,
+      "step": 1,
+      "label": "Products to show",
+      "default": 8
+    },
+    {
+      "type": "checkbox",
+      "id": "show_see_all",
+      "label": "Show see all button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "see_all_label",
+      "label": "t:sections.featured-collection.settings.see_all_label.label",
+      "default": "t:sections.featured-collection.settings.see_all_label.default"
+    },
+    {
+      "type": "url",
+      "id": "see_all_link",
+      "label": "See all link"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "filter_tab",
+      "name": "t:sections.featured-collection.blocks.filter_tab.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "t:sections.featured-collection.blocks.filter_tab.settings.label.label",
+          "default": "t:sections.featured-collection.blocks.filter_tab.settings.label.default"
+        },
+        {
+          "type": "text",
+          "id": "filter_key",
+          "label": "Filter key",
+          "default": "all",
+          "info": "Used with product tags / data-filter"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.featured-collection.name",
+      "blocks": [
+        {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Notre sélection",
+            "filter_key": "all"
+          }
+        },
+        {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Acné & imperfections",
+            "filter_key": "acne"
+          }
+        },
+        {
+          "type": "filter_tab",
+          "settings": {
+            "label": "Rides & perte de fermeté",
+            "filter_key": "rides"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,104 @@
+{% render 'section-spacing' %}
+
+<section class="main-blog section-pad" data-section="main-blog">
+  <header class="main-blog__head">
+    <h1>{{ blog.title }}</h1>
+  </header>
+
+  {%- paginate blog.articles by section.settings.articles_per_page -%}
+    <div class="main-blog__grid">
+      {%- for article in blog.articles -%}
+        <article class="journal-card">
+          <a href="{{ article.url }}">
+            {%- if article.image -%}
+              {{
+                article.image
+                | image_url: width: 800
+                | image_tag: loading: 'lazy', widths: '300,500,800', sizes: '(min-width: 990px) 33vw, 100vw', alt: article.title
+              }}
+            {%- endif -%}
+            <h2>{{ article.title }}</h2>
+            {%- if section.settings.show_excerpt -%}
+              <p>{{ article.excerpt_or_content | strip_html | truncate: 120 }}</p>
+            {%- endif -%}
+          </a>
+        </article>
+      {%- endfor -%}
+    </div>
+    {%- if paginate.pages > 1 -%}
+      <nav class="pagination">
+        {%- if paginate.previous %}<a href="{{ paginate.previous.url }}">{{ 'general.pagination.previous' | t }}</a>{% endif -%}
+        <span>{{ paginate.current_page }} / {{ paginate.pages }}</span>
+        {%- if paginate.next %}<a href="{{ paginate.next.url }}">{{ 'general.pagination.next' | t }}</a>{% endif -%}
+      </nav>
+    {%- endif -%}
+  {%- endpaginate -%}
+</section>
+
+{% schema %}
+{
+  "name": "Blog posts",
+  "class": "section-main-blog",
+  "settings": [
+    {
+      "type": "range",
+      "id": "articles_per_page",
+      "min": 3,
+      "max": 24,
+      "step": 3,
+      "label": "Articles per page",
+      "default": 9
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

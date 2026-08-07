@@ -1,0 +1,62 @@
+{% render 'section-spacing' %}
+
+<section class="page-shell customer customer-account section-pad" data-section="main-account">
+  <div class="customer__header">
+    <h1>{{ 'customer.account.title' | t }}</h1>
+    <a href="{{ routes.account_logout_url }}">{{ 'customer.log_out' | t }}</a>
+  </div>
+
+  <div class="customer__grid">
+    <div class="customer__orders">
+      <h2>{{ 'customer.orders.title' | t }}</h2>
+
+      {%- if customer.orders.size > 0 -%}
+        <div class="customer__table-wrap">
+          <table class="customer__table">
+            <thead>
+              <tr>
+                <th>{{ 'customer.orders.order_number' | t }}</th>
+                <th>{{ 'customer.orders.date' | t }}</th>
+                <th>{{ 'customer.orders.payment_status' | t }}</th>
+                <th>{{ 'customer.orders.fulfillment_status' | t }}</th>
+                <th>{{ 'customer.orders.total' | t }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {%- for order in customer.orders -%}
+                <tr>
+                  <td>
+                    <a href="{{ order.customer_url }}">{{ order.name }}</a>
+                  </td>
+                  <td>{{ order.created_at | time_tag: format: 'date' }}</td>
+                  <td>{{ order.financial_status_label }}</td>
+                  <td>{{ order.fulfillment_status_label }}</td>
+                  <td>{{ order.total_price | money }}</td>
+                </tr>
+              {%- endfor -%}
+            </tbody>
+          </table>
+        </div>
+      {%- else -%}
+        <p>{{ 'customer.orders.none' | t }}</p>
+      {%- endif -%}
+    </div>
+
+    <aside class="customer__details">
+      <h2>{{ 'customer.account.details' | t }}</h2>
+      {{ customer.default_address | format_address }}
+      <p>
+        <a href="{{ routes.account_addresses_url }}">{{ 'customer.account.view_addresses' | t }}</a>
+        ({{ customer.addresses_count }})
+      </p>
+    </aside>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Customer account",
+  "class": "section-main-account",
+  "settings": []
+}
+{% endschema %}

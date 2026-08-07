@@ -1,0 +1,91 @@
+{% render 'section-spacing' %}
+
+<article class="main-article section-pad" data-section="main-article">
+  <header class="main-article__head">
+    <h1>{{ article.title }}</h1>
+    {%- if section.settings.show_date -%}
+      <time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">
+        {{ article.published_at | date: format: 'month_day_year' }}
+      </time>
+    {%- endif -%}
+  </header>
+
+  {%- if article.image and section.settings.show_image -%}
+    <div class="main-article__media">
+      {{
+        article.image
+        | image_url: width: 1600
+        | image_tag: loading: 'eager', widths: '600,1000,1400,1600', sizes: '100vw', alt: article.image.alt | default: article.title
+      }}
+    </div>
+  {%- endif -%}
+
+  <div class="main-article__content rte">
+    {{ article.content }}
+  </div>
+</article>
+
+{% schema %}
+{
+  "name": "Article",
+  "class": "section-main-article",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show featured image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

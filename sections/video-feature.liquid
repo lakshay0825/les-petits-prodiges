@@ -1,0 +1,120 @@
+{% render 'section-spacing' %}
+
+<section class="video-feature mobile-only section-pad" data-section="video">
+  {%- if section.settings.video_url != blank -%}
+    <video
+      class="video-feature__media"
+      autoplay
+      muted
+      loop
+      playsinline
+      {% if section.settings.image != blank %}poster="{{ section.settings.image | image_url: width: 900 }}"{% endif %}
+    >
+      <source src="{{ section.settings.video_url }}" type="video/mp4">
+    </video>
+  {%- elsif section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 900
+      | image_tag:
+        widths: '402,600,800,900',
+        sizes: '100vw',
+        alt: section.settings.overlay_text | default: section.settings.image_alt,
+        loading: 'lazy',
+        width: 402,
+        height: 387
+    }}
+  {%- endif -%}
+  {%- if section.settings.overlay_text != blank and section.settings.show_overlay_text -%}
+    <p class="video-feature__overlay">{{ section.settings.overlay_text }}</p>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.video-feature.name",
+  "tag": "section",
+  "class": "section-video-feature",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (mobile)",
+      "info": "May include baked-in overlay text from design"
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "t:sections.video-feature.settings.image_alt.label",
+      "default": "t:sections.video-feature.settings.image_alt.default"
+    },
+    {
+      "type": "text",
+      "id": "video_url",
+      "label": "Video URL (optional MP4)"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_overlay_text",
+      "label": "Show overlay text setting",
+      "default": false,
+      "info": "Usually off when text is baked into the image"
+    },
+    {
+      "type": "text",
+      "id": "overlay_text",
+      "label": "t:sections.video-feature.settings.overlay_text.label",
+      "default": "t:sections.video-feature.settings.overlay_text.default"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.video-feature.name"
+    }
+  ]
+}
+{% endschema %}

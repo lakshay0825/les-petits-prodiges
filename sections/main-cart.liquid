@@ -1,0 +1,97 @@
+{% render 'section-spacing' %}
+
+<section class="main-cart section-pad" data-section="main-cart">
+  <h1>{{ 'cart.general.title' | t }}</h1>
+
+  {%- if cart.item_count == 0 -%}
+    <p>{{ 'cart.general.empty' | t }}</p>
+    <a class="btn btn--dark" href="{{ routes.all_products_collection_url }}">{{ 'general.continue_shopping' | t }}</a>
+  {%- else -%}
+    <form action="{{ routes.cart_url }}" method="post" id="cart">
+      <ul class="main-cart__lines">
+        {%- for item in cart.items -%}
+          <li class="cart-line">
+            {%- if item.image -%}
+              <a href="{{ item.url }}">
+                {{ item.image | image_url: width: 160 | image_tag: class: 'cart-line__img', width: 80, height: 96, loading: 'lazy', alt: item.product.title }}
+              </a>
+            {%- endif -%}
+            <div class="cart-line__info">
+              <div class="cart-line__top">
+                <p class="cart-line__name"><a href="{{ item.url }}">{{ item.product.title }}</a></p>
+                <p class="cart-line__price">{{ item.final_line_price | money }}</p>
+              </div>
+              <div class="cart-line__actions">
+                <label class="visually-hidden" for="updates-{{ item.key }}">{{ 'products.product.quantity.label' | t }}</label>
+                <input id="updates-{{ item.key }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                <a href="{{ item.url_to_remove }}" class="cart-line__remove">{{ 'cart.general.remove' | t }}</a>
+              </div>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      <div class="main-cart__foot">
+        <p class="main-cart__subtotal">
+          {{ 'cart.general.subtotal' | t }}:
+          <strong>{{ cart.total_price | money }}</strong>
+        </p>
+        <button type="submit" name="update" class="btn btn--outline">{{ 'cart.general.update' | t }}</button>
+        <button type="submit" name="checkout" class="btn btn--dark">{{ 'cart.general.checkout' | t }}</button>
+      </div>
+    </form>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "Cart",
+  "class": "section-main-cart",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 64
+    }
+  ]
+}
+{% endschema %}

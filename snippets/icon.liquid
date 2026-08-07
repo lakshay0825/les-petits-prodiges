@@ -1,0 +1,37 @@
+{% comment %} Simple icon renderer — name maps to theme assets {% endcomment %}
+{%- liquid
+  assign icon_name = name | default: 'search'
+  assign icon_width = width | default: 24
+  assign icon_height = height | default: 24
+  assign icon_class = class | default: ''
+-%}
+{%- case icon_name -%}
+  {%- when 'search' -%}
+    <img class="{{ icon_class }}" src="{{ 'search.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'bag' -%}
+    <img class="{{ icon_class }}" src="{{ 'bag.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'user' -%}
+    <img class="{{ icon_class }}" src="{{ 'user.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'notification' -%}
+    <img class="{{ icon_class }}" src="{{ 'notification.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'cart-close' -%}
+    <img class="{{ icon_class }}" src="{{ 'cart-close.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'cart-plus' -%}
+    <img class="{{ icon_class }}" src="{{ 'cart-plus.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'cart-tier-check' -%}
+    <img class="{{ icon_class }}" src="{{ 'cart-tier-check.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'star' -%}
+    <img class="{{ icon_class }}" src="{{ 'star.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'star-sm' -%}
+    <img class="{{ icon_class }}" src="{{ 'star-sm.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'package' -%}
+    <img class="{{ icon_class }}" src="{{ 'package.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'diagnostic-arrow' -%}
+    <img class="{{ icon_class }}" src="{{ 'diagnostic-arrow.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- when 'stars-row' -%}
+    <img class="{{ icon_class }}" src="{{ 'stars-row.svg' | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+  {%- else -%}
+    {%- if custom_asset != blank -%}
+      <img class="{{ icon_class }}" src="{{ custom_asset | asset_url }}" alt="" width="{{ icon_width }}" height="{{ icon_height }}" loading="lazy">
+    {%- endif -%}
+{%- endcase -%}

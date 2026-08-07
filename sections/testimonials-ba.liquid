@@ -1,0 +1,231 @@
+{% render 'section-spacing' %}
+
+<section class="efficacy section-pad" data-section="testimonials-ba">
+  <div class="efficacy__inner">
+    {%- if section.settings.heading != blank -%}
+      <h2>{{ section.settings.heading }}</h2>
+    {%- endif -%}
+    {%- if section.settings.proof_text != blank -%}
+      <div class="efficacy__proof">
+        {% render 'icon', name: 'stars-row', width: 78, height: 14 %}
+        <span>{{ section.settings.proof_text }}</span>
+      </div>
+    {%- endif -%}
+
+    <div class="swiper efficacy-swiper">
+      <div class="swiper-wrapper">
+        {%- for block in section.blocks -%}
+          {%- if block.type == 'ba_card' -%}
+            <article class="ba-card swiper-slide" {{ block.shopify_attributes }}>
+              <div class="ba-card__images">
+                <figure>
+                  <figcaption>{{ block.settings.before_label | default: 'Avant' }}</figcaption>
+                  {%- if block.settings.before_image != blank -%}
+                    {{ block.settings.before_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.before_label | default: 'Avant' }}
+                  {%- endif -%}
+                </figure>
+                <figure>
+                  <figcaption>{{ block.settings.after_label | default: 'Après' }}</figcaption>
+                  {%- if block.settings.after_image != blank -%}
+                    {{ block.settings.after_image | image_url: width: 600 | image_tag: loading: 'lazy', alt: block.settings.after_label | default: 'Après' }}
+                  {%- endif -%}
+                </figure>
+              </div>
+              <div class="ba-card__footer">
+                {%- if block.settings.product_image != blank -%}
+                  {{ block.settings.product_image | image_url: width: 160 | image_tag: class: 'ba-card__pack', loading: 'lazy', alt: '' }}
+                {%- elsif block.settings.product != blank and block.settings.product.featured_media -%}
+                  {{ block.settings.product.featured_media | image_url: width: 160 | image_tag: class: 'ba-card__pack', loading: 'lazy', alt: '' }}
+                {%- endif -%}
+                <div class="ba-card__body">
+                  <div class="ba-card__meta">
+                    {%- if block.settings.rating != blank -%}
+                      <span class="rating">
+                        {% render 'icon', name: 'star-sm', width: 16, height: 16 %}
+                        {{ block.settings.rating }}
+                      </span>
+                    {%- endif -%}
+                    {%- if block.settings.product != blank -%}
+                      <a href="{{ block.settings.product.url }}">{{ block.settings.cta_label | default: 'Découvrir' }}</a>
+                    {%- elsif block.settings.product_link != blank -%}
+                      <a href="{{ block.settings.product_link }}">{{ block.settings.cta_label | default: 'Découvrir' }}</a>
+                    {%- endif -%}
+                  </div>
+                  {%- if block.settings.name != blank -%}
+                    <p class="ba-card__name">{{ block.settings.name }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.quote != blank -%}
+                    <p class="ba-card__quote">{{ block.settings.quote }}</p>
+                  {%- endif -%}
+                </div>
+              </div>
+            </article>
+          {%- endif -%}
+        {%- endfor -%}
+      </div>
+    </div>
+    <div class="carousel-dots efficacy-pagination"></div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.testimonials-ba.name",
+  "tag": "section",
+  "class": "section-testimonials-ba",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.testimonials-ba.settings.heading.label",
+      "default": "t:sections.testimonials-ba.settings.heading.default"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "proof_text",
+      "label": "t:sections.testimonials-ba.settings.proof_html.label",
+      "default": "t:sections.testimonials-ba.settings.proof_html.default"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "ba_card",
+      "name": "t:sections.testimonials-ba.blocks.ba_card.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "before_image",
+          "label": "Before image"
+        },
+        {
+          "type": "image_picker",
+          "id": "after_image",
+          "label": "After image"
+        },
+        {
+          "type": "text",
+          "id": "before_label",
+          "label": "t:sections.testimonials-ba.blocks.ba_card.settings.before_label.label",
+          "default": "t:sections.testimonials-ba.blocks.ba_card.settings.before_label.default"
+        },
+        {
+          "type": "text",
+          "id": "after_label",
+          "label": "t:sections.testimonials-ba.blocks.ba_card.settings.after_label.label",
+          "default": "t:sections.testimonials-ba.blocks.ba_card.settings.after_label.default"
+        },
+        {
+          "type": "image_picker",
+          "id": "product_image",
+          "label": "Product packshot"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Linked product"
+        },
+        {
+          "type": "url",
+          "id": "product_link",
+          "label": "Product link (fallback)"
+        },
+        {
+          "type": "text",
+          "id": "cta_label",
+          "label": "t:sections.testimonials-ba.blocks.ba_card.settings.cta_label.label",
+          "default": "t:sections.testimonials-ba.blocks.ba_card.settings.cta_label.default"
+        },
+        {
+          "type": "text",
+          "id": "rating",
+          "label": "t:sections.testimonials-ba.blocks.ba_card.settings.rating.label",
+          "default": "t:sections.testimonials-ba.blocks.ba_card.settings.rating.default"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "t:sections.testimonials-ba.blocks.ba_card.settings.name.label",
+          "default": "t:sections.testimonials-ba.blocks.ba_card.settings.name.default"
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "t:sections.testimonials-ba.blocks.ba_card.settings.quote.label",
+          "default": "t:sections.testimonials-ba.blocks.ba_card.settings.quote.default"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.testimonials-ba.name",
+      "blocks": [
+        {
+          "type": "ba_card",
+          "settings": {
+            "name": "Louise"
+          }
+        },
+        {
+          "type": "ba_card",
+          "settings": {
+            "name": "Camille",
+            "quote": "Texture légère, résultats visibles — je recommande sans hésiter"
+          }
+        },
+        {
+          "type": "ba_card",
+          "settings": {
+            "name": "Inès",
+            "quote": "Enfin une routine simple qui respecte ma peau sensible"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

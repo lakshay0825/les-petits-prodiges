@@ -1,0 +1,28 @@
+{
+  "current": {
+    "color_cream": "#FCF6ED",
+    "color_white": "#FFFFFF",
+    "color_ink": "#0D0D0D",
+    "color_ink_soft": "#353535",
+    "color_announcement_bg": "#FCF6ED",
+    "color_announcement_text": "#0D0D0D",
+    "page_width": 1512,
+    "cart_drawer_enabled": true,
+    "cart_type": "drawer",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {}
+      },
+      "header": {
+        "type": "header",
+        "settings": {}
+      },
+      "footer": {
+        "type": "footer",
+        "settings": {}
+      }
+    },
+    "content_for_index": []
+  }
+}

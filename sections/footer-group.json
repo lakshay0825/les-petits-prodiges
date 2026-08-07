@@ -1,0 +1,51 @@
+{
+  "type": "footer",
+  "name": "Footer group",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "blocks": {
+        "social_instagram": {
+          "type": "social_hit",
+          "settings": {
+            "network": "instagram",
+            "left": 8,
+            "width": 22
+          }
+        },
+        "social_facebook": {
+          "type": "social_hit",
+          "settings": {
+            "network": "facebook",
+            "left": 32,
+            "width": 22
+          }
+        },
+        "social_youtube": {
+          "type": "social_hit",
+          "settings": {
+            "network": "youtube",
+            "left": 56,
+            "width": 22
+          }
+        },
+        "social_tiktok": {
+          "type": "social_hit",
+          "settings": {
+            "network": "tiktok",
+            "left": 78,
+            "width": 22
+          }
+        }
+      },
+      "block_order": [
+        "social_instagram",
+        "social_facebook",
+        "social_youtube",
+        "social_tiktok"
+      ],
+      "settings": {}
+    }
+  },
+  "order": ["footer"]
+}

@@ -1,0 +1,143 @@
+{% render 'section-spacing' %}
+
+<section class="banner-cta section-pad" id="{{ section.settings.anchor_id | default: 'diagnostic' }}" data-section="image-banner">
+  <picture>
+    {%- if section.settings.image_desktop != blank -%}
+      <source media="(min-width: 990px)" srcset="{{ section.settings.image_desktop | image_url: width: 2000 }}">
+    {%- endif -%}
+    {%- if section.settings.image_mobile != blank -%}
+      {{
+        section.settings.image_mobile
+        | image_url: width: 1200
+        | image_tag:
+          class: 'banner-cta__bg',
+          widths: '402,800,1200',
+          sizes: '100vw',
+          alt: section.settings.heading,
+          loading: 'lazy'
+      }}
+    {%- elsif section.settings.image_desktop != blank -%}
+      {{
+        section.settings.image_desktop
+        | image_url: width: 2000
+        | image_tag:
+          class: 'banner-cta__bg',
+          widths: '800,1200,1512,2000',
+          sizes: '100vw',
+          alt: section.settings.heading,
+          loading: 'lazy'
+      }}
+    {%- endif -%}
+  </picture>
+  <div class="banner-cta__content">
+    {%- if section.settings.heading != blank -%}
+      <h2>{{ section.settings.heading | newline_to_br }}</h2>
+    {%- endif -%}
+    {%- if section.settings.text != blank -%}
+      <p class="desktop-only">{{ section.settings.text }}</p>
+    {%- endif -%}
+    {%- if section.settings.button_label != blank -%}
+      <a class="btn btn--solid-light banner-cta__btn" href="{{ section.settings.button_link }}">
+        {{ section.settings.button_label }}
+      </a>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.banner-cta.name",
+  "tag": "section",
+  "class": "section-banner-cta",
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Section ID",
+      "default": "diagnostic"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Image (mobile)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_desktop",
+      "label": "Image (desktop)"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "t:sections.banner-cta.settings.heading.label",
+      "default": "t:sections.banner-cta.settings.heading.default"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "t:sections.banner-cta.settings.text.label",
+      "default": "t:sections.banner-cta.settings.text.default"
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "t:sections.banner-cta.settings.button_label.label",
+      "default": "t:sections.banner-cta.settings.button_label.default"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.banner-cta.name"
+    }
+  ]
+}
+{% endschema %}

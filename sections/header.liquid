@@ -1,0 +1,611 @@
+{% liquid
+  assign main_menu = section.settings.menu
+  assign mega_menu_handle = section.settings.mega_menu
+  assign bestsellers_menu = section.settings.bestsellers_menu
+  assign about_menu = section.settings.about_menu
+  assign mobile_menu = section.settings.mobile_menu
+  assign mobile_footer_menu = section.settings.mobile_footer_menu
+%}
+
+<header class="site-header" data-section="header">
+  <div class="header-inner">
+    <div class="header-left">
+      <button class="header-menu-btn" type="button" aria-label="{{ 'accessibility.open_menu' | t }}" data-menu-open>
+        <span></span><span></span><span></span>
+      </button>
+      <button type="button" class="icon-btn icon-search mobile-only" aria-label="{{ 'general.search.search' | t }}" data-search-open>
+        {% render 'icon', name: 'search', width: 20, height: 20 %}
+      </button>
+    </div>
+
+    <a class="header-logo" href="{{ routes.root_url }}">
+      {%- if section.settings.logo_light != blank -%}
+        {{
+          section.settings.logo_light
+          | image_url: width: 470
+          | image_tag:
+            class: 'header-logo__light',
+            widths: '235,470',
+            height: section.settings.logo_height,
+            alt: shop.name,
+            loading: 'eager'
+        }}
+      {%- else -%}
+        <span class="header-logo__light header-logo__text">{{ shop.name }}</span>
+      {%- endif -%}
+      {%- if section.settings.logo_dark != blank -%}
+        {{
+          section.settings.logo_dark
+          | image_url: width: 470
+          | image_tag:
+            class: 'header-logo__dark',
+            widths: '235,470',
+            height: section.settings.logo_height,
+            alt: '',
+            loading: 'eager'
+        }}
+      {%- endif -%}
+    </a>
+
+    <nav class="header-nav" aria-label="{{ 'accessibility.main_navigation' | t }}">
+      {%- if main_menu != blank -%}
+        {%- for link in linklists[main_menu].links -%}
+          {%- liquid
+            assign is_mega = false
+            assign is_simple = false
+            if mega_menu_handle != blank and link.handle == mega_menu_handle or link.title == section.settings.mega_menu_label
+              assign is_mega = true
+            endif
+            if link.links != blank and is_mega == false
+              assign is_simple = true
+            endif
+            if section.settings.bestsellers_label != blank and link.title == section.settings.bestsellers_label
+              assign is_simple = true
+            endif
+            if section.settings.about_label != blank and link.title == section.settings.about_label
+              assign is_simple = true
+            endif
+          -%}
+
+          {%- if is_mega -%}
+            <div class="nav-item nav-item--mega" data-nav-item data-nav-type="mega">
+              <button
+                type="button"
+                class="nav-link nav-item__trigger"
+                aria-expanded="false"
+                aria-controls="mega-{{ section.id }}"
+                data-nav-trigger
+              >
+                {{ link.title | escape }}
+              </button>
+              <div class="mega-menu" id="mega-{{ section.id }}" data-nav-panel hidden>
+                <div class="mega-menu__inner">
+                  <div class="mega-menu__cols">
+                    {%- if section.settings.mega_col_1 != blank -%}
+                      <div class="mega-col">
+                        {%- if section.settings.mega_col_1_title != blank -%}
+                          <h3 class="mega-col__title">{{ section.settings.mega_col_1_title }}</h3>
+                        {%- endif -%}
+                        <ul class="mega-col__list">
+                          {%- for child in linklists[section.settings.mega_col_1].links -%}
+                            <li>
+                              <a href="{{ child.url }}">
+                                {{ child.title | escape }}
+                                {%- if child.title contains 'NEW' or child.object.tags contains 'new' -%}
+                                  <span class="mega-col__new">NEW</span>
+                                {%- endif -%}
+                              </a>
+                            </li>
+                          {%- endfor -%}
+                        </ul>
+                        {%- if section.settings.mega_see_all_label != blank -%}
+                          <a class="mega-col__see-all" href="{{ section.settings.mega_see_all_link | default: link.url }}">
+                            {{ section.settings.mega_see_all_label }}
+                          </a>
+                        {%- endif -%}
+                      </div>
+                    {%- endif -%}
+                    {%- if section.settings.mega_col_2 != blank -%}
+                      <div class="mega-col">
+                        {%- if section.settings.mega_col_2_title != blank -%}
+                          <h3 class="mega-col__title">{{ section.settings.mega_col_2_title }}</h3>
+                        {%- endif -%}
+                        <ul class="mega-col__list">
+                          {%- for child in linklists[section.settings.mega_col_2].links -%}
+                            <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- endif -%}
+                    {%- if section.settings.mega_col_3 != blank -%}
+                      <div class="mega-col">
+                        {%- if section.settings.mega_col_3_title != blank -%}
+                          <h3 class="mega-col__title">{{ section.settings.mega_col_3_title }}</h3>
+                        {%- endif -%}
+                        <ul class="mega-col__list">
+                          {%- for child in linklists[section.settings.mega_col_3].links -%}
+                            <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                          {%- endfor -%}
+                        </ul>
+                      </div>
+                    {%- elsif link.links != blank and section.settings.mega_col_1 == blank -%}
+                      {%- for child in link.links -%}
+                        <div class="mega-col">
+                          <h3 class="mega-col__title">{{ child.title | escape }}</h3>
+                          {%- if child.links != blank -%}
+                            <ul class="mega-col__list">
+                              {%- for grandchild in child.links -%}
+                                <li><a href="{{ grandchild.url }}">{{ grandchild.title | escape }}</a></li>
+                              {%- endfor -%}
+                            </ul>
+                          {%- endif -%}
+                        </div>
+                      {%- endfor -%}
+                    {%- endif -%}
+                  </div>
+
+                  {%- assign promo_blocks = section.blocks | where: 'type', 'mega_promo' -%}
+                  {%- if promo_blocks.size > 0 -%}
+                    <div class="mega-menu__promos">
+                      {%- for block in promo_blocks -%}
+                        <a class="mega-promo" href="{{ block.settings.link | default: '#' }}" {{ block.shopify_attributes }}>
+                          {%- if block.settings.image != blank -%}
+                            {{
+                              block.settings.image
+                              | image_url: width: 600
+                              | image_tag: loading: 'lazy', widths: '300,450,600', alt: block.settings.title
+                            }}
+                          {%- endif -%}
+                          <span class="mega-promo__content">
+                            {%- if block.settings.title != blank -%}
+                              <span class="mega-promo__title">{{ block.settings.title }}</span>
+                            {%- endif -%}
+                            {%- if block.settings.cta != blank -%}
+                              <span class="mega-promo__cta">{{ block.settings.cta }}</span>
+                            {%- endif -%}
+                          </span>
+                        </a>
+                      {%- endfor -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+
+          {%- elsif is_simple or link.links != blank -%}
+            <div class="nav-item nav-item--simple" data-nav-item data-nav-type="simple">
+              <button
+                type="button"
+                class="nav-link nav-item__trigger"
+                aria-expanded="false"
+                aria-controls="submenu-{{ section.id }}-{{ forloop.index }}"
+                data-nav-trigger
+              >
+                {{ link.title | escape }}
+              </button>
+              <ul class="simple-menu" id="submenu-{{ section.id }}-{{ forloop.index }}" data-nav-panel hidden>
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}">{{ child.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+
+          {%- else -%}
+            <a class="nav-link" href="{{ link.url }}">{{ link.title | escape }}</a>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </nav>
+
+    <div class="header-icons">
+      {%- if section.settings.show_notify -%}
+        <button type="button" class="icon-btn icon-notify" aria-label="{{ 'accessibility.notifications' | t }}">
+          {% render 'icon', name: 'notification', width: 20, height: 22 %}
+          {%- if section.settings.notify_badge != blank -%}
+            <span class="badge">{{ section.settings.notify_badge }}</span>
+          {%- endif -%}
+        </button>
+      {%- endif -%}
+      <button type="button" class="icon-btn icon-search desktop-only" aria-label="{{ 'general.search.search' | t }}" data-search-open>
+        {% render 'icon', name: 'search', width: 26, height: 26 %}
+      </button>
+      <a href="{{ routes.account_url }}" class="icon-btn icon-account" aria-label="{{ 'customer.account.title' | t }}">
+        {% render 'icon', name: 'user', width: 26, height: 26 %}
+      </a>
+      <button type="button" class="icon-btn icon-cart" aria-label="{{ 'cart.general.title' | t }}" data-cart-open>
+        {% render 'icon', name: 'bag', width: 26, height: 26 %}
+        {%- if cart.item_count > 0 -%}
+          <span class="badge">{{ cart.item_count }}</span>
+        {%- endif -%}
+      </button>
+    </div>
+  </div>
+</header>
+
+<div class="nav-backdrop" data-nav-backdrop hidden></div>
+
+{%- comment -%} Mobile nav drawer {%- endcomment -%}
+<div class="mobile-nav" data-mobile-nav hidden>
+  <aside class="mobile-nav__panel" role="dialog" aria-modal="true" aria-label="{{ 'accessibility.menu' | t }}">
+    <div class="mobile-nav__subhead" data-menu-subhead hidden>
+      <button type="button" class="mobile-nav__back" data-menu-back aria-label="{{ 'accessibility.back' | t }}">
+        <svg class="mobile-nav__back-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span data-menu-back-label>{{ 'accessibility.back' | t }}</span>
+      </button>
+      <p class="mobile-nav__title" data-menu-title>{{ 'accessibility.menu' | t }}</p>
+    </div>
+
+    <div class="mobile-nav__viewport">
+      <nav class="mobile-nav__level is-active" data-menu-level="root" aria-label="{{ 'accessibility.main_navigation' | t }}">
+        {%- if section.settings.bestsellers_collection != blank -%}
+          {%- assign bs_collection = collections[section.settings.bestsellers_collection] -%}
+          {%- if bs_collection != blank and bs_collection.products_count > 0 -%}
+            <div class="mobile-nav__bestsellers">
+              <div class="mobile-nav__bestsellers-head">
+                <p class="mobile-nav__bestsellers-title">{{ section.settings.bestsellers_heading | default: 'Best-Sellers' }}</p>
+                <a class="mobile-nav__bestsellers-all" href="{{ bs_collection.url }}" data-menu-link>
+                  {{ section.settings.bestsellers_see_all | default: 'Voir tout' }}
+                </a>
+              </div>
+              <div class="mobile-nav__bestsellers-track">
+                {%- for product in bs_collection.products limit: section.settings.bestsellers_limit -%}
+                  <a class="mobile-nav__bs-card" href="{{ product.url }}" data-menu-link>
+                    {%- if product.featured_media -%}
+                      {{ product.featured_media | image_url: width: 230 | image_tag: width: 115, height: 127, loading: 'lazy', alt: product.title }}
+                    {%- endif -%}
+                    <span>{{ product.title }}</span>
+                  </a>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- endif -%}
+        {%- endif -%}
+
+        {%- assign mob_menu = mobile_menu | default: main_menu -%}
+        {%- if mob_menu != blank -%}
+          <ul class="mobile-nav__list">
+            {%- for link in linklists[mob_menu].links -%}
+              {%- if link.links != blank -%}
+                <li>
+                  <button type="button" class="mobile-nav__drill" data-menu-goto="m-{{ section.id }}-{{ forloop.index }}">
+                    {{ link.title | escape }}
+                    <span class="mobile-nav__chev" aria-hidden="true"></span>
+                  </button>
+                </li>
+              {%- else -%}
+                <li><a href="{{ link.url }}" data-menu-link>{{ link.title | escape }}</a></li>
+              {%- endif -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+
+        {%- if section.settings.diagnostic_label != blank -%}
+          <a class="mobile-nav__diagnostic" href="{{ section.settings.diagnostic_link | default: '#diagnostic' }}" data-menu-link>
+            {{ section.settings.diagnostic_label }}
+          </a>
+        {%- endif -%}
+
+        <div class="mobile-nav__footer">
+          {%- if mobile_footer_menu != blank -%}
+            <div class="mobile-nav__footer-cols">
+              {%- assign footer_links = linklists[mobile_footer_menu].links -%}
+              {%- assign half = footer_links.size | plus: 1 | divided_by: 2 -%}
+              <ul>
+                {%- for link in footer_links limit: half -%}
+                  <li><a href="{{ link.url }}" data-menu-link>{{ link.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+              <ul>
+                {%- for link in footer_links offset: half -%}
+                  <li><a href="{{ link.url }}" data-menu-link>{{ link.title | escape }}</a></li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+          <div class="mobile-nav__footer-bottom">
+            {%- if section.settings.mobile_social_image != blank -%}
+              {{
+                section.settings.mobile_social_image
+                | image_url: width: 274
+                | image_tag: class: 'mobile-nav__social', width: 137, height: 40, loading: 'lazy', alt: ''
+              }}
+            {%- endif -%}
+            {% render 'localization-form',
+              id: 'mobile-nav',
+              class: 'mobile-nav__locale',
+              enable_country: section.settings.enable_country_selector,
+              enable_language: section.settings.enable_language_selector
+            %}
+          </div>
+        </div>
+      </nav>
+
+      {%- if mob_menu != blank -%}
+        {%- for link in linklists[mob_menu].links -%}
+          {%- if link.links != blank -%}
+            <nav
+              class="mobile-nav__level"
+              data-menu-level="m-{{ section.id }}-{{ forloop.index }}"
+              data-menu-parent="root"
+              data-menu-label="{{ link.title | escape }}"
+              hidden
+            >
+              <ul class="mobile-nav__list">
+                {%- for child in link.links -%}
+                  <li><a href="{{ child.url }}" data-menu-link>{{ child.title | escape }}</a></li>
+                {%- endfor -%}
+                <li><a class="mobile-nav__see-all" href="{{ link.url }}" data-menu-link>{{ 'general.pagination.see_all' | t }}</a></li>
+              </ul>
+            </nav>
+          {%- endif -%}
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </aside>
+</div>
+
+{% schema %}
+{
+  "name": "t:sections.header.name",
+  "class": "section-header",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_light",
+      "label": "Logo (light / on dark hero)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_dark",
+      "label": "Logo (dark / scrolled)"
+    },
+    {
+      "type": "range",
+      "id": "logo_height",
+      "min": 16,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "label": "Logo height",
+      "default": 26
+    },
+    {
+      "type": "header",
+      "content": "Menus"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "Main menu",
+      "default": "main-menu"
+    },
+    {
+      "type": "text",
+      "id": "mega_menu_label",
+      "label": "t:sections.header.settings.mega_trigger_label.label",
+      "default": "t:sections.header.settings.mega_trigger_label.default",
+      "info": "Match this to a top-level menu item title to open the mega panel"
+    },
+    {
+      "type": "text",
+      "id": "mega_menu",
+      "label": "Mega menu handle (optional)",
+      "info": "Optional link handle override"
+    },
+    {
+      "type": "text",
+      "id": "mega_col_1_title",
+      "label": "t:sections.header.settings.mega_col_1_title.label",
+      "default": "t:sections.header.settings.mega_col_1_title.default"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_col_1",
+      "label": "Mega column 1 menu"
+    },
+    {
+      "type": "text",
+      "id": "mega_col_2_title",
+      "label": "t:sections.header.settings.mega_col_2_title.label",
+      "default": "t:sections.header.settings.mega_col_2_title.default"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_col_2",
+      "label": "Mega column 2 menu"
+    },
+    {
+      "type": "text",
+      "id": "mega_col_3_title",
+      "label": "t:sections.header.settings.mega_col_3_title.label",
+      "default": "t:sections.header.settings.mega_col_3_title.default"
+    },
+    {
+      "type": "link_list",
+      "id": "mega_col_3",
+      "label": "Mega column 3 menu"
+    },
+    {
+      "type": "text",
+      "id": "mega_see_all_label",
+      "label": "t:sections.header.settings.mega_see_all.label",
+      "default": "t:sections.header.settings.mega_see_all.default"
+    },
+    {
+      "type": "url",
+      "id": "mega_see_all_link",
+      "label": "Mega see all link"
+    },
+    {
+      "type": "text",
+      "id": "bestsellers_label",
+      "label": "t:sections.header.settings.bestsellers_label.label",
+      "default": "t:sections.header.settings.bestsellers_label.default"
+    },
+    {
+      "type": "link_list",
+      "id": "bestsellers_menu",
+      "label": "Bestsellers submenu (optional)"
+    },
+    {
+      "type": "text",
+      "id": "about_label",
+      "label": "t:sections.header.settings.about_label.label",
+      "default": "t:sections.header.settings.about_label.default"
+    },
+    {
+      "type": "link_list",
+      "id": "about_menu",
+      "label": "About submenu (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Mobile"
+    },
+    {
+      "type": "link_list",
+      "id": "mobile_menu",
+      "label": "Mobile menu",
+      "info": "Falls back to main menu if empty"
+    },
+    {
+      "type": "link_list",
+      "id": "mobile_footer_menu",
+      "label": "Mobile menu footer links"
+    },
+    {
+      "type": "collection",
+      "id": "bestsellers_collection",
+      "label": "Mobile bestsellers collection"
+    },
+    {
+      "type": "text",
+      "id": "bestsellers_heading",
+      "label": "t:sections.header.settings.bestsellers_heading.label",
+      "default": "t:sections.header.settings.bestsellers_heading.default"
+    },
+    {
+      "type": "text",
+      "id": "bestsellers_see_all",
+      "label": "t:sections.header.settings.bestsellers_see_all.label",
+      "default": "t:sections.header.settings.bestsellers_see_all.default"
+    },
+    {
+      "type": "range",
+      "id": "bestsellers_limit",
+      "min": 2,
+      "max": 8,
+      "step": 1,
+      "label": "Bestsellers product limit",
+      "default": 3
+    },
+    {
+      "type": "image_picker",
+      "id": "mobile_social_image",
+      "label": "Mobile social icons image"
+    },
+    {
+      "type": "text",
+      "id": "diagnostic_label",
+      "label": "t:sections.header.settings.diagnostic_label.label",
+      "default": "t:sections.header.settings.diagnostic_label.default"
+    },
+    {
+      "type": "url",
+      "id": "diagnostic_link",
+      "label": "Diagnostic CTA link"
+    },
+    {
+      "type": "header",
+      "content": "Language & country"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_country_selector",
+      "label": "Show country / currency selector",
+      "default": true,
+      "info": "Uses Shopify Markets. Hidden automatically when only one country is available."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_language_selector",
+      "label": "Show language selector",
+      "default": true,
+      "info": "Uses Shopify Markets. Hidden automatically when only one language is available."
+    },
+    {
+      "type": "header",
+      "content": "Icons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_notify",
+      "label": "Show notifications icon",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "notify_badge",
+      "label": "Notification badge"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "mega_promo",
+      "name": "t:sections.header.blocks.promo.name",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.header.blocks.promo.settings.title.label",
+          "default": "t:sections.header.blocks.promo.settings.title.default"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "t:sections.header.blocks.promo.settings.cta.label",
+          "default": "t:sections.header.blocks.promo.settings.cta.default"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header",
+      "blocks": [
+        {
+          "type": "mega_promo",
+          "settings": {
+            "title": "Nouveautés",
+            "cta": "Je découvre"
+          }
+        },
+        {
+          "type": "mega_promo",
+          "settings": {
+            "title": "Nouveautés",
+            "cta": "Je découvre"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

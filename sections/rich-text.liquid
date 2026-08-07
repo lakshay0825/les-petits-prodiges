@@ -1,0 +1,109 @@
+{% render 'section-spacing' %}
+
+<section class="brand-text section-pad" data-section="rich-text" data-brand-text>
+  {%- if section.settings.heading != blank -%}
+    <h2>{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  <div class="brand-text__body">
+    {%- if section.settings.body != blank -%}
+      {{ section.settings.body }}
+    {%- endif -%}
+    {%- if section.settings.body_extra != blank -%}
+      <div class="brand-text__extra">{{ section.settings.body_extra }}</div>
+    {%- endif -%}
+  </div>
+  {%- if section.settings.show_read_more -%}
+    <button type="button" class="link-underline" data-read-more aria-expanded="false">
+      {{ section.settings.read_more_label | default: 'Lire plus' }}
+    </button>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.rich-text.name",
+  "tag": "section",
+  "class": "section-rich-text",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "t:sections.rich-text.settings.heading.label",
+      "default": "t:sections.rich-text.settings.heading.default"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "t:sections.rich-text.settings.text.label",
+      "default": "t:sections.rich-text.settings.text.default"
+    },
+    {
+      "type": "richtext",
+      "id": "body_extra",
+      "label": "t:sections.rich-text.settings.text_more.label",
+      "default": "t:sections.rich-text.settings.text_more.default"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_read_more",
+      "label": "Show read more toggle",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "t:sections.rich-text.settings.read_more_label.label",
+      "default": "t:sections.rich-text.settings.read_more_label.default"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.rich-text.name"
+    }
+  ]
+}
+{% endschema %}

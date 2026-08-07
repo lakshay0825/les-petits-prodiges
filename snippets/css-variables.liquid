@@ -1,0 +1,24 @@
+{% style %}
+  :root {
+    --cream: {{ settings.color_cream }};
+    --white: {{ settings.color_white }};
+    --ink: {{ settings.color_ink }};
+    --ink-soft: {{ settings.color_ink_soft }};
+    --max: {{ settings.page_width }}px;
+    --pad-m: clamp(16px, 4.5vw, 22px);
+    --pad-d: clamp(28px, 4.5vw, 64px);
+    --font-body: {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    --font-display: "PP Palma", {{ settings.font_body.family }}, {{ settings.font_body.fallback_families }};
+    --header-h: 56px;
+  }
+
+  @font-face {
+    font-family: "PP Palma";
+    src: url("{{ 'PPPalma-FizzyMedium.otf' | asset_url }}") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+  }
+
+  {{ settings.font_body | font_face: font_display: 'swap' }}
+{% endstyle %}

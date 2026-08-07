@@ -1,0 +1,185 @@
+{% render 'section-spacing' %}
+
+<section class="press section-pad" data-section="press">
+  {%- if section.settings.quote != blank -%}
+    <blockquote class="press__quote">{{ section.settings.quote }}</blockquote>
+  {%- endif -%}
+  <div class="press__logos">
+    {%- assign logo_blocks = section.blocks | where: 'type', 'logo' -%}
+    {%- if logo_blocks.size > 0 -%}
+      {%- for block in logo_blocks -%}
+        <div class="press__logo{% if block.settings.modifier != blank %} press__logo--{{ block.settings.modifier }}{% endif %}" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{
+              block.settings.image
+              | image_url: width: 400
+              | image_tag:
+                loading: 'lazy',
+                widths: '150,250,400',
+                alt: block.settings.alt
+            }}
+          {%- endif -%}
+        </div>
+      {%- endfor -%}
+    {%- else -%}
+      {%- if section.settings.logo_1 != blank -%}
+        <div class="press__logo press__logo--elle">
+          {{ section.settings.logo_1 | image_url: width: 346 | image_tag: width: 173, height: 131, loading: 'lazy', alt: section.settings.logo_1_alt }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.logo_2 != blank -%}
+        <div class="press__logo press__logo--figaro">
+          {{ section.settings.logo_2 | image_url: width: 446 | image_tag: width: 223, height: 131, loading: 'lazy', alt: section.settings.logo_2_alt }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.logo_3 != blank -%}
+        <div class="press__logo press__logo--grazia">
+          {{ section.settings.logo_3 | image_url: width: 374 | image_tag: width: 187, height: 131, loading: 'lazy', alt: section.settings.logo_3_alt }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.logo_4 != blank -%}
+        <div class="press__logo press__logo--lemonde">
+          {{ section.settings.logo_4 | image_url: width: 456 | image_tag: width: 228, height: 131, loading: 'lazy', alt: section.settings.logo_4_alt }}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.press.name",
+  "tag": "section",
+  "class": "section-press",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "quote",
+      "label": "t:sections.press.settings.quote.label",
+      "default": "t:sections.press.settings.quote.default"
+    },
+    {
+      "type": "header",
+      "content": "Logos (or use blocks)"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_1",
+      "label": "Logo 1"
+    },
+    {
+      "type": "text",
+      "id": "logo_1_alt",
+      "label": "Logo 1 alt",
+      "default": "ELLE"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_2",
+      "label": "Logo 2"
+    },
+    {
+      "type": "text",
+      "id": "logo_2_alt",
+      "label": "Logo 2 alt",
+      "default": "madame FIGARO"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_3",
+      "label": "Logo 3"
+    },
+    {
+      "type": "text",
+      "id": "logo_3_alt",
+      "label": "Logo 3 alt",
+      "default": "GRAZIA"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo_4",
+      "label": "Logo 4"
+    },
+    {
+      "type": "text",
+      "id": "logo_4_alt",
+      "label": "Logo 4 alt",
+      "default": "Le Monde"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 64
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 64
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "limit": 8,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "alt",
+          "label": "Alt text"
+        },
+        {
+          "type": "text",
+          "id": "modifier",
+          "label": "CSS modifier",
+          "info": "e.g. elle, figaro, grazia, lemonde"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.press.name"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,123 @@
+{%- comment -%}
+  Dynamic country/currency + language selectors (Shopify Markets).
+  Usage:
+    {% render 'localization-form', id: 'footer', class: 'footer-locale' %}
+{%- endcomment -%}
+
+{%- liquid
+  assign form_id = id | default: 'localization'
+  assign wrapper_class = class | default: 'footer-locale'
+  assign country_form_id = form_id | append: '-country'
+  assign locale_form_id = form_id | append: '-locale'
+  assign show_country = true
+  assign show_language = true
+  if enable_country == false
+    assign show_country = false
+  endif
+  if enable_language == false
+    assign show_language = false
+  endif
+
+  assign country_interactive = false
+  assign language_interactive = false
+  if localization.available_countries.size > 1
+    assign country_interactive = true
+  endif
+  if localization.available_languages.size > 1
+    assign language_interactive = true
+  endif
+
+  assign country_label = localization.country.iso_code | append: ' / ' | append: localization.country.currency.iso_code
+  assign language_label = localization.language.endonym_name
+-%}
+
+{%- if show_country or show_language -%}
+  <div class="{{ wrapper_class }} localization" data-localization>
+    {%- if show_country -%}
+      <div class="localization__picker{% unless country_interactive %} localization__picker--static{% endunless %}" data-localization-picker="country">
+        {%- if country_interactive -%}
+          {% form 'localization', id: country_form_id %}
+            <button
+              type="button"
+              class="localization__trigger"
+              aria-expanded="false"
+              aria-controls="{{ form_id }}-country-list"
+              aria-label="{{ 'general.localization.country_label' | t }}"
+              data-localization-trigger
+            >
+              <span data-localization-label>{{ country_label }}</span>
+            </button>
+            <ul
+              id="{{ form_id }}-country-list"
+              class="localization__list"
+              role="listbox"
+              hidden
+              data-localization-list
+            >
+              {%- for country in localization.available_countries -%}
+                <li role="option">
+                  <button
+                    type="submit"
+                    name="country_code"
+                    value="{{ country.iso_code }}"
+                    class="localization__option{% if country.iso_code == localization.country.iso_code %} is-selected{% endif %}"
+                    aria-selected="{% if country.iso_code == localization.country.iso_code %}true{% else %}false{% endif %}"
+                  >
+                    {{ country.iso_code }} / {{ country.currency.iso_code }}
+                    <span class="localization__option-name">{{ country.name }}</span>
+                  </button>
+                </li>
+              {%- endfor -%}
+            </ul>
+            <input type="hidden" name="locale_code" value="{{ localization.language.iso_code }}">
+          {% endform %}
+        {%- else -%}
+          <span class="localization__trigger localization__trigger--static">{{ country_label }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    {%- if show_language -%}
+      <div class="localization__picker{% unless language_interactive %} localization__picker--static{% endunless %}" data-localization-picker="locale">
+        {%- if language_interactive -%}
+          {% form 'localization', id: locale_form_id %}
+            <button
+              type="button"
+              class="localization__trigger"
+              aria-expanded="false"
+              aria-controls="{{ form_id }}-locale-list"
+              aria-label="{{ 'general.localization.language_label' | t }}"
+              data-localization-trigger
+            >
+              <span data-localization-label>{{ language_label }}</span>
+            </button>
+            <ul
+              id="{{ form_id }}-locale-list"
+              class="localization__list"
+              role="listbox"
+              hidden
+              data-localization-list
+            >
+              {%- for language in localization.available_languages -%}
+                <li role="option">
+                  <button
+                    type="submit"
+                    name="locale_code"
+                    value="{{ language.iso_code }}"
+                    class="localization__option{% if language.iso_code == localization.language.iso_code %} is-selected{% endif %}"
+                    aria-selected="{% if language.iso_code == localization.language.iso_code %}true{% else %}false{% endif %}"
+                  >
+                    {{ language.endonym_name }}
+                  </button>
+                </li>
+              {%- endfor -%}
+            </ul>
+            <input type="hidden" name="country_code" value="{{ localization.country.iso_code }}">
+          {% endform %}
+        {%- else -%}
+          <span class="localization__trigger localization__trigger--static">{{ language_label }}</span>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+{%- endif -%}

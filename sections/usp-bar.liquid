@@ -1,0 +1,131 @@
+{% render 'section-spacing' %}
+
+<section class="usp section-pad" data-section="usp-bar" id="{{ section.settings.anchor_id | default: 'usp' }}">
+  <div class="usp__track" data-carousel="usp">
+    {%- for block in section.blocks -%}
+      <article class="usp-item" {{ block.shopify_attributes }}>
+        {%- if block.settings.icon != blank -%}
+          {{
+            block.settings.icon
+            | image_url: width: 48
+            | image_tag: width: 24, height: 24, loading: 'lazy', alt: ''
+          }}
+        {%- else -%}
+          {% render 'icon', name: 'package', width: 24, height: 24 %}
+        {%- endif -%}
+        {%- if block.settings.title != blank -%}
+          <h3>{{ block.settings.title }}</h3>
+        {%- endif -%}
+        {%- if block.settings.text != blank -%}
+          <p>{{ block.settings.text }}</p>
+        {%- endif -%}
+      </article>
+    {%- endfor -%}
+  </div>
+  <div class="carousel-dots mobile-only" data-dots="usp">
+    {%- for block in section.blocks -%}
+      <button class="{% if forloop.first %}is-active{% endif %}" type="button" aria-label="USP {{ forloop.index }}"></button>
+    {%- endfor -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "t:sections.usp-bar.name",
+  "tag": "section",
+  "class": "section-usp-bar",
+  "settings": [
+    {
+      "type": "text",
+      "id": "anchor_id",
+      "label": "Section ID",
+      "default": "usp"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "padding_top_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_mobile",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (mobile)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_top_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding (desktop)",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom_desktop",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding (desktop)",
+      "default": 0
+    }
+  ],
+  "blocks": [
+    {
+      "type": "usp",
+      "name": "t:sections.usp-bar.blocks.usp.name",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "icon",
+          "label": "Icon"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "t:sections.usp-bar.blocks.usp.settings.title.label",
+          "default": "t:sections.usp-bar.blocks.usp.settings.title.default"
+        },
+        {
+          "type": "textarea",
+          "id": "text",
+          "label": "t:sections.usp-bar.blocks.usp.settings.text.label",
+          "default": "t:sections.usp-bar.blocks.usp.settings.text.default"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.usp-bar.name",
+      "blocks": [
+        {
+          "type": "usp"
+        },
+        {
+          "type": "usp"
+        },
+        {
+          "type": "usp"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

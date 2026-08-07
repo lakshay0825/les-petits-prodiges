@@ -6,7 +6,7 @@ Online Store 2.0 theme converted from `html-prototype/`, matching Figma mobile +
 
 ```
 theme/
-  assets/          # CSS, JS, fonts, icons, reference images
+  assets/          # CSS, JS, fonts, UI icons only (no content photos)
   config/          # Theme settings schema + data
   layout/          # theme.liquid, password.liquid
   locales/         # en.default.json, fr.json
@@ -16,6 +16,7 @@ theme/
   HARDCODED.md     # Justified non-editable elements
 ```
 
+Prototype / Figma reference images stay in `../html-prototype/` — upload the ones you need via the theme editor.
 ## Homepage sections (drag-and-drop in customizer)
 
 1. Hero (separate mobile/desktop media)
@@ -48,8 +49,12 @@ Each section exposes text, images/videos, links, colors where relevant, and **mo
    ```
 2. In **Online Store → Navigation**, create menus and assign them in the Header / Footer section settings.
 3. Assign a collection to **Featured collection** and a blog to **Journal**.
-4. Upload logos and section images in the theme editor.
+4. Upload logos and section images in the theme editor (images are **not** bundled in `assets/` — use each section’s image pickers).
 5. Re-check installed apps (reviews, loyalty, etc.) and re-add any theme app embeds / snippets listed by each app.
+
+### Theme size
+
+Shopify themes must stay under **50MB**. `assets/` only ships CSS, JS, fonts, and UI icons. Content photos live in the Files / theme editor CDN. `.shopifyignore` excludes `.git` and markdown from uploads.
 
 ## Breakpoints (Figma)
 

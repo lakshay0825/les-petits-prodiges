@@ -1,0 +1,6 @@
+# Keep Shopify theme uploads under the 50MB limit
+.git
+.gitignore
+.DS_Store
+*.md
+node_modules

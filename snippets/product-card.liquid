@@ -12,8 +12,14 @@
     assign tag_handle = tag | handle
     assign category_tokens = category_tokens | append: ' ' | append: tag_handle
   endfor
+  assign on_sale = false
+  assign sale_pct = 0
+  if current_variant.compare_at_price > current_variant.price
+    assign on_sale = true
+    assign sale_pct = current_variant.compare_at_price | minus: current_variant.price | times: 100.0 | divided_by: current_variant.compare_at_price | round
+  endif
 -%}
-<article class="product-card {{ card_class }}" data-category="{{ category_tokens | strip }}" {{ block.shopify_attributes }}>
+<article class="product-card{% if on_sale %} product-card--sale{% endif %} {{ card_class }}" data-category="{{ category_tokens | strip }}" {{ block.shopify_attributes }}>
   <a href="{{ card_product.url }}" class="product-card__media">
     {%- if card_product.metafields.reviews.rating.value != blank -%}
       <span class="product-card__rating">
@@ -21,7 +27,9 @@
         {{ card_product.metafields.reviews.rating.value }}{% if card_product.metafields.reviews.rating_count %}/5{% endif %}
       </span>
     {%- endif -%}
-    {%- if card_product.tags contains 'new' or card_product.tags contains 'NEW' or card_product.tags contains 'nouveauté' -%}
+    {%- if on_sale and sale_pct > 0 -%}
+      <span class="product-card__badge product-card__badge--sale">-{{ sale_pct }}%</span>
+    {%- elsif card_product.tags contains 'new' or card_product.tags contains 'NEW' or card_product.tags contains 'nouveauté' -%}
       <span class="product-card__badge">{{ 'products.product.new' | t }}</span>
     {%- endif -%}
     {%- if card_product.featured_media -%}
@@ -62,7 +70,8 @@
           {% unless current_variant.available %}disabled{% endunless %}
         >
           {%- if current_variant.available -%}
-            {{ 'products.product.add_to_cart' | t }}
+            <span class="product-card__cart-desk">{{ 'products.product.add_to_cart' | t }}</span>
+            <span class="product-card__cart-mob">{{ 'products.product.add' | t }} - {{ current_variant.price | money }}</span>
           {%- else -%}
             {{ 'products.product.sold_out' | t }}
           {%- endif -%}
@@ -80,9 +89,11 @@
     <p class="product-card__desc">{{ card_product.vendor }}</p>
   {%- endif -%}
   <p class="product-card__price">
-    {%- if current_variant.compare_at_price > current_variant.price -%}
-      <s>{{ current_variant.compare_at_price | money }}</s>
+    {%- if on_sale -%}
+      <span class="product-card__price-now">{{ current_variant.price | money }}</span>
+      <span class="product-card__price-was">{{ current_variant.compare_at_price | money }}</span>
+    {%- else -%}
+      {{ current_variant.price | money }}
     {%- endif -%}
-    {{ current_variant.price | money }}
   </p>
 </article>

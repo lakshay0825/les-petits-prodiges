@@ -210,7 +210,7 @@
         },
         "proof_html": {
           "label": "Preuve",
-          "default": "+10 000 <u>avis</u> clients"
+          "default": "+10 000 avis clients"
         }
       },
       "blocks": {

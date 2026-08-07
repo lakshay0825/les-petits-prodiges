@@ -1,10 +1,12 @@
 {% render 'section-spacing' %}
 
-<section class="efficacy section-pad" data-section="testimonials-ba">
+{%- comment -%} Match html-prototype efficacy markup (classes + Swiper structure) {%- endcomment -%}
+<div class="efficacy section-pad" data-section="testimonials-ba">
   <div class="efficacy__inner">
     {%- if section.settings.heading != blank -%}
       <h2>{{ section.settings.heading }}</h2>
     {%- endif -%}
+
     {%- if section.settings.proof_text != blank -%}
       <div class="efficacy__proof">
         {% render 'icon', name: 'stars-row', width: 78, height: 14 %}
@@ -36,11 +38,15 @@
                     -%}
                     {{
                       block.settings.before_image
-                      | image_url: width: 600
-                      | image_tag: loading: 'lazy', alt: before_alt
+                      | image_url: width: 400
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '134,268,400',
+                        sizes: '134px',
+                        alt: before_alt
                     }}
                   {%- else -%}
-                    {{ 'image' | placeholder_svg_tag }}
+                    {{ 'image' | placeholder_svg_tag: 'ba-card__media-ph' }}
                   {%- endif -%}
                 </figure>
                 <figure>
@@ -61,56 +67,65 @@
                     -%}
                     {{
                       block.settings.after_image
-                      | image_url: width: 600
-                      | image_tag: loading: 'lazy', alt: after_alt
+                      | image_url: width: 400
+                      | image_tag:
+                        loading: 'lazy',
+                        widths: '134,268,400',
+                        sizes: '134px',
+                        alt: after_alt
                     }}
                   {%- else -%}
-                    {{ 'image' | placeholder_svg_tag }}
+                    {{ 'image' | placeholder_svg_tag: 'ba-card__media-ph' }}
                   {%- endif -%}
                 </figure>
               </div>
+
               <div class="ba-card__footer">
                 {%- if block.settings.product_image != blank -%}
-                  {{ block.settings.product_image | image_url: width: 160 | image_tag: class: 'ba-card__pack', loading: 'lazy', alt: '' }}
+                  {{
+                    block.settings.product_image
+                    | image_url: width: 140
+                    | image_tag: class: 'ba-card__pack', loading: 'lazy', alt: '', width: 70, height: 77
+                  }}
                 {%- elsif block.settings.product != blank and block.settings.product.featured_media -%}
-                  {{ block.settings.product.featured_media | image_url: width: 160 | image_tag: class: 'ba-card__pack', loading: 'lazy', alt: '' }}
+                  {{
+                    block.settings.product.featured_media
+                    | image_url: width: 140
+                    | image_tag: class: 'ba-card__pack', loading: 'lazy', alt: '', width: 70, height: 77
+                  }}
                 {%- else -%}
-                  {{ 'product-1' | placeholder_svg_tag: 'ba-card__pack' }}
+                  {{ 'product-1' | placeholder_svg_tag: 'ba-card__pack ba-card__pack-ph' }}
                 {%- endif -%}
+
                 <div class="ba-card__body">
                   <div class="ba-card__meta">
-                    {%- if block.settings.rating != blank -%}
-                      <span class="rating">
-                        {% render 'icon', name: 'star-sm', width: 16, height: 16 %}
+                    <span class="rating">
+                      {% render 'icon', name: 'star-sm', width: 16, height: 16 %}
+                      {%- if block.settings.rating != blank -%}
                         {{ block.settings.rating }}
-                      </span>
-                    {%- else -%}
-                      <span class="rating">
-                        {% render 'icon', name: 'star-sm', width: 16, height: 16 %}
+                      {%- else -%}
                         4,5/5
-                      </span>
-                    {%- endif -%}
+                      {%- endif -%}
+                    </span>
                     {%- liquid
                       assign ba_cta = block.settings.cta_label
                       if ba_cta == blank
                         assign ba_cta = 'sections.testimonials_ba.discover' | t
                       endif
+                      assign ba_href = routes.all_products_collection_url
+                      if block.settings.product != blank
+                        assign ba_href = block.settings.product.url
+                      elsif block.settings.product_link != blank
+                        assign ba_href = block.settings.product_link
+                      endif
                     -%}
-                    {%- if block.settings.product != blank -%}
-                      <a href="{{ block.settings.product.url }}">{{ ba_cta }}</a>
-                    {%- elsif block.settings.product_link != blank -%}
-                      <a href="{{ block.settings.product_link }}">{{ ba_cta }}</a>
-                    {%- else -%}
-                      <a href="{{ routes.all_products_collection_url }}">{{ ba_cta }}</a>
-                    {%- endif -%}
+                    <a href="{{ ba_href }}">{{ ba_cta }}</a>
                   </div>
                   {%- if block.settings.name != blank -%}
                     <p class="ba-card__name">{{ block.settings.name }}</p>
                   {%- endif -%}
                   {%- if block.settings.quote != blank -%}
                     <p class="ba-card__quote">{{ block.settings.quote }}</p>
-                  {%- elsif block.settings.name == blank -%}
-                    <p class="ba-card__quote">{{ 'sections.testimonials_ba.quote_default' | t }}</p>
                   {%- endif -%}
                 </div>
               </div>
@@ -119,14 +134,15 @@
         {%- endfor -%}
       </div>
     </div>
+
     <div class="carousel-dots efficacy-pagination"></div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {
   "name": "t:sections.testimonials-ba.name",
-  "tag": "section",
+  "tag": "div",
   "class": "section-testimonials-ba",
   "settings": [
     {
@@ -153,7 +169,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top padding (mobile)",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -163,7 +179,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding (mobile)",
-      "default": 40
+      "default": 0
     },
     {
       "type": "range",
@@ -173,7 +189,7 @@
       "step": 4,
       "unit": "px",
       "label": "Top padding (desktop)",
-      "default": 64
+      "default": 0
     },
     {
       "type": "range",
@@ -183,7 +199,7 @@
       "step": 4,
       "unit": "px",
       "label": "Bottom padding (desktop)",
-      "default": 64
+      "default": 0
     }
   ],
   "blocks": [
@@ -259,26 +275,10 @@
     {
       "name": "t:sections.testimonials-ba.name",
       "blocks": [
-        {
-          "type": "ba_card",
-          "settings": {
-            "name": "Louise"
-          }
-        },
-        {
-          "type": "ba_card",
-          "settings": {
-            "name": "Camille",
-            "quote": "Texture légère, résultats visibles — je recommande sans hésiter"
-          }
-        },
-        {
-          "type": "ba_card",
-          "settings": {
-            "name": "Inès",
-            "quote": "Enfin une routine simple qui respecte ma peau sensible"
-          }
-        }
+        { "type": "ba_card" },
+        { "type": "ba_card" },
+        { "type": "ba_card" },
+        { "type": "ba_card" }
       ]
     }
   ]

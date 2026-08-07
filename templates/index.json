@@ -63,7 +63,7 @@
             "name": "Louise",
             "rating": "4,5/5",
             "cta_label": "Découvrir",
-            "quote": "J’adore ce produit ultra efficace ! Il fait partie de ma routine"
+            "quote": "J’adore ce produit hyper efficace ! Elle s’inscrit dans ma routine"
           }
         },
         "ba_2": {
@@ -87,12 +87,27 @@
             "cta_label": "Découvrir",
             "quote": "Enfin une routine simple qui respecte ma peau sensible"
           }
+        },
+        "ba_4": {
+          "type": "ba_card",
+          "settings": {
+            "before_label": "Avant",
+            "after_label": "Après",
+            "name": "Sophie",
+            "rating": "4,5/5",
+            "cta_label": "Découvrir",
+            "quote": "Efficace dès les premières semaines, ma peau a retrouvé de l’éclat"
+          }
         }
       },
-      "block_order": ["ba_1", "ba_2", "ba_3"],
+      "block_order": ["ba_1", "ba_2", "ba_3", "ba_4"],
       "settings": {
         "heading": "UNE EFFICACITÉ PROUVÉE",
-        "proof_text": "+10 000 <u>avis</u> clients"
+        "proof_text": "+10 000 avis clients",
+        "padding_top_mobile": 0,
+        "padding_bottom_mobile": 0,
+        "padding_top_desktop": 0,
+        "padding_bottom_desktop": 0
       }
     },
     "image_gallery": {

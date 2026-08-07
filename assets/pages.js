@@ -194,12 +194,7 @@
   }
 
   function initCardCartButtons() {
-    qsa(".product-card__cart").forEach(function (btn) {
-      btn.addEventListener("click", function (e) {
-        e.preventDefault();
-        e.stopPropagation();
-      });
-    });
+    /* Add-to-cart is handled by theme.js AJAX cart (form submit → drawer). */
   }
 
   function initCollectionStickyBar() {

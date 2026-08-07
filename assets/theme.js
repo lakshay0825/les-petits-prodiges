@@ -291,62 +291,304 @@
     });
   }
 
-  /* ---------- Cart drawer ---------- */
+  /* ---------- Cart drawer + AJAX add-to-cart ---------- */
   function initCart() {
-    var drawer = qs("[data-cart]");
-    if (!drawer) return;
+    var root =
+      (window.Shopify && window.Shopify.routes && window.Shopify.routes.root) ||
+      "/";
+    var sectionId = "cart-drawer";
     var cartBestSwiper = null;
+    var busy = false;
+
+    function getDrawer() {
+      return qs("[data-cart]");
+    }
+
+    function getSectionEl() {
+      return document.getElementById("shopify-section-" + sectionId);
+    }
 
     function openCart(e) {
       if (e) e.preventDefault();
+      var drawer = getDrawer();
+      if (!drawer) return;
       drawer.hidden = false;
       drawer.classList.add("is-open");
       document.body.classList.add("modal-open");
       if (cartBestSwiper) {
         requestAnimationFrame(function () {
-          cartBestSwiper.update();
+          try {
+            cartBestSwiper.update();
+          } catch (err) {}
         });
       }
     }
 
     function closeCart(e) {
       if (e) e.preventDefault();
+      var drawer = getDrawer();
+      if (!drawer) return;
       drawer.classList.remove("is-open");
       drawer.hidden = true;
       document.body.classList.remove("modal-open");
     }
 
-    qsa("[data-cart-open]").forEach(function (btn) {
-      btn.addEventListener("click", openCart);
+    function updateHeaderCount(count) {
+      qsa(".icon-cart").forEach(function (btn) {
+        var badge = qs(".badge", btn);
+        if (count > 0) {
+          if (!badge) {
+            badge = document.createElement("span");
+            badge.className = "badge";
+            btn.appendChild(badge);
+          }
+          badge.textContent = String(count);
+          badge.hidden = false;
+          badge.removeAttribute("hidden");
+        } else if (badge) {
+          badge.remove();
+        }
+      });
+    }
+
+    function initCartBestSwiper() {
+      if (typeof Swiper === "undefined") return;
+      var el = qs(".cart-best-swiper");
+      if (!el) {
+        cartBestSwiper = null;
+        return;
+      }
+      if (cartBestSwiper && typeof cartBestSwiper.destroy === "function") {
+        try {
+          cartBestSwiper.destroy(true, true);
+        } catch (err) {}
+        cartBestSwiper = null;
+      }
+      cartBestSwiper = new Swiper(".cart-best-swiper", {
+        slidesPerView: "auto",
+        spaceBetween: 12,
+        speed: 400,
+        grabCursor: true,
+        watchOverflow: true,
+        navigation: {
+          prevEl: ".cart-best-prev",
+          nextEl: ".cart-best-next"
+        }
+      });
+    }
+
+    function refreshCart(openAfter) {
+      var keepOpen = !!openAfter || !!(getDrawer() && getDrawer().classList.contains("is-open"));
+      return fetch(root + "?sections=" + encodeURIComponent(sectionId))
+        .then(function (res) {
+          if (!res.ok) throw new Error("Cart section fetch failed");
+          return res.json();
+        })
+        .then(function (data) {
+          var html = data && data[sectionId];
+          var sectionEl = getSectionEl();
+          if (!html || !sectionEl) return;
+          sectionEl.outerHTML = html;
+          initCartBestSwiper();
+          if (keepOpen) openCart();
+        })
+        .catch(function () {
+          if (keepOpen) openCart();
+        });
+    }
+
+    function fetchCart() {
+      return fetch(root + "cart.js", {
+        headers: { Accept: "application/json" }
+      }).then(function (res) {
+        if (!res.ok) throw new Error("Cart fetch failed");
+        return res.json();
+      });
+    }
+
+    function syncFromCart(cart, openAfter) {
+      if (cart && typeof cart.item_count !== "undefined") {
+        updateHeaderCount(cart.item_count);
+      }
+      return refreshCart(openAfter);
+    }
+
+    function addFromForm(form) {
+      if (busy || !form) return Promise.resolve();
+      var idInput = form.querySelector('[name="id"]');
+      if (!idInput || !idInput.value) return Promise.resolve();
+
+      busy = true;
+      var submitBtn = form.querySelector('[type="submit"], [name="add"]');
+      if (submitBtn) submitBtn.setAttribute("aria-busy", "true");
+
+      var formData = new FormData(form);
+
+      return fetch(root + "cart/add.js", {
+        method: "POST",
+        headers: { Accept: "application/json" },
+        body: formData
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) {
+              var msg =
+                (data && (data.description || data.message)) ||
+                "Unable to add to cart";
+              throw new Error(msg);
+            }
+            return data;
+          });
+        })
+        .then(function () {
+          return fetchCart();
+        })
+        .then(function (cart) {
+          return syncFromCart(cart, true);
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+        .finally(function () {
+          busy = false;
+          if (submitBtn) submitBtn.removeAttribute("aria-busy");
+        });
+    }
+
+    function changeLineQuantity(key, quantity) {
+      if (busy || !key) return Promise.resolve();
+      busy = true;
+      return fetch(root + "cart/change.js", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ id: key, quantity: quantity })
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            if (!res.ok) throw new Error((data && data.message) || "Cart update failed");
+            return data;
+          });
+        })
+        .then(function (cart) {
+          return syncFromCart(cart, true);
+        })
+        .catch(function (err) {
+          console.error(err);
+        })
+        .finally(function () {
+          busy = false;
+        });
+    }
+
+    function isProductAddForm(form) {
+      if (!form || form.tagName !== "FORM") return false;
+      if (form.querySelector('button[name="checkout"], input[name="checkout"]')) {
+        return false;
+      }
+      if (!form.querySelector('[name="id"]')) return false;
+      var action = (form.getAttribute("action") || "").toLowerCase();
+      if (action.indexOf("/cart/add") !== -1) return true;
+      if (form.querySelector('button[name="add"], input[name="add"]')) return true;
+      if (form.classList.contains("product-card__form")) return true;
+      if (form.classList.contains("main-product__form")) return true;
+      return false;
+    }
+
+    document.addEventListener("click", function (e) {
+      var openBtn = e.target.closest("[data-cart-open]");
+      if (openBtn) {
+        /* Product-card / form add buttons must not only open an empty drawer */
+        if (openBtn.closest("form") && openBtn.matches('[type="submit"], [name="add"], .product-card__cart')) {
+          return;
+        }
+        e.preventDefault();
+        openCart(e);
+        return;
+      }
+
+      var closeBtn = e.target.closest("[data-cart-close]");
+      if (closeBtn) {
+        e.preventDefault();
+        closeCart(e);
+        return;
+      }
+
+      var removeBtn = e.target.closest(".cart-line__remove");
+      if (removeBtn) {
+        var line = removeBtn.closest(".cart-line[data-key]");
+        if (line) {
+          e.preventDefault();
+          changeLineQuantity(line.getAttribute("data-key"), 0);
+          return;
+        }
+      }
+
+      var qtyMinus = e.target.closest("[data-qty-minus]");
+      var qtyPlus = e.target.closest("[data-qty-plus]");
+      if (qtyMinus || qtyPlus) {
+        var qtyWrap = (qtyMinus || qtyPlus).closest("[data-qty]");
+        if (!qtyWrap) return;
+        var lineEl = qtyWrap.closest(".cart-line[data-key]");
+        var valueEl = qs("[data-qty-value]", qtyWrap);
+        if (lineEl) {
+          e.preventDefault();
+          var current = parseInt(
+            (valueEl && (valueEl.value || valueEl.textContent)) || "1",
+            10
+          ) || 1;
+          if (qtyMinus) {
+            changeLineQuantity(lineEl.getAttribute("data-key"), Math.max(0, current - 1));
+          } else {
+            changeLineQuantity(lineEl.getAttribute("data-key"), current + 1);
+          }
+          return;
+        }
+        if (valueEl) {
+          e.preventDefault();
+          var n = parseInt(valueEl.value || valueEl.textContent || "1", 10) || 1;
+          n = qtyMinus ? Math.max(1, n - 1) : n + 1;
+          if (valueEl.tagName === "INPUT") valueEl.value = String(n);
+          else valueEl.textContent = String(n);
+        }
+      }
     });
-    qsa("[data-cart-close]", drawer).forEach(function (btn) {
-      btn.addEventListener("click", closeCart);
+
+    document.addEventListener("submit", function (e) {
+      var form = e.target;
+      if (!isProductAddForm(form)) return;
+      e.preventDefault();
+      addFromForm(form);
     });
+
     document.addEventListener("keydown", function (e) {
-      if (e.key === "Escape" && drawer.classList.contains("is-open")) closeCart();
+      var drawer = getDrawer();
+      if (e.key === "Escape" && drawer && drawer.classList.contains("is-open")) {
+        closeCart();
+      }
     });
 
-    qsa("[data-qty]", drawer).forEach(function (wrap) {
-      var valueEl = qs("[data-qty-value]", wrap);
-      var minus = qs("[data-qty-minus]", wrap);
-      var plus = qs("[data-qty-plus]", wrap);
-      if (!valueEl || !minus || !plus) return;
+    fetchCart()
+      .then(function (cart) {
+        if (cart && typeof cart.item_count !== "undefined") {
+          updateHeaderCount(cart.item_count);
+        }
+      })
+      .catch(function () {});
 
-      minus.addEventListener("click", function () {
-        var n = parseInt(valueEl.textContent, 10) || 1;
-        valueEl.textContent = String(Math.max(1, n - 1));
-      });
-      plus.addEventListener("click", function () {
-        var n = parseInt(valueEl.textContent, 10) || 1;
-        valueEl.textContent = String(n + 1);
-      });
-    });
-
-    return {
+    var api = {
+      open: openCart,
+      close: closeCart,
+      refresh: refreshCart,
+      addFromForm: addFromForm,
       setCartBestSwiper: function (swiper) {
         cartBestSwiper = swiper;
       }
     };
+    window.themeCart = api;
+    return api;
   }
 
   /* ---------- Swiper sliders ---------- */
@@ -361,6 +603,8 @@
         speed: 450,
         grabCursor: true,
         watchOverflow: true,
+        observer: true,
+        observeParents: true,
         pagination: {
           el: ".efficacy-pagination",
           clickable: true

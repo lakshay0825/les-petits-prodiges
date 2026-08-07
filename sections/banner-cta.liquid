@@ -1,34 +1,38 @@
 {% render 'section-spacing' %}
 
 <section class="banner-cta section-pad" id="{{ section.settings.anchor_id | default: 'diagnostic' }}" data-section="image-banner">
-  <picture>
-    {%- if section.settings.image_desktop != blank -%}
-      <source media="(min-width: 990px)" srcset="{{ section.settings.image_desktop | image_url: width: 2000 }}">
-    {%- endif -%}
-    {%- if section.settings.image_mobile != blank -%}
-      {{
-        section.settings.image_mobile
-        | image_url: width: 1200
-        | image_tag:
-          class: 'banner-cta__bg',
-          widths: '402,800,1200',
-          sizes: '100vw',
-          alt: section.settings.heading,
-          loading: 'lazy'
-      }}
-    {%- elsif section.settings.image_desktop != blank -%}
-      {{
-        section.settings.image_desktop
-        | image_url: width: 2000
-        | image_tag:
-          class: 'banner-cta__bg',
-          widths: '800,1200,1512,2000',
-          sizes: '100vw',
-          alt: section.settings.heading,
-          loading: 'lazy'
-      }}
-    {%- endif -%}
-  </picture>
+  {%- if section.settings.image_mobile != blank or section.settings.image_desktop != blank -%}
+    <picture>
+      {%- if section.settings.image_desktop != blank -%}
+        <source media="(min-width: 990px)" srcset="{{ section.settings.image_desktop | image_url: width: 2000 }}">
+      {%- endif -%}
+      {%- if section.settings.image_mobile != blank -%}
+        {{
+          section.settings.image_mobile
+          | image_url: width: 1200
+          | image_tag:
+            class: 'banner-cta__bg',
+            widths: '402,800,1200',
+            sizes: '100vw',
+            alt: section.settings.heading,
+            loading: 'lazy'
+        }}
+      {%- else -%}
+        {{
+          section.settings.image_desktop
+          | image_url: width: 2000
+          | image_tag:
+            class: 'banner-cta__bg',
+            widths: '800,1200,1512,2000',
+            sizes: '100vw',
+            alt: section.settings.heading,
+            loading: 'lazy'
+        }}
+      {%- endif -%}
+    </picture>
+  {%- else -%}
+    {{ 'lifestyle-2' | placeholder_svg_tag: 'banner-cta__bg banner-cta__placeholder' }}
+  {%- endif -%}
   <div class="banner-cta__content">
     {%- if section.settings.heading != blank -%}
       <h2>{{ section.settings.heading | newline_to_br }}</h2>
@@ -37,7 +41,7 @@
       <p class="desktop-only">{{ section.settings.text }}</p>
     {%- endif -%}
     {%- if section.settings.button_label != blank -%}
-      <a class="btn btn--solid-light banner-cta__btn" href="{{ section.settings.button_link }}">
+      <a class="btn btn--solid-light banner-cta__btn" href="{{ section.settings.button_link | default: '#diagnostic' }}">
         {{ section.settings.button_label }}
       </a>
     {%- endif -%}

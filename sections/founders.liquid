@@ -37,6 +37,8 @@
             loading: 'lazy',
             alt: section.settings.image_alt | default: section.settings.names
         }}
+      {%- else -%}
+        {{ 'image' | placeholder_svg_tag: 'founders__placeholder' }}
       {%- endif -%}
     </picture>
   </div>

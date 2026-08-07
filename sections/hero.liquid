@@ -1,6 +1,20 @@
 {% render 'section-spacing' %}
 
-<section class="hero section-pad" data-section="hero" id="{{ section.settings.anchor_id }}">
+{%- liquid
+  assign has_hero_media = false
+  if section.settings.video_desktop != blank or section.settings.video_mobile != blank
+    assign has_hero_media = true
+  endif
+  if section.settings.image_mobile != blank or section.settings.image_desktop != blank
+    assign has_hero_media = true
+  endif
+-%}
+
+<section
+  class="hero section-pad{% unless has_hero_media %} hero--placeholder{% endunless %}"
+  data-section="hero"
+  id="{{ section.settings.anchor_id | default: 'hero' }}"
+>
   <div class="hero__media">
     {%- if section.settings.video_desktop != blank or section.settings.video_mobile != blank -%}
       <video
@@ -29,7 +43,7 @@
           <source src="{{ section.settings.video_desktop }}" type="video/mp4">
         {%- endif -%}
       </video>
-    {%- else -%}
+    {%- elsif section.settings.image_mobile != blank or section.settings.image_desktop != blank -%}
       <picture>
         {%- if section.settings.image_desktop != blank -%}
           <source
@@ -49,7 +63,7 @@
               loading: 'eager',
               fetchpriority: 'high'
           }}
-        {%- elsif section.settings.image_desktop != blank -%}
+        {%- else -%}
           {{
             section.settings.image_desktop
             | image_url: width: 2000
@@ -75,6 +89,9 @@
             aria-hidden: 'true'
         }}
       {%- endif -%}
+    {%- else -%}
+      {{ 'lifestyle-2' | placeholder_svg_tag: 'hero__img hero__img--primary hero__placeholder' }}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'hero__img hero__img--secondary hero__placeholder' }}
     {%- endif -%}
   </div>
 
@@ -89,44 +106,60 @@
       <p class="hero__sub desktop-only">{{ section.settings.subheading }}</p>
     {%- endif -%}
     {%- if section.settings.cta_label != blank -%}
-      <a class="btn btn--solid-light hero__cta" href="{{ section.settings.cta_link }}">
+      <a class="btn btn--solid-light hero__cta" href="{{ section.settings.cta_link | default: routes.all_products_collection_url }}">
         {{ section.settings.cta_label }}
       </a>
     {%- endif -%}
   </div>
 
-  {%- if section.settings.show_product_card and section.settings.featured_product != blank -%}
-    {%- assign hero_product = section.settings.featured_product -%}
-    <a class="hero-card" href="{{ hero_product.url }}">
-      {%- if hero_product.featured_media -%}
-        {{ hero_product.featured_media | image_url: width: 168 | image_tag: width: 84, height: 84, loading: 'lazy', alt: hero_product.title }}
-      {%- endif -%}
-      <div class="hero-card__info">
-        <p class="hero-card__title">{{ hero_product.title }}</p>
-        {%- if hero_product.description != blank -%}
-          <p class="hero-card__meta">{{ hero_product.description | strip_html | truncate: 45 }}</p>
+  {%- if section.settings.show_product_card -%}
+    {%- if section.settings.featured_product != blank -%}
+      {%- assign hero_product = section.settings.featured_product -%}
+      <a class="hero-card" href="{{ hero_product.url }}">
+        {%- if hero_product.featured_media -%}
+          {{ hero_product.featured_media | image_url: width: 168 | image_tag: width: 84, height: 84, loading: 'lazy', alt: hero_product.title }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'hero-card__placeholder' }}
         {%- endif -%}
-        <p class="hero-card__price">
-          <span>{{ hero_product.price | money }}</span>
-        </p>
-      </div>
-    </a>
+        <div class="hero-card__info">
+          <p class="hero-card__title">{{ hero_product.title }}</p>
+          {%- if hero_product.description != blank -%}
+            <p class="hero-card__meta">{{ hero_product.description | strip_html | truncate: 45 }}</p>
+          {%- endif -%}
+          <p class="hero-card__price">
+            <span>{{ hero_product.price | money }}</span>
+          </p>
+        </div>
+      </a>
+    {%- else -%}
+      <a class="hero-card" href="{{ routes.all_products_collection_url }}">
+        {{ 'product-1' | placeholder_svg_tag: 'hero-card__placeholder' }}
+        <div class="hero-card__info">
+          <p class="hero-card__title">{{ section.settings.heading }}</p>
+          {%- if section.settings.subheading != blank -%}
+            <p class="hero-card__meta">{{ section.settings.subheading | truncate: 45 }}</p>
+          {%- endif -%}
+        </div>
+      </a>
+    {%- endif -%}
   {%- endif -%}
 
-  {%- if section.settings.pip_image != blank -%}
-    <div class="hero-video mobile-only" data-hero-video>
+  <div class="hero-video mobile-only" data-hero-video>
+    {%- if section.settings.pip_image != blank -%}
       {{
         section.settings.pip_image
         | image_url: width: 240
         | image_tag: width: 120, height: 200, loading: 'lazy', alt: ''
       }}
-      <button type="button" class="hero-video__close" data-hero-video-close aria-label="{{ 'accessibility.close' | t }}">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M3 3l8 8M11 3L3 11" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
-        </svg>
-      </button>
-    </div>
-  {%- endif -%}
+    {%- else -%}
+      {{ 'image' | placeholder_svg_tag: 'hero-video__placeholder' }}
+    {%- endif -%}
+    <button type="button" class="hero-video__close" data-hero-video-close aria-label="{{ 'accessibility.close' | t }}">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M3 3l8 8M11 3L3 11" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
 </section>
 
 {%- if section.settings.show_diagnostic_sticky -%}

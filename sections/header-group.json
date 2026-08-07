@@ -4,7 +4,11 @@
   "sections": {
     "announcement-bar": {
       "type": "announcement-bar",
-      "settings": {}
+      "settings": {
+        "text": "LIVRAISON OFFERTE DÈS 45€",
+        "bg_color": "#FCF6ED",
+        "text_color": "#0D0D0D"
+      }
     },
     "header": {
       "type": "header",

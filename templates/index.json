@@ -2,7 +2,15 @@
   "sections": {
     "hero": {
       "type": "hero",
-      "settings": {}
+      "settings": {
+        "tag": "INNOVATION",
+        "heading": "La Brume Solaire Invisible",
+        "subheading": "Grâce à ce diagnostic visage, découvrez une routine jour et nuit.",
+        "cta_label": "DÉCOUVRIR",
+        "show_product_card": true,
+        "show_diagnostic_sticky": true,
+        "diagnostic_label": "Diagnostic de peau"
+      }
     },
     "featured_collection": {
       "type": "featured-collection",
@@ -10,120 +18,160 @@
         "tab_1": {
           "type": "filter_tab",
           "settings": {
+            "label": "Notre sélection",
             "filter_key": "all"
           }
         },
         "tab_2": {
           "type": "filter_tab",
           "settings": {
+            "label": "Acné & imperfections",
             "filter_key": "acne"
           }
         },
         "tab_3": {
           "type": "filter_tab",
           "settings": {
+            "label": "Rides & perte de fermeté",
             "filter_key": "rides"
           }
         }
       },
-      "block_order": [
-        "tab_1",
-        "tab_2",
-        "tab_3"
-      ],
-      "settings": {}
+      "block_order": ["tab_1", "tab_2", "tab_3"],
+      "settings": {
+        "heading": "La dermocosmétique\nnaturelle et responsable",
+        "see_all_label": "TOUT VOIR",
+        "show_see_all": true
+      }
     },
     "banner_cta": {
       "type": "banner-cta",
-      "settings": {}
+      "settings": {
+        "heading": "Votre peau est\nunique",
+        "text": "Grâce à ce diagnostic visage, découvrez une routine pensée pour respecter l’équilibre naturel de votre peau.",
+        "button_label": "DÉCOUVRIR"
+      }
     },
     "testimonials_ba": {
       "type": "testimonials-ba",
       "blocks": {
         "ba_1": {
           "type": "ba_card",
-          "settings": {}
+          "settings": {
+            "before_label": "Avant",
+            "after_label": "Après",
+            "name": "Louise",
+            "rating": "4,5/5",
+            "cta_label": "Découvrir",
+            "quote": "J’adore ce produit ultra efficace ! Il fait partie de ma routine"
+          }
         },
         "ba_2": {
           "type": "ba_card",
-          "settings": {}
+          "settings": {
+            "before_label": "Avant",
+            "after_label": "Après",
+            "name": "Camille",
+            "rating": "4,5/5",
+            "cta_label": "Découvrir",
+            "quote": "Texture légère, résultats visibles — je recommande sans hésiter"
+          }
         },
         "ba_3": {
           "type": "ba_card",
-          "settings": {}
+          "settings": {
+            "before_label": "Avant",
+            "after_label": "Après",
+            "name": "Inès",
+            "rating": "4,5/5",
+            "cta_label": "Découvrir",
+            "quote": "Enfin une routine simple qui respecte ma peau sensible"
+          }
         }
       },
-      "block_order": [
-        "ba_1",
-        "ba_2",
-        "ba_3"
-      ],
-      "settings": {}
+      "block_order": ["ba_1", "ba_2", "ba_3"],
+      "settings": {
+        "heading": "UNE EFFICACITÉ PROUVÉE",
+        "proof_text": "+10 000 <u>avis</u> clients"
+      }
     },
     "image_gallery": {
       "type": "image-gallery",
       "blocks": {
-        "img_1": {
-          "type": "image",
-          "settings": {}
-        },
-        "img_2": {
-          "type": "image",
-          "settings": {}
-        },
-        "img_3": {
-          "type": "image",
-          "settings": {}
-        }
+        "img_1": { "type": "image", "settings": {} },
+        "img_2": { "type": "image", "settings": {} },
+        "img_3": { "type": "image", "settings": {} }
       },
-      "block_order": [
-        "img_1",
-        "img_2",
-        "img_3"
-      ],
-      "settings": {}
+      "block_order": ["img_1", "img_2", "img_3"],
+      "settings": {
+        "heading": "Écouter votre peau"
+      }
     },
     "founders": {
       "type": "founders",
-      "settings": {}
+      "settings": {
+        "heading": "LES FONDATRICES",
+        "body": "<p>Deux amies d’enfance, unies par la même conviction : réinventer les essentiels du quotidien avec des formules naturelles, responsables et ultra-efficaces.</p>",
+        "names": "Marion & Camille"
+      }
     },
     "press": {
       "type": "press",
-      "settings": {}
+      "settings": {
+        "quote": "« La marque la plus innovante du moment en pharmacies françaises »"
+      }
     },
     "video_feature": {
       "type": "video-feature",
-      "settings": {}
+      "settings": {
+        "show_overlay_text": true,
+        "overlay_text": "Prenez soin de votre peau"
+      }
     },
     "journal": {
       "type": "journal",
-      "settings": {}
+      "settings": {
+        "heading": "DANS LE JOURNAL",
+        "see_all_label": "Voir tout",
+        "show_see_all": true
+      }
     },
     "rich_text": {
       "type": "rich-text",
-      "settings": {}
+      "settings": {
+        "heading": "Cosmétique responsable et marques expertes",
+        "body": "<p>Parce qu’on a toutes envie de prendre soin de notre peau sans faire de compromis avec la planète, la cosmétique bio trouve peu à peu sa place dans nos salles de bain. Des marques engagées comme Atelier Nubio, Tata Harper, Rudolph Care ou encore Patyka proposent des formules clean, efficaces et sensorielles.</p>",
+        "body_extra": "<p>Chez Les Petits Prödiges, on revisite les essentiels du quotidien avec des soins naturels, responsables et plaisir. Des actifs ciblés, des textures légères et une exigence constante sur la traçabilité pour accompagner chaque peau, sans compromis.</p>",
+        "show_read_more": true,
+        "read_more_label": "Lire plus"
+      }
     },
     "usp_bar": {
       "type": "usp-bar",
       "blocks": {
         "usp_1": {
           "type": "usp",
-          "settings": {}
+          "settings": {
+            "title": "LIVRAISON OFFERTE",
+            "text": "Dès 45€ d’achat en point relais"
+          }
         },
         "usp_2": {
           "type": "usp",
-          "settings": {}
+          "settings": {
+            "title": "ÉCHANTILLONS",
+            "text": "Des surprises dans chaque commande"
+          }
         },
         "usp_3": {
           "type": "usp",
-          "settings": {}
+          "settings": {
+            "title": "CONSEIL EXPERT",
+            "text": "Une équipe à votre écoute 6j/7"
+          }
         }
       },
-      "block_order": [
-        "usp_1",
-        "usp_2",
-        "usp_3"
-      ],
+      "block_order": ["usp_1", "usp_2", "usp_3"],
       "settings": {}
     }
   },

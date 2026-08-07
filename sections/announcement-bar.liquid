@@ -1,10 +1,20 @@
-{% if section.settings.text != blank %}
-  <div class="announcement" style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};" {{ section.shopify_attributes }}>
+{%- liquid
+  assign announcement_text = section.settings.text
+  if announcement_text == blank
+    assign announcement_text = 'general.announcement' | t
+  endif
+-%}
+{%- if announcement_text != blank -%}
+  <div
+    class="announcement"
+    style="background:{{ section.settings.bg_color }};color:{{ section.settings.text_color }};"
+    {{ section.shopify_attributes }}
+  >
     {%- if section.settings.link != blank -%}<a href="{{ section.settings.link }}">{%- endif -%}
-    <p>{{ section.settings.text }}</p>
+    <p>{{ announcement_text }}</p>
     {%- if section.settings.link != blank -%}</a>{%- endif -%}
   </div>
-{% endif %}
+{%- endif -%}
 
 {% schema %}
 {

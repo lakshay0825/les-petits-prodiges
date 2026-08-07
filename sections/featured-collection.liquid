@@ -19,7 +19,11 @@
           data-filter="{{ block.settings.filter_key | default: 'all' | handleize }}"
           {{ block.shopify_attributes }}
         >
-          {{ block.settings.label }}
+          {%- if block.settings.label != blank -%}
+            {{ block.settings.label }}
+          {%- else -%}
+            {{ 'sections.featured_collection.filter_default' | t }}
+          {%- endif -%}
         </button>
       {%- endfor -%}
     </div>
@@ -27,15 +31,27 @@
 
   <div class="swiper products-swiper">
     <div class="swiper-wrapper">
-      {%- if collection != blank -%}
+      {%- if collection != blank and collection.products_count > 0 -%}
         {%- for product in collection.products limit: section.settings.products_to_show -%}
           {% render 'product-card', product: product, class: 'swiper-slide' %}
         {%- endfor -%}
       {%- else -%}
         {%- for i in (1..4) -%}
           <article class="product-card swiper-slide" data-category="all">
-            <div class="product-card__media">{{ 'product-1' | placeholder_svg_tag }}</div>
-            <h3>{{ 'onboarding.product_title' | t }}</h3>
+            <a href="{{ routes.all_products_collection_url }}" class="product-card__media">
+              <span class="product-card__rating">
+                {% render 'icon', name: 'star-sm', width: 16, height: 16 %}
+                4,5/5
+              </span>
+              {%- if i == 1 -%}
+                <span class="product-card__badge">{{ 'products.product.new' | t }}</span>
+              {%- endif -%}
+              {{ 'product-1' | placeholder_svg_tag }}
+            </a>
+            <h3>
+              <a href="{{ routes.all_products_collection_url }}">{{ 'onboarding.product_title' | t }}</a>
+            </h3>
+            <p class="product-card__desc">{{ 'onboarding.product_desc' | t }}</p>
             <p class="product-card__price">{{ 1990 | money }}</p>
           </article>
         {%- endfor -%}

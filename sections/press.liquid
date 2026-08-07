@@ -42,6 +42,13 @@
           {{ section.settings.logo_4 | image_url: width: 456 | image_tag: width: 228, height: 131, loading: 'lazy', alt: section.settings.logo_4_alt }}
         </div>
       {%- endif -%}
+    {%- else -%}
+      <div class="press__logos press__logos--placeholder">
+        {{ 'image' | placeholder_svg_tag }}
+        {{ 'image' | placeholder_svg_tag }}
+        {{ 'image' | placeholder_svg_tag }}
+        {{ 'image' | placeholder_svg_tag }}
+      </div>
     {%- endif -%}
   </div>
 </section>

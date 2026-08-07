@@ -42,7 +42,8 @@
     "meta": {
       "tags": "Tagged \"{{ tags }}\"",
       "page": "Page {{ page }}"
-    }
+    },
+    "announcement": "FREE SHIPPING FROM €45"
   },
   "accessibility": {
     "skip_to_content": "Skip to content",
@@ -251,8 +252,9 @@
     }
   },
   "onboarding": {
-    "product_title": "Product title",
-    "collection_title": "Collection title"
+    "product_title": "Invisible Sunscreen Mist",
+    "collection_title": "Collection title",
+    "product_desc": "Plant collagen • Retinol-like"
   },
   "sections": {
     "announcement-bar": {
@@ -260,7 +262,7 @@
       "settings": {
         "text": {
           "label": "Text",
-          "default": "FREE SHIPPING AVAILABLE"
+          "default": "FREE SHIPPING FROM €45"
         }
       }
     },
@@ -681,7 +683,11 @@
     "testimonials_ba": {
       "before": "Before",
       "after": "After",
-      "discover": "Discover"
+      "discover": "Discover",
+      "quote_default": "I love this highly effective product! It’s part of my routine"
+    },
+    "featured_collection": {
+      "filter_default": "Our selection"
     }
   },
   "settings_schema": {

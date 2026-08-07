@@ -42,7 +42,8 @@
     "meta": {
       "tags": "Étiqueté « {{ tags }} »",
       "page": "Page {{ page }}"
-    }
+    },
+    "announcement": "LIVRAISON OFFERTE DÈS 45€"
   },
   "accessibility": {
     "skip_to_content": "Aller au contenu",
@@ -251,8 +252,9 @@
     }
   },
   "onboarding": {
-    "product_title": "Titre du produit",
-    "collection_title": "Titre de la collection"
+    "product_title": "Brume Solaire Invisible",
+    "collection_title": "Titre de la collection",
+    "product_desc": "Collagène végétal • Rétinol-like"
   },
   "sections": {
     "announcement-bar": {
@@ -260,7 +262,7 @@
       "settings": {
         "text": {
           "label": "Texte",
-          "default": "LIVRAISON OFFERTE DISPONIBLE"
+          "default": "LIVRAISON OFFERTE DÈS 45€"
         }
       }
     },
@@ -681,7 +683,11 @@
     "testimonials_ba": {
       "before": "Avant",
       "after": "Après",
-      "discover": "Découvrir"
+      "discover": "Découvrir",
+      "quote_default": "J’adore ce produit ultra efficace ! Il fait partie de ma routine"
+    },
+    "featured_collection": {
+      "filter_default": "Notre sélection"
     }
   },
   "settings_schema": {

@@ -1,0 +1,457 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "name": "Barre d’annonce",
+      "settings": {
+        "text": {
+          "label": "Texte",
+          "default": "LIVRAISON OFFERTE DÈS 45€"
+        }
+      }
+    },
+    "header": {
+      "name": "En-tête",
+      "settings": {
+        "mega_trigger_label": {
+          "label": "Libellé du mega menu",
+          "default": "NOS PRODUITS"
+        },
+        "mega_col_1_title": {
+          "label": "Titre colonne 1",
+          "default": "TYPE DE PRODUITS"
+        },
+        "mega_col_2_title": {
+          "label": "Titre colonne 2",
+          "default": "PRÉOCCUPATIONS"
+        },
+        "mega_col_3_title": {
+          "label": "Titre colonne 3",
+          "default": "NOS SÉLECTIONS"
+        },
+        "mega_see_all": {
+          "label": "Libellé Tout voir",
+          "default": "Tout voir"
+        },
+        "bestsellers_label": {
+          "label": "Libellé Best-sellers",
+          "default": "BEST-SELLERS"
+        },
+        "about_label": {
+          "label": "Libellé À propos",
+          "default": "À PROPOS"
+        },
+        "bestsellers_heading": {
+          "label": "Titre Best-sellers",
+          "default": "Best-Sellers"
+        },
+        "bestsellers_see_all": {
+          "label": "Tout voir (best-sellers)",
+          "default": "Voir tout"
+        },
+        "diagnostic_label": {
+          "label": "CTA diagnostic",
+          "default": "Diagnostic de peau"
+        }
+      },
+      "blocks": {
+        "promo": {
+          "name": "Promo",
+          "settings": {
+            "title": {
+              "label": "Titre",
+              "default": "Nouveautés"
+            },
+            "cta": {
+              "label": "CTA",
+              "default": "Je découvre"
+            }
+          }
+        }
+      }
+    },
+    "footer": {
+      "name": "Pied de page",
+      "settings": {
+        "tagline": {
+          "label": "Accroche",
+          "default": "Revisiter les essentiels de la routine beauté avec des soins naturels, responsables mais efficace…"
+        },
+        "newsletter_heading": {
+          "label": "Titre newsletter",
+          "default": "NEWSLETTER"
+        },
+        "newsletter_text": {
+          "label": "Texte newsletter",
+          "default": "Inscrivez-vous à notre newsletter et recevez des offres exclusives !"
+        },
+        "newsletter_placeholder": {
+          "label": "Placeholder e-mail",
+          "default": "E-MAIL"
+        },
+        "newsletter_button": {
+          "label": "Bouton",
+          "default": "S'INSCRIRE"
+        },
+        "copyright": {
+          "label": "Copyright (après l’année)",
+          "default": "– Tous droits réservés"
+        },
+        "social_strip": {
+          "label": "Image bandeau réseaux sociaux",
+          "info": "Illustration optionnelle. Ajoutez des blocs Zone sociale pour les zones cliquables. Les URLs viennent de Paramètres du thème → Réseaux sociaux."
+        }
+      },
+      "blocks": {
+        "link_column": {
+          "name": "Colonne de liens",
+          "settings": {
+            "heading": {
+              "label": "Titre",
+              "default": "SERVICE CLIENT"
+            }
+          }
+        },
+        "social_hit": {
+          "name": "Zone sociale",
+          "settings": {
+            "paragraph": "Les URLs se gèrent dans Paramètres du thème → Réseaux sociaux. Ce bloc place uniquement la zone cliquable sur le bandeau.",
+            "network": {
+              "label": "Réseau",
+              "info": "Utilise l’URL correspondante dans Paramètres du thème → Réseaux sociaux.",
+              "options": {
+                "instagram": "Instagram",
+                "facebook": "Facebook",
+                "youtube": "YouTube",
+                "tiktok": "TikTok"
+              }
+            },
+            "left": {
+              "label": "Position gauche"
+            },
+            "width": {
+              "label": "Largeur de la zone"
+            }
+          }
+        }
+      }
+    },
+    "hero": {
+      "name": "Hero",
+      "settings": {
+        "tag": {
+          "label": "Tag",
+          "default": "INNOVATION"
+        },
+        "heading": {
+          "label": "Titre",
+          "default": "La Brume Solaire Invisible"
+        },
+        "text": {
+          "label": "Texte",
+          "default": "Grâce à ce diagnostic visage, découvrez une routine jour et nuit."
+        },
+        "button_label": {
+          "label": "Bouton",
+          "default": "DÉCOUVRIR"
+        },
+        "sticky_label": {
+          "label": "Diagnostic sticky",
+          "default": "Diagnostic de peau"
+        }
+      }
+    },
+    "featured-collection": {
+      "name": "Collection en avant",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "La dermocosmétique naturelle et responsable"
+        },
+        "see_all_label": {
+          "label": "Tout voir",
+          "default": "TOUT VOIR"
+        }
+      },
+      "blocks": {
+        "filter_tab": {
+          "name": "Onglet filtre",
+          "settings": {
+            "label": {
+              "label": "Libellé",
+              "default": "Notre sélection"
+            }
+          }
+        }
+      }
+    },
+    "banner-cta": {
+      "name": "Bannière CTA",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Votre peau est\nunique"
+        },
+        "text": {
+          "label": "Texte (desktop)",
+          "default": "Grâce à ce diagnostic visage, découvrez une routine pensée pour respecter l’équilibre naturel de votre peau."
+        },
+        "button_label": {
+          "label": "Bouton",
+          "default": "DÉCOUVRIR"
+        }
+      }
+    },
+    "testimonials-ba": {
+      "name": "Avant / après",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "UNE EFFICACITÉ PROUVÉE"
+        },
+        "proof_html": {
+          "label": "Preuve",
+          "default": "+10 000 <u>avis</u> clients"
+        }
+      },
+      "blocks": {
+        "ba_card": {
+          "name": "Carte",
+          "settings": {
+            "before_label": {
+              "label": "Avant",
+              "default": "Avant"
+            },
+            "after_label": {
+              "label": "Après",
+              "default": "Après"
+            },
+            "cta_label": {
+              "label": "CTA",
+              "default": "Découvrir"
+            },
+            "rating": {
+              "label": "Note",
+              "default": "4,5/5"
+            },
+            "name": {
+              "label": "Nom",
+              "default": "Louise"
+            },
+            "quote": {
+              "label": "Citation",
+              "default": "J’adore ce produit hyper efficace ! Elle s’inscrit dans ma routine"
+            }
+          }
+        }
+      }
+    },
+    "image-gallery": {
+      "name": "Galerie d’images",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Écouter votre peau"
+        }
+      }
+    },
+    "founders": {
+      "name": "Fondatrices",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "LES FONDATRICES"
+        },
+        "text": {
+          "label": "Texte",
+          "default": "<p>Notre objectif ? Revisiter les essentiels de la routine beauté avec des soins naturels, responsables mais efficace… sans jamais oublier le plaisir.</p>"
+        },
+        "names": {
+          "label": "Noms",
+          "default": "Camille & Clémentine"
+        },
+        "image_alt": {
+          "label": "Alt image",
+          "default": "Camille et Clémentine, fondatrices"
+        }
+      }
+    },
+    "press": {
+      "name": "Presse",
+      "settings": {
+        "quote": {
+          "label": "Citation (desktop)",
+          "default": "“La marque française skincare du moment à trouver en pharmacie”"
+        }
+      }
+    },
+    "video-feature": {
+      "name": "Vidéo / lifestyle",
+      "settings": {
+        "image_alt": {
+          "label": "Alt image",
+          "default": "Que nos chemins croisent"
+        },
+        "overlay_text": {
+          "label": "Texte overlay",
+          "default": "Que nos chemins croisent"
+        }
+      }
+    },
+    "journal": {
+      "name": "Journal",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "DANS LE JOURNAL"
+        },
+        "see_all_label": {
+          "label": "Voir tout",
+          "default": "Voir tout"
+        }
+      }
+    },
+    "rich-text": {
+      "name": "Texte enrichi",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Cosmétique responsable et marques expertes"
+        },
+        "text": {
+          "label": "Corps (replié)",
+          "default": "<p>Parce qu’on a toutes envie de prendre soin de notre peau sans faire de compromis avec la planète, la cosmétique bio trouve peu à peu sa place dans nos salles de bain.</p>"
+        },
+        "text_more": {
+          "label": "Corps (déplié)",
+          "default": "<p>Chez Les Petits Prödiges, on revisite les essentiels du quotidien avec des soins naturels, responsables et plaisir.</p>"
+        },
+        "read_more_label": {
+          "label": "Lire plus",
+          "default": "Lire plus"
+        }
+      }
+    },
+    "usp-bar": {
+      "name": "Barre USP",
+      "blocks": {
+        "usp": {
+          "name": "USP",
+          "settings": {
+            "title": {
+              "label": "Titre",
+              "default": "LIVRAISON OFFERTE"
+            },
+            "text": {
+              "label": "Texte",
+              "default": "Livraison en 48 heures, offerte dès 60€ d’achats."
+            }
+          }
+        }
+      }
+    },
+    "cart-drawer": {
+      "name": "Tiroir panier",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Panier"
+        },
+        "free_shipping_threshold": {
+          "label": "Seuil livraison offerte",
+          "info": "Unités majeures dans la devise du panier (ex. 45 = 45,00 EUR). Conversion auto selon la sous-unité (×100 EUR/USD, ×1 JPY, ×1000 KWD)."
+        },
+        "money_subunit_factor": {
+          "label": "Facteur de sous-unité (remplacement)",
+          "info": "0 = auto selon la devise du panier. À renseigner uniquement pour une conversion personnalisée."
+        },
+        "progress_prefix": {
+          "label": "Préfixe progression",
+          "default": "Plus que"
+        },
+        "progress_suffix": {
+          "label": "Suffixe progression",
+          "default": "pour la livraison offerte en point relais"
+        },
+        "progress_unlocked": {
+          "label": "Message débloqué",
+          "default": "Livraison offerte débloquée !"
+        },
+        "progress_locked": {
+          "label": "Message verrouillé",
+          "default": "Livraison offerte dès 45€ d'achats"
+        },
+        "bestsellers_heading": {
+          "label": "Titre best-sellers",
+          "default": "Nos meilleures ventes"
+        },
+        "discount_label": {
+          "label": "Code promo",
+          "default": "Ajouter un code promo"
+        },
+        "checkout_label": {
+          "label": "Paiement",
+          "default": "PAIEMENT"
+        }
+      },
+      "blocks": {
+        "tier": {
+          "settings": {
+            "amount": {
+              "label": "Montant du seuil",
+              "info": "Unités majeures dans la devise du panier (mêmes règles que le seuil livraison offerte)."
+            }
+          }
+        }
+      }
+    },
+    "main-404": {
+      "name": "404",
+      "settings": {
+        "heading": {
+          "label": "Titre",
+          "default": "Page introuvable"
+        },
+        "text": {
+          "label": "Texte",
+          "default": "La page que vous recherchez n’existe pas ou a été déplacée."
+        },
+        "button_label": {
+          "label": "Bouton",
+          "default": "Retour à l’accueil"
+        }
+      }
+    }
+  },
+  "settings_schema": {
+    "colors": {
+      "name": "Couleurs"
+    },
+    "typography": {
+      "name": "Typographie"
+    },
+    "layout": {
+      "name": "Mise en page"
+    },
+    "social": {
+      "name": "Réseaux sociaux",
+      "settings": {
+        "paragraph": "Utilisés dans tout le thème (bandeau réseaux du pied de page, etc.). Modifiez les URLs une seule fois ici.",
+        "social_instagram": {
+          "label": "URL Instagram"
+        },
+        "social_facebook": {
+          "label": "URL Facebook"
+        },
+        "social_youtube": {
+          "label": "URL YouTube"
+        },
+        "social_tiktok": {
+          "label": "URL TikTok"
+        }
+      }
+    },
+    "cart": {
+      "name": "Panier"
+    }
+  }
+}

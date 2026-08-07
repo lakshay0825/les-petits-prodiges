@@ -1,0 +1,457 @@
+{
+  "sections": {
+    "announcement-bar": {
+      "name": "Announcement bar",
+      "settings": {
+        "text": {
+          "label": "Text",
+          "default": "FREE SHIPPING FROM €45"
+        }
+      }
+    },
+    "header": {
+      "name": "Header",
+      "settings": {
+        "mega_trigger_label": {
+          "label": "Mega menu trigger label",
+          "default": "OUR PRODUCTS"
+        },
+        "mega_col_1_title": {
+          "label": "Mega column 1 title",
+          "default": "PRODUCT TYPE"
+        },
+        "mega_col_2_title": {
+          "label": "Mega column 2 title",
+          "default": "CONCERNS"
+        },
+        "mega_col_3_title": {
+          "label": "Mega column 3 title",
+          "default": "OUR PICKS"
+        },
+        "mega_see_all": {
+          "label": "See all label",
+          "default": "See all"
+        },
+        "bestsellers_label": {
+          "label": "Bestsellers label",
+          "default": "BEST-SELLERS"
+        },
+        "about_label": {
+          "label": "About label",
+          "default": "ABOUT"
+        },
+        "bestsellers_heading": {
+          "label": "Bestsellers heading",
+          "default": "Best-Sellers"
+        },
+        "bestsellers_see_all": {
+          "label": "Bestsellers see all",
+          "default": "See all"
+        },
+        "diagnostic_label": {
+          "label": "Diagnostic CTA label",
+          "default": "Skin diagnostic"
+        }
+      },
+      "blocks": {
+        "promo": {
+          "name": "Promo",
+          "settings": {
+            "title": {
+              "label": "Title",
+              "default": "New arrivals"
+            },
+            "cta": {
+              "label": "CTA",
+              "default": "Discover"
+            }
+          }
+        }
+      }
+    },
+    "footer": {
+      "name": "Footer",
+      "settings": {
+        "tagline": {
+          "label": "Tagline",
+          "default": "Reinvent everyday beauty essentials with natural, responsible, effective care…"
+        },
+        "newsletter_heading": {
+          "label": "Newsletter heading",
+          "default": "NEWSLETTER"
+        },
+        "newsletter_text": {
+          "label": "Newsletter text",
+          "default": "Sign up for our newsletter and receive exclusive offers!"
+        },
+        "newsletter_placeholder": {
+          "label": "Email placeholder",
+          "default": "E-MAIL"
+        },
+        "newsletter_button": {
+          "label": "Button label",
+          "default": "SUBSCRIBE"
+        },
+        "copyright": {
+          "label": "Copyright text (after year)",
+          "default": "– All rights reserved"
+        },
+        "social_strip": {
+          "label": "Social icons strip image",
+          "info": "Optional artwork. Add Social hit blocks to place clickable zones. URLs come from Theme settings → Social media."
+        }
+      },
+      "blocks": {
+        "link_column": {
+          "name": "Link column",
+          "settings": {
+            "heading": {
+              "label": "Heading",
+              "default": "CUSTOMER SERVICE"
+            }
+          }
+        },
+        "social_hit": {
+          "name": "Social hit",
+          "settings": {
+            "paragraph": "URLs are managed in Theme settings → Social media. This block only places the clickable zone on the strip.",
+            "network": {
+              "label": "Network",
+              "info": "Uses the matching URL from Theme settings → Social media.",
+              "options": {
+                "instagram": "Instagram",
+                "facebook": "Facebook",
+                "youtube": "YouTube",
+                "tiktok": "TikTok"
+              }
+            },
+            "left": {
+              "label": "Left position"
+            },
+            "width": {
+              "label": "Hit width"
+            }
+          }
+        }
+      }
+    },
+    "hero": {
+      "name": "Hero",
+      "settings": {
+        "tag": {
+          "label": "Tag",
+          "default": "INNOVATION"
+        },
+        "heading": {
+          "label": "Heading",
+          "default": "Invisible Sunscreen Mist"
+        },
+        "text": {
+          "label": "Text",
+          "default": "With this face diagnostic, discover a day and night routine."
+        },
+        "button_label": {
+          "label": "Button label",
+          "default": "DISCOVER"
+        },
+        "sticky_label": {
+          "label": "Sticky diagnostic label",
+          "default": "Skin diagnostic"
+        }
+      }
+    },
+    "featured-collection": {
+      "name": "Featured collection",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Natural, responsible dermocosmetics"
+        },
+        "see_all_label": {
+          "label": "See all label",
+          "default": "SEE ALL"
+        }
+      },
+      "blocks": {
+        "filter_tab": {
+          "name": "Filter tab",
+          "settings": {
+            "label": {
+              "label": "Label",
+              "default": "Our selection"
+            }
+          }
+        }
+      }
+    },
+    "banner-cta": {
+      "name": "Banner CTA",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Your skin is\nunique"
+        },
+        "text": {
+          "label": "Text (desktop)",
+          "default": "With this face diagnostic, discover a routine designed to respect your skin’s natural balance."
+        },
+        "button_label": {
+          "label": "Button label",
+          "default": "DISCOVER"
+        }
+      }
+    },
+    "testimonials-ba": {
+      "name": "Before / after",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "PROVEN EFFICACY"
+        },
+        "proof_html": {
+          "label": "Proof text",
+          "default": "+10,000 <u>customer</u> reviews"
+        }
+      },
+      "blocks": {
+        "ba_card": {
+          "name": "Card",
+          "settings": {
+            "before_label": {
+              "label": "Before label",
+              "default": "Before"
+            },
+            "after_label": {
+              "label": "After label",
+              "default": "After"
+            },
+            "cta_label": {
+              "label": "CTA label",
+              "default": "Discover"
+            },
+            "rating": {
+              "label": "Rating",
+              "default": "4.5/5"
+            },
+            "name": {
+              "label": "Name",
+              "default": "Louise"
+            },
+            "quote": {
+              "label": "Quote",
+              "default": "I love this highly effective product! It’s part of my routine"
+            }
+          }
+        }
+      }
+    },
+    "image-gallery": {
+      "name": "Image gallery",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Listen to your skin"
+        }
+      }
+    },
+    "founders": {
+      "name": "Founders",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "THE FOUNDERS"
+        },
+        "text": {
+          "label": "Text",
+          "default": "<p>Our goal? Reinvent everyday beauty essentials with natural, responsible, effective care… without ever forgetting pleasure.</p>"
+        },
+        "names": {
+          "label": "Names",
+          "default": "Camille & Clémentine"
+        },
+        "image_alt": {
+          "label": "Image alt",
+          "default": "Camille and Clémentine, founders"
+        }
+      }
+    },
+    "press": {
+      "name": "Press",
+      "settings": {
+        "quote": {
+          "label": "Quote (desktop)",
+          "default": "“The French skincare brand of the moment to find in pharmacies”"
+        }
+      }
+    },
+    "video-feature": {
+      "name": "Video / lifestyle",
+      "settings": {
+        "image_alt": {
+          "label": "Image alt",
+          "default": "May our paths cross"
+        },
+        "overlay_text": {
+          "label": "Overlay text",
+          "default": "May our paths cross"
+        }
+      }
+    },
+    "journal": {
+      "name": "Journal",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "IN THE JOURNAL"
+        },
+        "see_all_label": {
+          "label": "See all label",
+          "default": "See all"
+        }
+      }
+    },
+    "rich-text": {
+      "name": "Rich text",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Responsible cosmetics and expert brands"
+        },
+        "text": {
+          "label": "Body (collapsed)",
+          "default": "<p>Because we all want to care for our skin without compromising the planet, organic beauty is finding its place in our bathrooms.</p>"
+        },
+        "text_more": {
+          "label": "Body (expanded)",
+          "default": "<p>At Les Petits Prödiges, we reinvent everyday essentials with natural, responsible, joyful care.</p>"
+        },
+        "read_more_label": {
+          "label": "Read more label",
+          "default": "Read more"
+        }
+      }
+    },
+    "usp-bar": {
+      "name": "USP bar",
+      "blocks": {
+        "usp": {
+          "name": "USP",
+          "settings": {
+            "title": {
+              "label": "Title",
+              "default": "FREE SHIPPING"
+            },
+            "text": {
+              "label": "Text",
+              "default": "Delivery in 48 hours, free from €60."
+            }
+          }
+        }
+      }
+    },
+    "cart-drawer": {
+      "name": "Cart drawer",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Cart"
+        },
+        "free_shipping_threshold": {
+          "label": "Free shipping threshold",
+          "info": "Major units in the cart currency (e.g. 45 = 45.00 EUR). Converted automatically by currency subunit (×100 EUR/USD, ×1 JPY, ×1000 KWD)."
+        },
+        "money_subunit_factor": {
+          "label": "Subunit factor override",
+          "info": "0 = auto from cart currency. Set only if you need a custom conversion (subunits per 1 major unit)."
+        },
+        "progress_prefix": {
+          "label": "Progress prefix",
+          "default": "Only"
+        },
+        "progress_suffix": {
+          "label": "Progress suffix",
+          "default": "away from free relay shipping"
+        },
+        "progress_unlocked": {
+          "label": "Unlocked message",
+          "default": "Free shipping unlocked!"
+        },
+        "progress_locked": {
+          "label": "Locked message",
+          "default": "Free shipping from €45"
+        },
+        "bestsellers_heading": {
+          "label": "Bestsellers heading",
+          "default": "Our bestsellers"
+        },
+        "discount_label": {
+          "label": "Discount label",
+          "default": "Add a promo code"
+        },
+        "checkout_label": {
+          "label": "Checkout label",
+          "default": "CHECKOUT"
+        }
+      },
+      "blocks": {
+        "tier": {
+          "settings": {
+            "amount": {
+              "label": "Threshold amount",
+              "info": "Major units in the cart currency (same rules as free shipping threshold)."
+            }
+          }
+        }
+      }
+    },
+    "main-404": {
+      "name": "404",
+      "settings": {
+        "heading": {
+          "label": "Heading",
+          "default": "Page not found"
+        },
+        "text": {
+          "label": "Text",
+          "default": "The page you requested does not exist."
+        },
+        "button_label": {
+          "label": "Button label",
+          "default": "Back to home"
+        }
+      }
+    }
+  },
+  "settings_schema": {
+    "colors": {
+      "name": "Colors"
+    },
+    "typography": {
+      "name": "Typography"
+    },
+    "layout": {
+      "name": "Layout"
+    },
+    "social": {
+      "name": "Social media",
+      "settings": {
+        "paragraph": "Used across the theme (footer social strip and elsewhere). Edit URLs here once.",
+        "social_instagram": {
+          "label": "Instagram URL"
+        },
+        "social_facebook": {
+          "label": "Facebook URL"
+        },
+        "social_youtube": {
+          "label": "YouTube URL"
+        },
+        "social_tiktok": {
+          "label": "TikTok URL"
+        }
+      }
+    },
+    "cart": {
+      "name": "Cart"
+    }
+  }
+}
